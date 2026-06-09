@@ -1,29 +1,29 @@
-#🌙 lunar•view icon generator is live! 🎉
+ 🌙 lunar•view icon generator is live! 🎉
 
-#Create beautiful custom icons right in your browser – no software needed.
+Create beautiful custom icons right in your browser – no software needed.
 
-#✨ Features:
+✨ Features:
 
-#🎨 Multi-emoji layers with full control (size, position, rotation, opacity)
+🎨 Multi-emoji layers with full control (size, position, rotation, opacity)
 
-#🌈 Custom gradients with up to 8 color stops
+🌈 Custom gradients with up to 8 color stops
 
-#✨ Beautiful halo glow effects
+✨ Beautiful halo glow effects
 
-#🔷 Multiple shapes: rounded, circle, hexagon, diamond
+🔷 Multiple shapes: rounded, circle, hexagon, diamond
 
-#📝 Text overlay with custom fonts
+📝 Text overlay with custom fonts
 
-#🌓 Dark & light themes
+🌓 Dark & light themes
 
-#↩️ Undo/redo with Ctrl+Z/Ctrl+Y
+↩️ Undo/redo with Ctrl+Z/Ctrl+Y
 
-#📥 Export as PNG, JPG, SVG, or ICO
+📥 Export as PNG, JPG, SVG, or ICO
 
-#📱 Works on mobile & desktop
+📱 Works on mobile & desktop
 
-#💾 6 built-in presets to get started
+💾 6 built-in presets to get started
 
-#🔗 Try it now: https://yourusername.github.io/repository-name/
+🔗 Try it now: https://yourusername.github.io/repository-name/
 
-#⭐ Star the repo if you find it useful!
+⭐ Star the repo if you find it useful!
