@@ -24,6 +24,6 @@ Create beautiful custom icons right in your browser – no software needed.
 
 💾 6 built-in presets to get started
 
-🔗 Try it now: https://yourusername.github.io/repository-name/
+🔗 Try it now: https://anas68755.github.io/icon-gen/
 
 ⭐ Star the repo if you find it useful!
