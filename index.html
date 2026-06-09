@@ -56,6 +56,12 @@
       font-size: 0.85rem;
       margin-bottom: 0.5rem;
     }
+    .view-counter {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+    }
     .theme-toggle-btn {
       background: var(--card);
       border: 1px solid var(--border);
@@ -437,6 +443,7 @@
   <div class="app-header">
     <h1>🌙 lunar•view icon generator pro</h1>
     <p>multi‑emoji layers · advanced controls</p>
+    <div class="view-counter">👁 <span id="viewCount">0</span> total views</div>
     <button class="theme-toggle-btn" id="themeToggle">🌓 theme</button>
     <div style="margin-top:0.3rem; display:flex; justify-content:center; gap:0.5rem;">
       <div class="undo-redo-group">
@@ -485,12 +492,12 @@
         <div class="section-header" onclick="toggleSection(this)"><h3>🎨 background & gradient</h3><span class="arrow">▼</span></div>
         <div class="section-body">
           <div class="control-row"><label>gradient type</label><select id="gradientType"><option value="linear">linear</option><option value="radial">radial</option><option value="conic">conic</option><option value="solid">solid</option></select></div>
-          <div class="control-row"><label>gradient angle</label><input type="range" id="gradientAngle" min="0" max="360" step="1" value="135"><span id="gradientAngleVal" style="font-size:0.65rem; text-transform:uppercase;">135°</span></div>
+          <div class="control-row"><label>gradient angle</label><input type="range" id="gradientAngle" min="0" max="360" step="1" value="135"><span id="gradientAngleVal" style="font-size:0.65rem; text-align:right;">135°</span></div>
           <div><label style="font-size:0.65rem; text-transform:uppercase;">color stops</label></div>
           <div class="stops-list" id="stopsList"></div>
           <button class="btn btn-outline btn-sm" onclick="addStop()">+ add stop</button>
           <div class="control-row"><label>pattern</label><select id="patternType"><option value="none">none</option><option value="dots">dots</option><option value="grid">grid</option><option value="stripes">stripes</option><option value="noise">noise</option></select></div>
-          <div class="control-row"><label>pattern opacity</label><input type="range" id="patternOpacity" min="0" max="1" step="0.01" value="0.1"><span id="patternOpacityVal" style="font-size:0.65rem;">10%</span></div>
+          <div class="control-row"><label>pattern opacity</label><input type="range" id="patternOpacity" min="0" max="1" step="0.01" value="0.1"><span id="patternOpacityVal" style="font-size:0.65rem; text-align:right;">10%</span></div>
         </div>
       </div>
 
@@ -499,10 +506,10 @@
         <div class="section-header" onclick="toggleSection(this)"><h3>🔷 shape & border</h3><span class="arrow">▼</span></div>
         <div class="section-body">
           <div class="control-row"><label>shape</label><select id="shapeSelect"><option value="rounded">rounded square</option><option value="circle">circle</option><option value="square">square</option><option value="hexagon">hexagon</option><option value="diamond">diamond</option></select></div>
-          <div class="control-row" id="roundnessRow"><label>corner radius</label><input type="range" id="roundness" min="0" max="0.5" step="0.01" value="0.22"><span id="roundnessVal" style="font-size:0.65rem;">22%</span></div>
+          <div class="control-row" id="roundnessRow"><label>corner radius</label><input type="range" id="roundness" min="0" max="0.5" step="0.01" value="0.22"><span id="roundnessVal" style="font-size:0.65rem; text-align:right;">22%</span></div>
           <div class="toggle-row"><label>border</label><label class="toggle-switch"><input type="checkbox" id="borderEnabled"><span class="toggle-slider"></span></label></div>
           <div id="borderColorRow" style="display:none;"><label>border color</label><div class="color-picker-row"><input type="color" id="borderColor" value="#9aa5ff"><input type="text" id="borderColorHex" value="#9aa5ff"></div></div>
-          <div id="borderWidthRow" style="display:none;"><label>border width</label><input type="range" id="borderWidth" min="1" max="20" step="0.5" value="4"><span id="borderWidthVal" style="font-size:0.65rem;">4px</span></div>
+          <div id="borderWidthRow" style="display:none;"><label>border width</label><input type="range" id="borderWidth" min="1" max="20" step="0.5" value="4"><span id="borderWidthVal" style="font-size:0.65rem; text-align:right;">4px</span></div>
         </div>
       </div>
 
@@ -525,7 +532,7 @@
         <div class="section-body">
           <div class="toggle-row"><label>show text</label><label class="toggle-switch"><input type="checkbox" id="textEnabled"><span class="toggle-slider"></span></label></div>
           <input type="text" id="overlayText" value="lunar•view" maxlength="30">
-          <select id="fontFamily"><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="'Arial Black', sans-serif">Arial Black</option><option value="'Courier New', monospace">Courier New</option><option value="'Georgia', serif">Georgia</option></select>
+          <select id="fontFamily"><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="'Arial Black', sans-serif">Arial Black</option><option value="'Courier New', monospace">Courier New</option><option value="'Georgia', serif">Georgia</option><option value="'Comic Sans MS', cursive">Comic Sans</option></select>
           <div><label>size</label><input type="range" id="fontSize" min="5" max="200" step="1" value="40"><span id="fontSizeVal">40px</span></div>
           <div><label>Y pos</label><input type="range" id="textPosY" min="0" max="100" step="1" value="75"><span id="textPosYVal">75%</span></div>
           <div class="color-picker-row"><input type="color" id="textColor" value="#ffffff"><input type="text" id="textColorHex" value="#ffffff"></div>
@@ -561,6 +568,20 @@
   </div>
 
   <script>
+    // View counter initialization
+    function initViewCounter() {
+      let views = localStorage.getItem('iconGenViews');
+      if (!views) {
+        views = 0;
+      }
+      views = parseInt(views) + 1;
+      localStorage.setItem('iconGenViews', views);
+      document.getElementById('viewCount').textContent = views.toLocaleString();
+    }
+
+    // Initialize view counter on page load
+    window.addEventListener('load', initViewCounter);
+
     (function() {
       const canvas = document.getElementById('iconCanvas');
       const ctx = canvas.getContext('2d');
@@ -999,239 +1020,362 @@
         ctx.restore();
 
         if (borderEnabled) {
-          ctx.save();
-          drawShape(size, shape, roundness);
           ctx.strokeStyle = getVal('borderColor');
           ctx.lineWidth = getNum('borderWidth');
+          drawShape(size, shape, roundness);
           ctx.stroke();
-          ctx.restore();
         }
 
-        if (outerGlow && outerGlowSize > 0) {
-          ctx.save();
-          const glowShadowSize = outerGlowSize * 2;
-          ctx.shadowColor = `rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},0.6)`;
-          ctx.shadowBlur = glowShadowSize;
-          ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
-          drawShape(size, shape, roundness);
-          ctx.strokeStyle = `rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},0.4)`;
+        if (outerGlow) {
+          ctx.shadowColor = getVal('glowColor');
+          ctx.shadowBlur = outerGlowSize;
           ctx.lineWidth = 1;
+          drawShape(size, shape, roundness);
           ctx.stroke();
-          ctx.restore();
         }
       }
 
-      function getCanvasBounds() {
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        let left = canvas.width, right = 0, top = canvas.height, bottom = 0;
+      function downloadPNG() {
+        const size = getNum(document.querySelector('.size-tab.active')?.getAttribute('data-size') || '512');
+        const tempCanvas = document.createElement('canvas');
+        const shouldTrim = getChecked('trimTransparent');
+        tempCanvas.width = size; tempCanvas.height = size;
+        const tempCtx = tempCanvas.getContext('2d');
+        drawIconAtSize(tempCanvas, tempCtx, size);
+        let finalCanvas = tempCanvas;
+        if (shouldTrim) {
+          finalCanvas = trimCanvas(tempCanvas);
+        }
+        const link = document.createElement('a');
+        link.download = getVal('exportFileName') + '.png';
+        link.href = finalCanvas.toDataURL('image/png');
+        link.click();
+      }
 
-        for (let i = 3; i < data.length; i += 4) {
-          if (data[i] > 10) {
-            const pixelIndex = (i - 3) / 4;
-            const x = pixelIndex % canvas.width;
-            const y = Math.floor(pixelIndex / canvas.width);
-            if (x < left) left = x;
-            if (x > right) right = x;
-            if (y < top) top = y;
-            if (y > bottom) bottom = y;
+      function downloadJPG() {
+        const size = getNum(document.querySelector('.size-tab.active')?.getAttribute('data-size') || '512');
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = size; tempCanvas.height = size;
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCtx.fillStyle = '#ffffff';
+        tempCtx.fillRect(0,0,size,size);
+        const currentState = { width: canvas.width, height: canvas.height };
+        canvas.width = size; canvas.height = size;
+        ctx.drawImage(tempCanvas, 0, 0);
+        drawIconAtSize(canvas, ctx, size);
+        const link = document.createElement('a');
+        link.download = getVal('exportFileName') + '.jpg';
+        link.href = canvas.toDataURL('image/jpeg', 0.95);
+        link.click();
+        canvas.width = currentState.width; canvas.height = currentState.height;
+        drawIcon();
+      }
+
+      function downloadSVG() {
+        alert('SVG export is not available for emoji-based icons. Please use PNG or JPG instead.');
+      }
+
+      function downloadICO() {
+        alert('ICO export requires external tools. Please use an online converter with the PNG export.');
+      }
+
+      function trimCanvas(c) {
+        const ctx2 = c.getContext('2d');
+        const imageData = ctx2.getImageData(0,0,c.width,c.height);
+        let left=c.width, right=0, top=c.height, bottom=0;
+        for (let i=0; i<imageData.data.length; i+=4) {
+          if (imageData.data[i+3] > 0) {
+            const idx = i/4;
+            const x = idx % c.width;
+            const y = Math.floor(idx/c.width);
+            if (x<left) left=x; if (x>right) right=x;
+            if (y<top) top=y; if (y>bottom) bottom=y;
           }
         }
-
-        const padding = 5;
-        return {
-          x: Math.max(0, left - padding),
-          y: Math.max(0, top - padding),
-          width: Math.min(canvas.width, right - left + padding * 2),
-          height: Math.min(canvas.height, bottom - top + padding * 2)
-        };
-      }
-
-      function trimCanvas(sourceCanvas) {
-        const bounds = getCanvasBounds();
+        const w = right-left+1, h = bottom-top+1;
         const trimmedCanvas = document.createElement('canvas');
-        trimmedCanvas.width = bounds.width;
-        trimmedCanvas.height = bounds.height;
-        const trimmedCtx = trimmedCanvas.getContext('2d');
-        trimmedCtx.drawImage(sourceCanvas, bounds.x, bounds.y, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
+        trimmedCanvas.width = w; trimmedCanvas.height = h;
+        trimmedCanvas.getContext('2d').drawImage(c, left, top, w, h, 0, 0, w, h);
         return trimmedCanvas;
       }
 
-      window.downloadPNG = function() {
-        const shouldTrim = getChecked('trimTransparent');
-        let outputCanvas = canvas;
-        if (shouldTrim) {
-          outputCanvas = trimCanvas(canvas);
-        }
-        const link = document.createElement('a');
-        link.href = outputCanvas.toDataURL('image/png');
-        link.download = (document.getElementById('exportFileName').value || 'icon') + '.png';
-        link.click();
-      };
-
-      window.downloadJPG = function() {
-        const shouldTrim = getChecked('trimTransparent');
-        let sourceCanvas = canvas;
-        if (shouldTrim) {
-          sourceCanvas = trimCanvas(canvas);
-        }
-        const jpgCanvas = document.createElement('canvas');
-        jpgCanvas.width = sourceCanvas.width;
-        jpgCanvas.height = sourceCanvas.height;
-        const jpgCtx = jpgCanvas.getContext('2d');
-        jpgCtx.fillStyle = '#ffffff';
-        jpgCtx.fillRect(0, 0, jpgCanvas.width, jpgCanvas.height);
-        jpgCtx.drawImage(sourceCanvas, 0, 0);
-        const link = document.createElement('a');
-        link.href = jpgCanvas.toDataURL('image/jpeg', 0.95);
-        link.download = (document.getElementById('exportFileName').value || 'icon') + '.jpg';
-        link.click();
-      };
-
-      window.downloadSVG = function() {
-        alert('SVG export requires converting canvas to path data. Use PNG/JPG for now.');
-      };
-
-      window.downloadICO = function() {
-        const shouldTrim = getChecked('trimTransparent');
-        let outputCanvas = canvas;
-        if (shouldTrim) {
-          outputCanvas = trimCanvas(canvas);
-        }
-        const link = document.createElement('a');
-        link.href = outputCanvas.toDataURL('image/x-icon');
-        link.download = (document.getElementById('exportFileName').value || 'icon') + '.ico';
-        link.click();
-      };
-
-      window.toggleSection = function(header) {
-        header.parentElement.classList.toggle('collapsed');
-      };
-
-      window.loadPreset = function(preset) {
-        const presets = {
-          cosmic: {
-            stops: [{color: '#0a0e27', pos: 0}, {color: '#2d1b4e', pos: 50}, {color: '#1a0f35', pos: 100}],
-            glowColor: '#9aa5ff',
-            glowIntensity: 0.4
-          },
-          sunset: {
-            stops: [{color: '#ff6b35', pos: 0}, {color: '#f7931e', pos: 50}, {color: '#fdb833', pos: 100}],
-            glowColor: '#ffa500',
-            glowIntensity: 0.3
-          },
-          ocean: {
-            stops: [{color: '#001a4d', pos: 0}, {color: '#0066cc', pos: 50}, {color: '#00ccff', pos: 100}],
-            glowColor: '#00ccff',
-            glowIntensity: 0.35
-          },
-          forest: {
-            stops: [{color: '#1a3a1a', pos: 0}, {color: '#2d5a2d', pos: 50}, {color: '#4d7a4d', pos: 100}],
-            glowColor: '#66ff66',
-            glowIntensity: 0.25
-          },
-          neon: {
-            stops: [{color: '#1a1a2e', pos: 0}, {color: '#16213e', pos: 100}],
-            glowColor: '#ff00ff',
-            glowIntensity: 0.6,
-            outerGlowEnabled: true
-          },
-          minimal: {
-            stops: [{color: '#ffffff', pos: 0}, {color: '#e6e6e6', pos: 100}],
-            glowColor: '#000000',
-            glowIntensity: 0.1
+      function drawIconAtSize(c, ctxTemp, size) {
+        ctxTemp.clearRect(0,0,size,size);
+        ctxTemp.save();
+        drawShape(size, getVal('shapeSelect'), getNum('roundness'));
+        ctxTemp.clip();
+        if (getVal('gradientType') === 'solid') {
+          ctxTemp.fillStyle = stops[0]?.color || '#000';
+          ctxTemp.fillRect(0,0,size,size);
+        } else {
+          let grad;
+          if (getVal('gradientType') === 'linear') {
+            const angle = getNum('gradientAngle')*Math.PI/180;
+            const x1 = size/2 - Math.cos(angle)*size/2;
+            const y1 = size/2 - Math.sin(angle)*size/2;
+            const x2 = size/2 + Math.cos(angle)*size/2;
+            const y2 = size/2 + Math.sin(angle)*size/2;
+            grad = ctxTemp.createLinearGradient(x1,y1,x2,y2);
+          } else if (getVal('gradientType') === 'radial') {
+            grad = ctxTemp.createRadialGradient(size/2,size/2,0,size/2,size/2,size/2);
+          } else if (getVal('gradientType') === 'conic') {
+            grad = ctxTemp.createConicGradient(getNum('gradientAngle')*Math.PI/180, size/2, size/2);
           }
-        };
+          stops.forEach(stop => grad.addColorStop(stop.pos/100, stop.color));
+          ctxTemp.fillStyle = grad;
+          ctxTemp.fillRect(0,0,size,size);
+        }
+        drawPattern(size, getVal('patternType'), getNum('patternOpacity'));
+        if (getChecked('innerGlowEnabled')) {
+          const glowRgb = hexToRgb(getVal('glowColor'));
+          const glowGrad = ctxTemp.createRadialGradient(size/2,size/2,0,size/2,size/2,size*getNum('glowSpread'));
+          glowGrad.addColorStop(0,'rgba(0,0,0,0)');
+          glowGrad.addColorStop(0.4,`rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},${getNum('glowIntensity')})`);
+          glowGrad.addColorStop(1,'rgba(0,0,0,0)');
+          ctxTemp.fillStyle = glowGrad;
+          ctxTemp.fillRect(0,0,size,size);
+        }
+        layers.forEach(layer => {
+          ctxTemp.save();
+          const offX = (layer.x/100)*(size/2);
+          const offY = (layer.y/100)*(size/2);
+          ctxTemp.translate(size/2+offX, size/2+offY);
+          if (layer.rotation) ctxTemp.rotate(layer.rotation*Math.PI/180);
+          ctxTemp.globalAlpha = layer.opacity;
+          const fontSize = size*layer.size;
+          ctxTemp.font = `${fontSize}px 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif`;
+          ctxTemp.textAlign = 'center'; ctxTemp.textBaseline = 'middle';
+          if (layer.shadow) {
+            ctxTemp.shadowColor = 'rgba(0,0,0,0.5)';
+            ctxTemp.shadowBlur = fontSize*0.1;
+            ctxTemp.shadowOffsetX = fontSize*0.03;
+            ctxTemp.shadowOffsetY = fontSize*0.03;
+          }
+          ctxTemp.fillText(layer.emoji, 0, 0);
+          ctxTemp.restore();
+        });
+        ctxTemp.restore();
+      }
 
-        const config = presets[preset];
-        if (config.stops) {
-          stops = config.stops;
-          renderStops();
-        }
-        if (config.glowColor) {
-          document.getElementById('glowColor').value = config.glowColor;
-          document.getElementById('glowColorHex').value = config.glowColor;
-        }
-        if (config.glowIntensity !== undefined) {
-          document.getElementById('glowIntensity').value = config.glowIntensity;
-          document.getElementById('glowIntensityVal').textContent = Math.round(config.glowIntensity*100)+'%';
-        }
-        if (config.outerGlowEnabled !== undefined) {
-          document.getElementById('outerGlowEnabled').checked = config.outerGlowEnabled;
-        }
-        drawIcon();
-        pushHistory();
-      };
+      function toggleSection(el) {
+        el.closest('.section').classList.toggle('collapsed');
+      }
 
-      window.resetAll = function() {
-        location.reload();
-      };
+      document.getElementById('gradientType').addEventListener('change', () => { drawIcon(); pushHistory(); });
+      document.getElementById('gradientAngle').addEventListener('input', (e) => {
+        document.getElementById('gradientAngleVal').textContent = e.target.value + '°';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('patternType').addEventListener('change', () => { drawIcon(); pushHistory(); });
+      document.getElementById('patternOpacity').addEventListener('input', (e) => {
+        document.getElementById('patternOpacityVal').textContent = Math.round(e.target.value*100)+'%';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('shapeSelect').addEventListener('change', (e) => {
+        document.getElementById('roundnessRow').style.display = e.target.value==='rounded'?'flex':'none';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('roundness').addEventListener('input', (e) => {
+        document.getElementById('roundnessVal').textContent = Math.round(e.target.value*100)+'%';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('borderEnabled').addEventListener('change', (e) => {
+        document.getElementById('borderColorRow').style.display = e.target.checked?'flex':'none';
+        document.getElementById('borderWidthRow').style.display = e.target.checked?'flex':'none';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('borderColor').addEventListener('input', (e) => {
+        document.getElementById('borderColorHex').value = e.target.value;
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('borderColorHex').addEventListener('input', (e) => {
+        document.getElementById('borderColor').value = e.target.value;
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('borderWidth').addEventListener('input', (e) => {
+        document.getElementById('borderWidthVal').textContent = e.target.value+'px';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('innerGlowEnabled').addEventListener('change', () => { drawIcon(); pushHistory(); });
+      document.getElementById('glowColor').addEventListener('input', (e) => {
+        document.getElementById('glowColorHex').value = e.target.value;
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('glowColorHex').addEventListener('input', (e) => {
+        document.getElementById('glowColor').value = e.target.value;
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('glowIntensity').addEventListener('input', (e) => {
+        document.getElementById('glowIntensityVal').textContent = Math.round(e.target.value*100)+'%';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('glowSpread').addEventListener('input', (e) => {
+        document.getElementById('glowSpreadVal').textContent = Math.round(e.target.value*100)+'%';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('outerGlowEnabled').addEventListener('change', () => { drawIcon(); pushHistory(); });
+      document.getElementById('outerGlowSize').addEventListener('input', (e) => {
+        document.getElementById('outerGlowSizeVal').textContent = e.target.value+'px';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('textEnabled').addEventListener('change', () => { drawIcon(); pushHistory(); });
+      document.getElementById('overlayText').addEventListener('input', () => { drawIcon(); pushHistory(); });
+      document.getElementById('fontFamily').addEventListener('change', () => { drawIcon(); pushHistory(); });
+      document.getElementById('fontSize').addEventListener('input', (e) => {
+        document.getElementById('fontSizeVal').textContent = e.target.value+'px';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('textPosY').addEventListener('input', (e) => {
+        document.getElementById('textPosYVal').textContent = e.target.value+'%';
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('textColor').addEventListener('input', (e) => {
+        document.getElementById('textColorHex').value = e.target.value;
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('textColorHex').addEventListener('input', (e) => {
+        document.getElementById('textColor').value = e.target.value;
+        drawIcon(); pushHistory();
+      });
+      document.getElementById('textShadowEnabled').addEventListener('change', () => { drawIcon(); pushHistory(); });
+      document.querySelectorAll('.size-tab').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          document.querySelectorAll('.size-tab').forEach(t => t.classList.remove('active'));
+          e.target.classList.add('active');
+          currentSize = getNum(e.target.getAttribute('data-size'));
+          drawIcon();
+        });
+      });
 
-      // Init
-      const emojis = ['😀', '😂', '❤️', '🔥', '✨', '🎉', '🚀', '⭐', '🌙', '☀️', '🎨', '💎'];
+      const emojiList = ['😀','😂','😍','🤔','😎','🌟','⭐','🔥','💎','🎨','🎭','🎪','🎯','🎲','🎸','🎹','🎺','🎻','🥁','🎤','🎧','📱','💻','⌨️','🖱️','🖥️','📷','📹','🎬','📺','📻'];
       const emojiGrid = document.getElementById('emojiGrid');
-      emojis.forEach(emoji => {
+      emojiList.forEach(emoji => {
         const btn = document.createElement('button');
         btn.className = 'emoji-btn';
         btn.textContent = emoji;
         btn.onclick = () => {
-          layers[selectedLayerIndex].emoji = emoji;
-          renderLayers();
-          drawIcon();
-          pushHistory();
+          if (layers[selectedLayerIndex]) {
+            layers[selectedLayerIndex].emoji = emoji;
+            drawIcon();
+            pushHistory();
+          }
         };
         emojiGrid.appendChild(btn);
       });
 
+      function loadPreset(name) {
+        const presets = {
+          cosmic: {
+            gradientType: 'linear', gradientAngle: 135,
+            stops: [{color:'#1a1f35',pos:0},{color:'#2d1f4e',pos:50},{color:'#151b2e',pos:100}],
+            shape: 'rounded', roundness: 0.22,
+            glowColor: '#9aa5ff', innerGlowEnabled: true, glowIntensity: 0.25, glowSpread: 0.5
+          },
+          sunset: {
+            gradientType: 'linear', gradientAngle: 45,
+            stops: [{color:'#ff6b6b',pos:0},{color:'#feca57',pos:50},{color:'#ff9ff3',pos:100}],
+            shape: 'rounded', roundness: 0.2,
+            glowColor: '#ff6b6b', innerGlowEnabled: true, glowIntensity: 0.3, glowSpread: 0.6
+          },
+          ocean: {
+            gradientType: 'radial',
+            stops: [{color:'#0077be',pos:0},{color:'#4fb06d',pos:100}],
+            shape: 'circle', roundness: 0.5,
+            glowColor: '#00d4ff', innerGlowEnabled: true, glowIntensity: 0.4, glowSpread: 0.7
+          },
+          forest: {
+            gradientType: 'linear', gradientAngle: 90,
+            stops: [{color:'#27ae60',pos:0},{color:'#229954',pos:100}],
+            shape: 'rounded', roundness: 0.15,
+            glowColor: '#27ae60', innerGlowEnabled: true, glowIntensity: 0.2, glowSpread: 0.4
+          },
+          neon: {
+            gradientType: 'linear', gradientAngle: 225,
+            stops: [{color:'#ff006e',pos:0},{color:'#00d9ff',pos:100}],
+            shape: 'rounded', roundness: 0.1,
+            glowColor: '#00d9ff', innerGlowEnabled: true, glowIntensity: 0.8, glowSpread: 0.8
+          },
+          minimal: {
+            gradientType: 'solid',
+            stops: [{color:'#ffffff',pos:0},{color:'#ffffff',pos:100}],
+            shape: 'square', roundness: 0,
+            glowColor: '#000000', innerGlowEnabled: false, glowIntensity: 0, glowSpread: 0.2
+          }
+        };
+        const preset = presets[name];
+        if (!preset) return;
+        document.getElementById('gradientType').value = preset.gradientType;
+        document.getElementById('gradientAngle').value = preset.gradientAngle;
+        document.getElementById('gradientAngleVal').textContent = preset.gradientAngle + '°';
+        stops = JSON.parse(JSON.stringify(preset.stops));
+        renderStops();
+        document.getElementById('shapeSelect').value = preset.shape;
+        document.getElementById('roundness').value = preset.roundness;
+        document.getElementById('roundnessVal').textContent = Math.round(preset.roundness*100)+'%';
+        document.getElementById('roundnessRow').style.display = preset.shape==='rounded'?'flex':'none';
+        document.getElementById('glowColor').value = preset.glowColor;
+        document.getElementById('glowColorHex').value = preset.glowColor;
+        document.getElementById('innerGlowEnabled').checked = preset.innerGlowEnabled;
+        document.getElementById('glowIntensity').value = preset.glowIntensity;
+        document.getElementById('glowIntensityVal').textContent = Math.round(preset.glowIntensity*100)+'%';
+        document.getElementById('glowSpread').value = preset.glowSpread;
+        document.getElementById('glowSpreadVal').textContent = Math.round(preset.glowSpread*100)+'%';
+        drawIcon();
+        pushHistory();
+      }
+
+      function resetAll() {
+        if (confirm('Reset all settings to default?')) {
+          layers = [{ emoji: '🌙', size: 0.55, x: 0, y: 0, rotation: 0, opacity: 1, shadow: true }];
+          selectedLayerIndex = 0;
+          stops = [{color:'#1a1f35',pos:0},{color:'#2d1f4e',pos:50},{color:'#151b2e',pos:100}];
+          document.getElementById('gradientType').value = 'linear';
+          document.getElementById('gradientAngle').value = 135;
+          document.getElementById('gradientAngleVal').textContent = '135°';
+          document.getElementById('patternType').value = 'none';
+          document.getElementById('patternOpacity').value = 0.1;
+          document.getElementById('patternOpacityVal').textContent = '10%';
+          document.getElementById('shapeSelect').value = 'rounded';
+          document.getElementById('roundness').value = 0.22;
+          document.getElementById('roundnessVal').textContent = '22%';
+          document.getElementById('borderEnabled').checked = false;
+          document.getElementById('borderColorRow').style.display = 'none';
+          document.getElementById('borderWidthRow').style.display = 'none';
+          document.getElementById('innerGlowEnabled').checked = true;
+          document.getElementById('glowColor').value = '#9aa5ff';
+          document.getElementById('glowColorHex').value = '#9aa5ff';
+          document.getElementById('glowIntensity').value = 0.25;
+          document.getElementById('glowIntensityVal').textContent = '25%';
+          document.getElementById('glowSpread').value = 0.5;
+          document.getElementById('glowSpreadVal').textContent = '50%';
+          document.getElementById('outerGlowEnabled').checked = false;
+          document.getElementById('outerGlowSize').value = 8;
+          document.getElementById('outerGlowSizeVal').textContent = '8px';
+          document.getElementById('textEnabled').checked = false;
+          document.getElementById('overlayText').value = 'lunar•view';
+          document.getElementById('fontFamily').value = "'Segoe UI', sans-serif";
+          document.getElementById('fontSize').value = 40;
+          document.getElementById('fontSizeVal').textContent = '40px';
+          document.getElementById('textPosY').value = 75;
+          document.getElementById('textPosYVal').textContent = '75%';
+          document.getElementById('textColor').value = '#ffffff';
+          document.getElementById('textColorHex').value = '#ffffff';
+          document.getElementById('textShadowEnabled').checked = true;
+          renderLayers();
+          renderStops();
+          drawIcon();
+          pushHistory();
+        }
+      }
+
+      // Initial setup
+      pushHistory();
+      renderLayers();
+      renderStops();
       document.getElementById('undoBtn').addEventListener('click', undoAction);
       document.getElementById('redoBtn').addEventListener('click', redoAction);
-
-      const controls = [
-        'gradientType', 'gradientAngle', 'patternType', 'patternOpacity',
-        'shapeSelect', 'roundness', 'borderEnabled', 'borderColor', 'borderWidth',
-        'innerGlowEnabled', 'glowColor', 'glowIntensity', 'glowSpread',
-        'outerGlowEnabled', 'outerGlowSize', 'textEnabled', 'overlayText',
-        'fontFamily', 'fontSize', 'textPosY', 'textColor', 'textShadowEnabled'
-      ];
-      controls.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          if (el.type === 'checkbox') {
-            el.addEventListener('change', () => { 
-              drawIcon(); 
-              pushHistory();
-              if (id === 'borderEnabled') {
-                document.getElementById('borderColorRow').style.display = el.checked ? 'flex' : 'none';
-                document.getElementById('borderWidthRow').style.display = el.checked ? 'flex' : 'none';
-              }
-              if (id === 'shapeSelect') {
-                document.getElementById('roundnessRow').style.display = getVal('shapeSelect') === 'rounded' ? 'flex' : 'none';
-              }
-            });
-          } else if (el.type === 'range' || el.tagName === 'SELECT' || el.type === 'text' || el.type === 'color') {
-            el.addEventListener('input', () => { drawIcon(); });
-            el.addEventListener('change', () => { pushHistory(); });
-          }
-        }
-      });
-
-      renderStops();
-      renderLayers();
-      pushHistory();
       drawIcon();
-
-      // Local visit counter (stored in browser)
-      const visitKey = 'lunar_visit_count';
-      let visits = parseInt(localStorage.getItem(visitKey)) || 0;
-        visits++;
-        localStorage.setItem(visitKey, visits);
-      const counterEl = document.getElementById('visitCounter');
-      if (counterEl) counterEl.textContent = visits;
     })();
   </script>
-  
-  <div style="text-align:center; margin-top:1rem; font-size:0.8rem; color: var(--text-secondary);">
-  👁️ You've visited this tool <span id="visitCounter">0</span> times
-  </div>
 </body>
 </html>
