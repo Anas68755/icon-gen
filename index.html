@@ -1219,7 +1219,19 @@
       renderLayers();
       pushHistory();
       drawIcon();
+
+      // Local visit counter (stored in browser)
+      const visitKey = 'lunar_visit_count';
+      let visits = parseInt(localStorage.getItem(visitKey)) || 0;
+        visits++;
+        localStorage.setItem(visitKey, visits);
+      const counterEl = document.getElementById('visitCounter');
+      if (counterEl) counterEl.textContent = visits;
     })();
   </script>
+  
+  <div style="text-align:center; margin-top:1rem; font-size:0.8rem; color: var(--text-secondary);">
+  👁️ You've visited this tool <span id="visitCounter">0</span> times
+  </div>
 </body>
 </html>
