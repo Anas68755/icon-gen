@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Purr Clicker</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#1a0e07;--wood:#3d2010;--wood2:#4e2a14;--panel:#2a1508;
+  --border:#6b3d1e;--caramel:#c4844a;--cream:#f0c987;
+  --text:#fff3dc;--muted:#9a7050;--paw:#e8b87a;
+  --pixel:'Press Start 2P',monospace;--body:'Nunito',sans-serif;
+  --tab-h:64px;--hdr-h:52px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{height:100%;overflow:hidden;}
+body{
+  font-family:var(--body);background:var(--bg);color:var(--text);
+  height:100%;height:100dvh;
+  display:flex;flex-direction:column;overflow:hidden;
+  touch-action:manipulation;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    repeating-linear-gradient(90deg,rgba(0,0,0,0) 0,rgba(0,0,0,0) 18px,rgba(0,0,0,.06) 19px,rgba(0,0,0,0) 20px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 28px,rgba(255,255,255,.015) 29px,rgba(255,255,255,0) 30px);
+  pointer-events:none;z-index:0;
+}
+
+/* HEADER */
+header{
+  position:relative;z-index:10;height:var(--hdr-h);flex-shrink:0;
+  background:var(--wood);border-bottom:3px solid var(--border);
+  display:flex;align-items:center;gap:10px;padding:0 14px;
+  box-shadow:0 2px 12px rgba(0,0,0,.5);
+  padding-top:env(safe-area-inset-top,0);
+  height:calc(var(--hdr-h) + env(safe-area-inset-top,0));
+}
+header h1{font-family:var(--pixel);font-size:.6rem;color:var(--cream);text-shadow:2px 2px 0 #6b3000;}
+.hdr-cat{font-size:1.1rem;}
+.hdr-spacer{flex:1;}
+.hdr-stats{display:flex;gap:10px;align-items:center;}
+.hdr-stat{font-family:var(--pixel);font-size:.38rem;color:var(--muted);display:flex;flex-direction:column;gap:2px;align-items:flex-end;}
+.hdr-stat span{color:var(--cream);font-size:.48rem;}
+.btn-music{
+  background:var(--wood2);border:2px solid var(--border);border-radius:8px;
+  color:var(--cream);font-size:1rem;width:38px;height:38px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.btn-music:active{background:var(--border);}
+
+/* TAB CONTENT */
+.tabs-content{flex:1;position:relative;overflow:hidden;z-index:1;}
+.tab-pane{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.tab-pane::-webkit-scrollbar{display:none;}
+.tab-pane.active{display:flex;flex-direction:column;}
+
+/* CAT TAB */
+#tab-cat{
+  align-items:center;justify-content:flex-start;
+  padding:14px 16px 20px;gap:0;
+  background:radial-gradient(ellipse at 50% 85%,rgba(61,32,16,.9) 0%,transparent 55%),var(--bg);
+}
+.counter-wrap{text-align:center;margin-bottom:10px;z-index:2;width:100%;}
+.counter-main{
+  font-family:var(--pixel);font-size:min(1.5rem,7vw);
+  color:var(--cream);text-shadow:3px 3px 0 #6b3000,0 0 20px rgba(240,201,135,.4);line-height:1;
+}
+.counter-label{font-family:var(--pixel);font-size:.4rem;color:var(--muted);margin-top:5px;letter-spacing:.08em;}
+.counter-cps{font-family:var(--pixel);font-size:.42rem;color:var(--caramel);margin-top:4px;}
+.evo-badge{
+  font-family:var(--pixel);font-size:.42rem;
+  background:var(--wood2);border:2px solid var(--caramel);border-radius:4px;
+  padding:5px 14px;color:var(--caramel);margin-bottom:12px;letter-spacing:.05em;z-index:2;
+}
+.den-scene{position:relative;display:flex;flex-direction:column;align-items:center;z-index:2;width:100%;}
+#catCanvas{
+  cursor:pointer;image-rendering:pixelated;image-rendering:crisp-edges;
+  filter:drop-shadow(0 8px 24px rgba(0,0,0,.7));
+  transition:transform .06s;touch-action:manipulation;
+  width:min(240px,60vw);height:min(240px,60vw);
+}
+#catCanvas:active{transform:scale(0.9);}
+.den-floor{
+  width:min(260px,65vw);height:22px;
+  background:repeating-linear-gradient(90deg,#3d2010 0,#3d2010 38px,#4e2a14 39px,#4e2a14 77px);
+  border-top:3px solid #6b3d1e;margin-top:-4px;border-radius:0 0 4px 4px;
+}
+.cat-name-tag{font-family:var(--pixel);font-size:.48rem;color:var(--paw);text-shadow:1px 1px 0 #3d1500;margin-top:8px;z-index:2;text-align:center;}
+.cat-trait{font-size:.75rem;color:var(--muted);font-style:italic;margin-top:3px;z-index:2;text-align:center;padding:0 20px;}
+.evo-progress-wrap{width:100%;max-width:300px;margin:12px 0 0;z-index:2;}
+.evo-progress-label{display:flex;justify-content:space-between;font-family:var(--pixel);font-size:.32rem;color:var(--muted);margin-bottom:5px;}
+.evo-bar-track{height:10px;background:var(--panel);border:2px solid var(--border);overflow:hidden;}
+.evo-bar-fill{height:100%;background:linear-gradient(90deg,var(--caramel),var(--cream));transition:width .3s;position:relative;}
+.evo-bar-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:rgba(255,255,255,.7);animation:pulse .8s ease-in-out infinite alternate;}
+@keyframes pulse{0%{opacity:.3}100%{opacity:1}}
+.paw-bg{position:absolute;font-size:1.2rem;opacity:.04;pointer-events:none;user-select:none;}
+.particle{
+  position:absolute;font-family:var(--pixel);font-size:.65rem;color:var(--cream);
+  pointer-events:none;z-index:100;white-space:nowrap;text-shadow:1px 1px 0 #6b3000;
+  animation:floatUp .9s ease-out forwards;
+}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-70px) scale(.7);}}
+.milestone-wrap{z-index:5;pointer-events:none;width:100%;text-align:center;margin-top:8px;}
+.milestone-msg{font-family:var(--pixel);font-size:.38rem;color:var(--caramel);opacity:0;transition:opacity .3s;white-space:nowrap;}
+.milestone-msg.show{opacity:1;}
+
+/* UPGRADE / HELPER TABS */
+#tab-upgrades,#tab-helpers{padding:12px 12px 20px;gap:8px;background:var(--wood);}
+.panel-title{
+  font-family:var(--pixel);font-size:.42rem;color:var(--caramel);letter-spacing:.1em;text-transform:uppercase;
+  padding:7px 10px;background:var(--panel);border:2px solid var(--border);border-radius:4px;
+  margin-bottom:2px;text-align:center;flex-shrink:0;
+}
+.section-div{width:100%;height:2px;flex-shrink:0;background:repeating-linear-gradient(90deg,var(--border) 0,var(--border) 6px,transparent 6px,transparent 10px);opacity:.5;}
+.upg-btn{
+  background:var(--panel);border:2px solid var(--border);border-radius:8px;
+  padding:11px 12px;cursor:pointer;
+  display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;
+  transition:all .1s;text-align:left;position:relative;overflow:hidden;width:100%;flex-shrink:0;
+}
+.upg-btn:active:not(:disabled){background:var(--wood2);border-color:var(--caramel);transform:scale(.98);}
+.upg-btn:disabled{opacity:.4;cursor:not-allowed;}
+.upg-btn.affordable{border-color:var(--caramel);box-shadow:0 0 10px rgba(196,132,74,.35);}
+.upg-icon{font-size:1.8rem;display:flex;align-items:center;justify-content:center;}
+.upg-name{font-family:var(--pixel);font-size:.4rem;color:var(--cream);margin-bottom:4px;line-height:1.4;}
+.upg-desc{font-size:.7rem;color:var(--muted);line-height:1.3;margin-bottom:4px;}
+.upg-cost{font-family:var(--pixel);font-size:.4rem;color:var(--caramel);}
+.upg-owned{font-family:var(--pixel);font-size:.55rem;color:var(--muted);min-width:24px;text-align:right;font-weight:700;}
+.once-btn{
+  background:var(--panel);border:2px solid #7a5020;border-radius:8px;
+  padding:10px 12px;cursor:pointer;display:flex;gap:10px;align-items:center;
+  transition:all .1s;text-align:left;width:100%;flex-shrink:0;
+}
+.once-btn:active:not(:disabled){background:var(--wood2);border-color:var(--cream);}
+.once-btn:disabled{opacity:.35;cursor:not-allowed;text-decoration:line-through;}
+.once-btn.affordable{border-color:var(--cream);box-shadow:0 0 8px rgba(240,201,135,.3);}
+.once-icon{font-size:1.4rem;flex-shrink:0;}
+.once-info{flex:1;}
+.once-name{font-family:var(--pixel);font-size:.4rem;color:var(--cream);margin-bottom:4px;}
+.once-desc{font-size:.68rem;color:var(--muted);}
+.once-cost{font-family:var(--pixel);font-size:.4rem;color:var(--caramel);margin-top:4px;}
+
+/* BOTTOM TAB BAR */
+.tab-bar{
+  flex-shrink:0;background:var(--wood);border-top:3px solid var(--border);
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  position:relative;z-index:10;box-shadow:0 -2px 16px rgba(0,0,0,.5);
+  height:calc(var(--tab-h) + env(safe-area-inset-bottom,0));
+  padding-bottom:env(safe-area-inset-bottom,0);
+}
+.tab-bar-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  background:none;border:none;cursor:pointer;
+  font-family:var(--pixel);font-size:.3rem;color:var(--muted);
+  padding:8px 4px;transition:color .15s;position:relative;
+}
+.tab-bar-btn .tab-icon{font-size:1.4rem;line-height:1;}
+.tab-bar-btn.active{color:var(--caramel);}
+.tab-bar-btn.active::after{
+  content:'';position:absolute;top:0;left:20%;right:20%;
+  height:3px;background:var(--caramel);border-radius:0 0 3px 3px;
+}
+.tab-badge{
+  position:absolute;top:6px;right:calc(50% - 24px);
+  background:var(--caramel);color:#1a0e07;
+  font-family:var(--pixel);font-size:.26rem;
+  padding:2px 4px;border-radius:3px;min-width:14px;text-align:center;
+  display:none;
+}
+.tab-badge.show{display:block;}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0) + 12px);left:50%;
+  transform:translateX(-50%) translateY(10px);
+  background:var(--wood2);border:2px solid var(--caramel);border-radius:8px;
+  padding:10px 20px;font-family:var(--pixel);font-size:.42rem;color:var(--cream);
+  box-shadow:0 4px 20px rgba(0,0,0,.6);opacity:0;transition:all .2s;
+  pointer-events:none;z-index:999;text-align:center;line-height:1.6;
+  max-width:90vw;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="hdr-cat">🐱</span>
+  <h1>Purr Clicker</h1>
+  <div class="hdr-spacer"></div>
+  <div class="hdr-stats">
+    <div class="hdr-stat">ALL-TIME<span id="hdrTotal">0</span></div>
+    <div class="hdr-stat">PER SEC<span id="hdrCps">0</span></div>
+  </div>
+  <button class="btn-music" id="btnMusic" title="Toggle music">🎵</button>
+</header>
+
+<div class="tabs-content">
+
+  <!-- CAT TAB -->
+  <div class="tab-pane active" id="tab-cat">
+    <span class="paw-bg" style="top:6%;left:4%;transform:rotate(-20deg)">🐾</span>
+    <span class="paw-bg" style="top:12%;right:6%;transform:rotate(30deg)">🐾</span>
+    <span class="paw-bg" style="bottom:18%;left:8%;transform:rotate(10deg)">🐾</span>
+    <span class="paw-bg" style="bottom:10%;right:5%;transform:rotate(-15deg)">🐾</span>
+
+    <div class="counter-wrap">
+      <div class="counter-main" id="counterMain">0</div>
+      <div class="counter-label">purrs collected</div>
+      <div class="counter-cps" id="counterCps">+0 per second</div>
+    </div>
+
+    <div class="evo-badge" id="evoBadge">Kitten</div>
+
+    <div class="den-scene">
+      <canvas id="catCanvas" width="160" height="160" title="Tap me!"></canvas>
+      <div class="den-floor"></div>
+    </div>
+
+    <div class="cat-name-tag" id="catNameTag"></div>
+    <div class="cat-trait" id="catTrait"></div>
+
+    <div class="evo-progress-wrap">
+      <div class="evo-progress-label">
+        <span id="evoCur">0</span>
+        <span id="evoStage"></span>
+        <span id="evoNext"></span>
+      </div>
+      <div class="evo-bar-track">
+        <div class="evo-bar-fill" id="evoFill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="milestone-wrap">
+      <div class="milestone-msg" id="milestoneMsg"></div>
+    </div>
+  </div>
+
+  <!-- UPGRADES TAB -->
+  <div class="tab-pane" id="tab-upgrades">
+    <div class="panel-title">✨ One-Time Upgrades</div>
+    <div id="onceList"></div>
+    <div class="section-div"></div>
+    <div id="milestoneList"></div>
+  </div>
+
+  <!-- HELPERS TAB -->
+  <div class="tab-pane" id="tab-helpers">
+    <div class="panel-title">🏠 Passive Helpers</div>
+    <div id="buildingList"></div>
+  </div>
+
+</div>
+
+<!-- BOTTOM TAB BAR -->
+<nav class="tab-bar">
+  <button class="tab-bar-btn active" data-tab="tab-cat">
+    <span class="tab-icon">🐱</span>Cat
+  </button>
+  <button class="tab-bar-btn" data-tab="tab-upgrades">
+    <span class="tab-icon">✨</span>Upgrades
+    <span class="tab-badge" id="badge-upgrades"></span>
+  </button>
+  <button class="tab-bar-btn" data-tab="tab-helpers">
+    <span class="tab-icon">🏠</span>Helpers
+    <span class="tab-badge" id="badge-helpers"></span>
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════
+//  PURR CLICKER — mobile edition
+// ═══════════════════════════════════
+
+// ── Tab switching ─────────────────
+document.querySelectorAll('.tab-bar-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.tab-bar-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(target).classList.add('active');
+    // clear badge when opening that tab
+    if (target === 'tab-upgrades') document.getElementById('badge-upgrades').classList.remove('show');
+    if (target === 'tab-helpers')  document.getElementById('badge-helpers').classList.remove('show');
+  });
+});
+
+// ── Unique user identity ──────────
+let userId = localStorage.getItem('purrUserId');
+if (!userId) {
+  userId = (typeof crypto.randomUUID==='function') ? crypto.randomUUID()
+    : Math.random().toString(36).slice(2)+Date.now().toString(36);
+  localStorage.setItem('purrUserId', userId);
+}
+function mulberry32(seed){
+  return function(){
+    seed|=0;seed=seed+0x6D2B79F5|0;
+    let t=Math.imul(seed^seed>>>15,1|seed);
+    t=t+Math.imul(t^t>>>7,61|t)^t;
+    return((t^t>>>14)>>>0)/4294967296;
+  };
+}
+function hashStr(s){
+  let h=0x811c9dc5;
+  for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193);}
+  return h>>>0;
+}
+const rng=mulberry32(hashStr(userId));
+const FIRST=['Mochi','Biscuit','Walnut','Caramel','Toffee','Brownie','Hazel','Cocoa','Fudge','Truffle','Cinnamon','Maple','Mocha','Chestnut','Pecan'];
+const LAST=['Pawsworth','Barkley','Crumbleton','von Floof','McWhiskers','Tabbington','Nubbins','Clawsworth','Pouncington','Furball'];
+const TRAITS=['loves knocking things off shelves','judges you silently','always sits on the warmest spot','has a secret stash of bottle caps','zooms at 3am for no reason','biscuit-makes on everything','brings you dead spiders as gifts','ignores you unless food is involved','talks back in tiny meows','claims every cardboard box','stares into corners at nothing','has strong opinions about Mondays'];
+const catName=FIRST[Math.floor(rng()*FIRST.length)]+' '+LAST[Math.floor(rng()*LAST.length)];
+const catTrait=TRAITS[Math.floor(rng()*TRAITS.length)];
+const personalMult=1+rng()*0.15;
+
+document.getElementById('catNameTag').textContent=catName;
+document.getElementById('catTrait').textContent='"'+catTrait+'"';
+
+// ── Evolutions ────────────────────
+const EVOLUTIONS=[
+  {name:'Kitten',     threshold:0,       pose:'sit',    palette:['#8b5e3c','#c4844a','#3a7bd5','#d4956b','#5c3317','#2d1508']},
+  {name:'Junior',     threshold:50,      pose:'sit',    palette:['#a07040','#d4a060','#4a9e4a','#e0b070','#6b4820','#2d1508']},
+  {name:'Lounger',    threshold:250,     pose:'loaf',   palette:['#7a4f2d','#b87840','#e8a030','#c88c50','#4e3010','#1a0a00']},
+  {name:'Wanderer',   threshold:1000,    pose:'walk',   palette:['#6b3d28','#c06035','#5b2d8e','#d07848','#3d1e10','#180800']},
+  {name:'Hunter',     threshold:5000,    pose:'crouch', palette:['#4a2d1a','#8b4530','#cc2222','#a05540','#2d1508','#0a0400']},
+  {name:'Midnight',   threshold:20000,   pose:'sit',    palette:['#1a1a2e','#2e2e4a','#9933ff','#3a3a6a','#0a0a1a','#000010']},
+  {name:'Ember',      threshold:100000,  pose:'loaf',   palette:['#3d1500','#cc4400','#ff9900','#aa3300','#200800','#0a0000']},
+  {name:'Phantom',    threshold:500000,  pose:'crouch', palette:['#111118','#2a2a3a','#00ffcc','#1e1e2e','#080810','#000008']},
+  {name:'Celestial',  threshold:2000000, pose:'walk',   palette:['#0a0020','#3b006b','#ffffff','#220045','#040010','#000005']},
+  {name:'Ancient One',threshold:10000000,pose:'sit',    palette:['#1a0a00','#ffd700','#ff0000','#c8a000','#0a0500','#000000']},
+];
+
+// ── Buildings ─────────────────────
+const BUILDINGS=[
+  {id:'nap',   name:'Napping Spot', icon:'😴',desc:'A sunny window ledge.',      baseCost:15,    baseCps:0.1},
+  {id:'yarn',  name:'Yarn Ball',    icon:'🧶',desc:'Endless entertainment.',       baseCost:100,   baseCps:0.5},
+  {id:'bowl',  name:'Food Bowl',    icon:'🍲',desc:'Keeps energy high.',           baseCost:500,   baseCps:2},
+  {id:'tree',  name:'Cat Tree',     icon:'🌳',desc:'Prime surveillance tower.',    baseCost:2000,  baseCps:7},
+  {id:'box',   name:'Cardboard Box',icon:'📦',desc:'Best present ever.',           baseCost:8000,  baseCps:20},
+  {id:'laser', name:'Laser Pointer',icon:'🔴',desc:'Infinite energy source.',     baseCost:30000, baseCps:60},
+  {id:'fish',  name:'Fish Pond',    icon:'🐟',desc:'A personal seafood supply.',  baseCost:100000,baseCps:200},
+  {id:'catnip',name:'Catnip Garden',icon:'🌿',desc:'Legal cat substances.',       baseCost:400000,baseCps:666},
+  {id:'realm', name:'Parallel Realm',icon:'🌀',desc:'Cats know about this already.',baseCost:2000000,baseCps:2000},
+];
+
+// ── One-time upgrades ─────────────
+const ONCE_UPGRADES=[
+  {id:'sharpclaws',name:'Sharp Claws', icon:'🗡️', desc:'+2× click power',        cost:100,    mult:2,  type:'click'},
+  {id:'fluffcoat', name:'Fluff Coat',  icon:'🪮',  desc:'+3× click power',        cost:500,    mult:3,  type:'click'},
+  {id:'catnap',    name:'Power Nap',   icon:'💤',  desc:'+2× all production',     cost:2000,   mult:2,  type:'cps'},
+  {id:'fangs',     name:'Fangs',       icon:'🦷',  desc:'+5× click power',        cost:10000,  mult:5,  type:'click'},
+  {id:'purrmotor', name:'Purr Motor',  icon:'⚙️',  desc:'+3× all production',     cost:50000,  mult:3,  type:'cps'},
+  {id:'midnight',  name:'Night Vision',icon:'👁️',  desc:'+10× click power',       cost:200000, mult:10, type:'click'},
+  {id:'starpaws',  name:'Star Paws',   icon:'⭐',  desc:'+5× all production',     cost:1000000,mult:5,  type:'cps'},
+  {id:'cosmicfur', name:'Cosmic Fur',  icon:'🌌',  desc:'+50× click power',       cost:5000000,mult:50, type:'click'},
+];
+
+// ── Game state ────────────────────
+let G={purrs:0,totalPurrs:0,clickPower:1,cps:0,buildings:{},owned:{},evoIndex:0,clickMult:1,cpsMult:1};
+try{const s=localStorage.getItem('purrSave');if(s)Object.assign(G,JSON.parse(s));}catch(e){}
+function save(){localStorage.setItem('purrSave',JSON.stringify(G));}
+function buildingCost(b){return Math.floor(b.baseCost*Math.pow(1.15,G.buildings[b.id]||0));}
+function buildingCps(b){return b.baseCps*(G.buildings[b.id]||0)*G.cpsMult*personalMult;}
+function totalCps(){return BUILDINGS.reduce((s,b)=>s+buildingCps(b),0);}
+
+// ── Canvas / pixel cat ────────────
+const catCanvas=document.getElementById('catCanvas');
+const ctx=catCanvas.getContext('2d');
+ctx.imageSmoothingEnabled=false;
+
+function drawCat(evoIdx,squish){
+  const evo=EVOLUTIONS[evoIdx];
+  const[body,belly,eyes,inner,shadow,outline]=evo.palette;
+  const BK='#111111'; // black outline
+  const S=8;
+  ctx.clearRect(0,0,160,160);
+  const oy=squish?3:0;
+  function px(x,y,c){ctx.fillStyle=c;ctx.fillRect(x*S,oy+y*S,S,S);}
+
+  // ── SITTING (matches reference image exactly) ─────────────────────────────
+  if(evo.pose==='sit'){
+    // Ears — black tip then inner colour
+    [[6,0,BK],[7,0,BK],[11,0,BK],[12,0,BK],
+     [5,1,BK],[6,1,BK],[7,1,BK],[11,1,BK],[12,1,BK],[13,1,BK],
+     [6,1,inner],[7,1,inner],[11,1,inner],[12,1,inner],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Head outline row 2
+    [[4,2,BK],[5,2,body],[6,2,body],[7,2,body],[8,2,BK],[9,2,BK],[10,2,body],[11,2,body],[12,2,body],[13,2,body],[14,2,BK]].forEach(([x,y,c])=>px(x,y,c));
+    // Head row 3
+    [[3,3,BK],[4,3,body],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,body],[11,3,body],[12,3,body],[13,3,body],[14,3,body],[15,3,BK]].forEach(([x,y,c])=>px(x,y,c));
+    // Head row 4 — eyes
+    [[3,4,BK],[4,4,body],[5,4,BK],[6,4,BK],[7,4,body],[8,4,body],[9,4,body],[10,4,BK],[11,4,BK],[12,4,body],[13,4,body],[14,4,body],[15,4,BK]].forEach(([x,y,c])=>px(x,y,c));
+    // Eye fill
+    [[5,4,eyes],[6,4,eyes],[10,4,eyes],[11,4,eyes]].forEach(([x,y,c])=>px(x,y,c));
+    // Eye shine
+    ctx.fillStyle='#ffffff';ctx.fillRect(5*S+2,oy+4*S+1,3,3);ctx.fillRect(10*S+2,oy+4*S+1,3,3);
+    // Head row 5 — nose/muzzle
+    [[3,5,BK],[4,5,body],[5,5,belly],[6,5,belly],[7,5,BK],[8,5,belly],[9,5,belly],[10,5,belly],[11,5,BK],[12,5,belly],[13,5,belly],[14,5,body],[15,5,BK]].forEach(([x,y,c])=>px(x,y,c));
+    // Nose dot
+    px(7,5,BK);px(9,5,BK);px(8,5,'#e07080');
+    // Whiskers
+    ctx.strokeStyle='rgba(255,255,255,0.7)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(3*S,oy+5*S+2);ctx.lineTo(0,oy+5*S-2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(3*S,oy+5*S+4);ctx.lineTo(0,oy+5*S+8);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(15*S,oy+5*S+2);ctx.lineTo(18*S,oy+5*S-2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(15*S,oy+5*S+4);ctx.lineTo(18*S,oy+5*S+8);ctx.stroke();
+    // Chin row 6
+    [[4,6,BK],[5,6,belly],[6,6,belly],[7,6,belly],[8,6,BK],[9,6,belly],[10,6,belly],[11,6,belly],[12,6,belly],[13,6,belly],[14,6,belly],[15,6,BK]].forEach(([x,y,c])=>px(x,y,c));
+    // Neck & chest top row 7
+    [[4,7,BK],[5,7,body],[6,7,body],[7,7,BK],[8,7,belly],[9,7,belly],[10,7,belly],[11,7,belly],[12,7,BK],[13,7,body],[14,7,body],[15,7,BK]].forEach(([x,y,c])=>px(x,y,c));
+    // Body rows 8–11 with chest marking
+    [[3,8,BK],[4,8,body],[5,8,body],[6,8,BK],[7,8,belly],[8,8,belly],[9,8,belly],[10,8,belly],[11,8,belly],[12,8,BK],[13,8,body],[14,8,body],[15,8,body],[16,8,BK],
+     [3,9,BK],[4,9,body],[5,9,body],[6,9,BK],[7,9,belly],[8,9,belly],[9,9,belly],[10,9,belly],[11,9,belly],[12,9,BK],[13,9,body],[14,9,body],[15,9,body],[16,9,BK],
+     [3,10,BK],[4,10,body],[5,10,body],[6,10,body],[7,10,belly],[8,10,belly],[9,10,belly],[10,10,belly],[11,10,belly],[12,10,body],[13,10,body],[14,10,body],[15,10,body],[16,10,BK],
+     [3,11,BK],[4,11,body],[5,11,body],[6,11,body],[7,11,body],[8,11,belly],[9,11,belly],[10,11,belly],[11,11,body],[12,11,body],[13,11,body],[14,11,body],[15,11,body],[16,11,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Paws row 12-14 — wide chunky paws like reference
+    [[2,12,BK],[3,12,body],[4,12,body],[5,12,body],[6,12,BK],[7,12,BK],[8,12,body],[9,12,body],[10,12,body],[11,12,BK],[12,12,BK],[13,12,body],[14,12,body],[15,12,body],[16,12,BK],[17,12,BK],
+     [2,13,BK],[3,13,belly],[4,13,belly],[5,13,belly],[6,13,BK],[7,13,BK],[8,13,belly],[9,13,belly],[10,13,belly],[11,13,BK],[12,13,BK],[13,13,belly],[14,13,belly],[15,13,belly],[16,13,BK],[17,13,BK],
+     [2,14,BK],[3,14,BK],[4,14,belly],[5,14,BK],[6,14,BK],[8,14,BK],[9,14,belly],[10,14,BK],[11,14,BK],[13,14,BK],[14,14,belly],[15,14,BK],[16,14,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Toe dividers (black lines between toes matching ref)
+    px(4,14,BK);px(9,14,BK);px(14,14,BK);
+    // Tail peeking bottom-left like reference
+    [[1,13,BK],[1,14,BK],[2,14,body],[2,15,BK],[3,15,body],[4,15,body],[5,15,BK]].forEach(([x,y,c])=>px(x,y,c));
+    // Shadow
+    for(let x=2;x<=17;x++) px(x,15,shadow);
+
+  // ── LOAF (compact bread-loaf shape, front view) ─────────────────────────
+  } else if(evo.pose==='loaf'){
+    // Ears
+    [[6,1,BK],[7,1,BK],[11,1,BK],[12,1,BK],
+     [5,2,BK],[6,2,BK],[7,2,BK],[11,2,BK],[12,2,BK],[13,2,BK],
+     [6,2,inner],[7,2,inner],[11,2,inner],[12,2,inner],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Head
+    [[4,3,BK],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,body],[11,3,body],[12,3,body],[13,3,body],[14,3,BK],
+     [3,4,BK],[4,4,body],[5,4,body],[6,4,body],[7,4,body],[8,4,body],[9,4,body],[10,4,body],[11,4,body],[12,4,body],[13,4,body],[14,4,body],[15,4,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Sleepy half-eyes (horizontal lines)
+    [[5,4,BK],[6,4,BK],[10,4,BK],[11,4,BK]].forEach(([x,y,c])=>px(x,y,c));
+    [[5,4,eyes],[6,4,eyes],[10,4,eyes],[11,4,eyes]].forEach(([x,y,c])=>px(x,y,c));
+    ctx.fillStyle=BK;ctx.fillRect(5*S,oy+4*S,2*S,3); // sleepy eyelid stripe
+    ctx.fillRect(10*S,oy+4*S,2*S,3);
+    // Muzzle row 5
+    [[3,5,BK],[4,5,body],[5,5,belly],[6,5,belly],[7,5,BK],[8,5,belly],[9,5,belly],[10,5,belly],[11,5,BK],[12,5,belly],[13,5,belly],[14,5,body],[15,5,BK]].forEach(([x,y,c])=>px(x,y,c));
+    px(8,5,'#e07080');
+    ctx.strokeStyle='rgba(255,255,255,0.7)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(4*S,oy+5*S+4);ctx.lineTo(S,oy+5*S);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(14*S,oy+5*S+4);ctx.lineTo(17*S,oy+5*S);ctx.stroke();
+    // Wide loaf body rows 6-11
+    [[3,6,BK],[4,6,body],[5,6,body],[6,6,body],[7,6,BK],[8,6,belly],[9,6,belly],[10,6,belly],[11,6,BK],[12,6,body],[13,6,body],[14,6,body],[15,6,BK],
+     [2,7,BK],[3,7,body],[4,7,body],[5,7,body],[6,7,body],[7,7,body],[8,7,belly],[9,7,belly],[10,7,belly],[11,7,body],[12,7,body],[13,7,body],[14,7,body],[15,7,body],[16,7,BK],
+     [2,8,BK],[3,8,body],[4,8,body],[5,8,body],[6,8,body],[7,8,body],[8,8,belly],[9,8,belly],[10,8,belly],[11,8,body],[12,8,body],[13,8,body],[14,8,body],[15,8,body],[16,8,BK],
+     [2,9,BK],[3,9,body],[4,9,body],[5,9,body],[6,9,body],[7,9,body],[8,9,body],[9,9,body],[10,9,body],[11,9,body],[12,9,body],[13,9,body],[14,9,body],[15,9,body],[16,9,BK],
+     [2,10,BK],[3,10,body],[4,10,body],[5,10,body],[6,10,body],[7,10,body],[8,10,body],[9,10,body],[10,10,body],[11,10,body],[12,10,body],[13,10,body],[14,10,body],[15,10,body],[16,10,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Tucked paws row 11-13
+    [[2,11,BK],[3,11,BK],[4,11,belly],[5,11,belly],[6,11,BK],[7,11,BK],[8,11,body],[9,11,body],[10,11,BK],[11,11,BK],[12,11,belly],[13,11,belly],[14,11,BK],[15,11,BK],[16,11,BK],
+     [3,12,BK],[4,12,belly],[5,12,belly],[6,12,BK],[10,12,BK],[11,12,belly],[12,12,belly],[13,12,BK],
+     [3,13,BK],[4,13,BK],[5,13,BK],[11,13,BK],[12,13,BK],[13,13,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Tail tip right side
+    [[16,9,BK],[17,9,body],[17,10,body],[16,10,BK],[16,11,belly],[17,11,BK]].forEach(([x,y,c])=>px(x,y,c));
+    for(let x=3;x<=15;x++) px(x,13,shadow);
+
+  // ── WALK (side view, tail up) ────────────────────────────────────────────
+  } else if(evo.pose==='walk'){
+    // Tail arched up-right
+    [[15,1,BK],[16,1,BK],[16,2,body],[17,2,BK],[17,3,body],[17,4,BK],[16,4,body],[16,5,BK],[15,5,body],[15,6,BK]].forEach(([x,y,c])=>px(x,y,c));
+    px(16,1,body);px(17,2,body);
+    // Ear
+    [[5,1,BK],[6,1,BK],[6,2,BK],[7,2,BK],[6,2,inner]].forEach(([x,y,c])=>px(x,y,c));
+    // Head side-view
+    [[4,2,BK],[5,2,body],[6,2,body],[7,2,body],[8,2,body],[9,2,BK],
+     [3,3,BK],[4,3,body],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,BK],
+     [3,4,BK],[4,4,body],[5,4,body],[6,4,body],[7,4,body],[8,4,body],[9,4,body],[10,4,BK],
+     [3,5,BK],[4,5,belly],[5,5,belly],[6,5,BK],[7,5,belly],[8,5,belly],[9,5,body],[10,5,BK],
+     [4,6,BK],[5,6,belly],[6,6,belly],[7,6,belly],[8,6,belly],[9,6,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Side eye
+    px(6,3,eyes);px(7,3,eyes);
+    ctx.fillStyle=BK;ctx.fillRect(6*S+3,oy+3*S+1,3,6);// pupil slit
+    ctx.fillStyle='#fff';ctx.fillRect(6*S+1,oy+3*S+1,3,3);
+    // Nose
+    px(3,5,BK);px(4,5,'#e07080');
+    ctx.strokeStyle='rgba(255,255,255,0.65)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(3*S,oy+5*S);ctx.lineTo(0,oy+4*S+4);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(3*S,oy+5*S+4);ctx.lineTo(0,oy+5*S+6);ctx.stroke();
+    // Body
+    [[3,7,BK],[4,7,body],[5,7,body],[6,7,body],[7,7,body],[8,7,body],[9,7,body],[10,7,body],[11,7,body],[12,7,body],[13,7,body],[14,7,BK],
+     [2,8,BK],[3,8,body],[4,8,body],[5,8,body],[6,8,belly],[7,8,belly],[8,8,belly],[9,8,belly],[10,8,belly],[11,8,body],[12,8,body],[13,8,body],[14,8,BK],
+     [2,9,BK],[3,9,body],[4,9,body],[5,9,body],[6,9,belly],[7,9,belly],[8,9,belly],[9,9,belly],[10,9,belly],[11,9,body],[12,9,body],[13,9,body],[14,9,BK],
+     [3,10,BK],[4,10,body],[5,10,body],[6,10,body],[7,10,body],[8,10,body],[9,10,body],[10,10,body],[11,10,body],[12,10,body],[13,10,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // 4 Legs in stride (2 visible per side)
+    [[3,11,BK],[4,11,body],[5,11,BK],[8,11,BK],[9,11,body],[10,11,BK],
+     [3,12,BK],[4,12,body],[5,12,BK],[8,12,BK],[9,12,body],[10,12,BK],
+     [3,13,BK],[4,13,belly],[5,13,BK],[8,13,BK],[9,13,belly],[10,13,BK],
+     [3,14,BK],[4,14,BK],[5,14,BK],[7,14,BK],[8,14,BK],[9,14,BK],[10,14,BK],[11,14,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Toe bumps on paws
+    px(4,14,belly);px(9,14,belly);
+    for(let x=3;x<=13;x++) px(x,15,shadow);
+
+  // ── CROUCH (low stalk, alert ears back) ─────────────────────────────────
+  } else if(evo.pose==='crouch'){
+    // Ears flat/alert
+    [[4,1,BK],[5,1,BK],[10,1,BK],[11,1,BK],
+     [3,2,BK],[4,2,BK],[5,2,BK],[10,2,BK],[11,2,BK],[12,2,BK],
+     [4,2,inner],[5,2,inner],[10,2,inner],[11,2,inner],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Head stretched low
+    [[2,3,BK],[3,3,body],[4,3,body],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,body],[11,3,body],[12,3,body],[13,3,BK],
+     [2,4,BK],[3,4,body],[4,4,BK],[5,4,BK],[6,4,body],[7,4,body],[8,4,BK],[9,4,BK],[10,4,body],[11,4,body],[12,4,body],[13,4,BK],
+     [2,5,BK],[3,5,body],[4,5,belly],[5,5,belly],[6,5,BK],[7,5,belly],[8,5,belly],[9,5,BK],[10,5,belly],[11,5,belly],[12,5,body],[13,5,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Narrow alert eyes (slit pupils)
+    [[4,4,eyes],[5,4,eyes],[8,4,eyes],[9,4,eyes]].forEach(([x,y,c])=>px(x,y,c));
+    ctx.fillStyle=BK;ctx.fillRect(4*S+3,oy+4*S,2,S);ctx.fillRect(8*S+3,oy+4*S,2,S);
+    ctx.fillStyle='#fff';ctx.fillRect(4*S+1,oy+4*S+1,3,3);ctx.fillRect(8*S+1,oy+4*S+1,3,3);
+    // Nose
+    px(6,5,BK);px(7,5,'#e07080');
+    ctx.strokeStyle='rgba(255,255,255,0.65)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(2*S,oy+5*S+2);ctx.lineTo(0,oy+5*S);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(2*S,oy+5*S+5);ctx.lineTo(0,oy+5*S+8);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(13*S,oy+5*S+2);ctx.lineTo(15*S,oy+5*S);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(13*S,oy+5*S+5);ctx.lineTo(15*S,oy+5*S+8);ctx.stroke();
+    // Chin
+    [[3,6,BK],[4,6,belly],[5,6,belly],[6,6,belly],[7,6,BK],[8,6,belly],[9,6,belly],[10,6,belly],[11,6,belly],[12,6,belly],[13,6,BK]].forEach(([x,y,c])=>px(x,y,c));
+    // Long flat body
+    [[2,7,BK],[3,7,body],[4,7,body],[5,7,BK],[6,7,belly],[7,7,belly],[8,7,belly],[9,7,belly],[10,7,belly],[11,7,BK],[12,7,body],[13,7,body],[14,7,body],[15,7,BK],
+     [1,8,BK],[2,8,body],[3,8,body],[4,8,body],[5,8,body],[6,8,belly],[7,8,belly],[8,8,belly],[9,8,belly],[10,8,body],[11,8,body],[12,8,body],[13,8,body],[14,8,body],[15,8,BK],
+     [1,9,BK],[2,9,body],[3,9,body],[4,9,body],[5,9,body],[6,9,body],[7,9,body],[8,9,body],[9,9,body],[10,9,body],[11,9,body],[12,9,body],[13,9,body],[14,9,body],[15,9,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Legs low + coiled paws
+    [[2,10,BK],[3,10,body],[4,10,BK],[11,10,BK],[12,10,body],[13,10,BK],
+     [2,11,BK],[3,11,belly],[4,11,BK],[11,11,BK],[12,11,belly],[13,11,BK],
+     [2,12,BK],[3,12,BK],[4,12,BK],[11,12,BK],[12,12,BK],[13,12,BK],
+    ].forEach(([x,y,c])=>px(x,y,c));
+    // Sweeping tail low
+    [[0,9,BK],[0,10,BK],[1,10,body],[1,11,body],[1,12,BK],[2,12,body],[3,12,belly],[4,12,BK]].forEach(([x,y,c])=>px(x,y,c));
+    for(let x=1;x<=14;x++) px(x,12,shadow);
+  }
+}
+
+// ── Audio ─────────────────────────
+let audioCtx=null,musicOn=false,musicNodes=[],arpInterval=null,bassInterval=null,ambInterval=null;
+const SCALES=[
+  [261.63,293.66,329.63,349.23,392.00,440.00,493.88,523.25],
+  [293.66,329.63,369.99,392.00,440.00,493.88,554.37,587.33],
+  [261.63,293.66,311.13,349.23,392.00,415.30,466.16,523.25],
+  [220.00,246.94,261.63,293.66,329.63,349.23,392.00,440.00],
+  [174.61,196.00,220.00,246.94,261.63,293.66,329.63,349.23],
+];
+function getScale(){return SCALES[Math.min(G.evoIndex,SCALES.length-1)];}
+function note(freq,start,dur,vol,type='square'){
+  if(!audioCtx)return;
+  const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+  osc.connect(gain);gain.connect(audioCtx.destination);
+  osc.type=type;osc.frequency.setValueAtTime(freq,start);
+  gain.gain.setValueAtTime(0,start);
+  gain.gain.linearRampToValueAtTime(vol,start+0.01);
+  gain.gain.exponentialRampToValueAtTime(0.001,start+dur);
+  osc.start(start);osc.stop(start+dur+0.05);
+  musicNodes.push(osc);
+}
+function playArp(){
+  if(!audioCtx||!musicOn)return;
+  const sc=getScale(),now=audioCtx.currentTime;
+  [0,2,4,7,4,2,0,4].forEach((si,i)=>{
+    note(sc[si%sc.length],now+i*0.13,0.18,0.06,'square');
+    if(i%3===0)note(sc[(si+2)%sc.length],now+i*0.13,0.18,0.025,'triangle');
+  });
+}
+function playBass(){
+  if(!audioCtx||!musicOn)return;
+  const sc=getScale(),now=audioCtx.currentTime;
+  [0,0,4,3].forEach((i,idx)=>note(sc[i]*0.5,now+idx*0.42,0.38,0.08,'sawtooth'));
+}
+function playAmbience(){
+  if(!audioCtx||!musicOn)return;
+  const sc=getScale(),now=audioCtx.currentTime;
+  [0,2,4].forEach(si=>{note(sc[si]*0.5,now,1.8,0.018,'sine');note(sc[si],now,1.8,0.012,'sine');});
+}
+function startMusic(){
+  if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended')audioCtx.resume();
+  musicOn=true;
+  arpInterval=setInterval(playArp,1040);
+  bassInterval=setInterval(playBass,1680);
+  ambInterval=setInterval(playAmbience,1800);
+  playArp();playBass();playAmbience();
+  document.getElementById('btnMusic').textContent='🔇';
+}
+function stopMusic(){
+  musicOn=false;
+  clearInterval(arpInterval);clearInterval(bassInterval);clearInterval(ambInterval);
+  musicNodes.forEach(n=>{try{n.stop();}catch(e){}});
+  musicNodes=[];
+  document.getElementById('btnMusic').textContent='🎵';
+}
+document.getElementById('btnMusic').onclick=()=>musicOn?stopMusic():startMusic();
+function playSfx(){
+  if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended')audioCtx.resume();
+  const sc=getScale();
+  note(sc[Math.floor(Math.random()*sc.length)]*2,audioCtx.currentTime,0.08,0.12,'square');
+}
+
+// ── Build panels ──────────────────
+function buildUpgradePanel(){
+  const list=document.getElementById('onceList');
+  list.innerHTML='';
+  ONCE_UPGRADES.forEach(u=>{
+    const owned=G.owned[u.id];
+    const btn=document.createElement('button');
+    btn.className='once-btn'+(owned?'':(G.purrs>=u.cost?' affordable':''));
+    btn.id='once_'+u.id;btn.disabled=!!owned;
+    btn.innerHTML=`<span class="once-icon">${u.icon}</span><div class="once-info"><div class="once-name">${u.name}</div><div class="once-desc">${u.desc}</div><div class="once-cost">${owned?'✓ owned':fmtNum(u.cost)+' purrs'}</div></div>`;
+    if(!owned)btn.onclick=()=>buyOnce(u);
+    list.appendChild(btn);
+  });
+}
+function buildBuildingPanel(){
+  const list=document.getElementById('buildingList');
+  list.innerHTML='';
+  BUILDINGS.forEach(b=>{
+    const cost=buildingCost(b),owned=G.buildings[b.id]||0,cps=buildingCps(b);
+    const btn=document.createElement('button');
+    btn.className='upg-btn'+(G.purrs>=cost?' affordable':'');
+    btn.id='bld_'+b.id;
+    btn.innerHTML=`<div class="upg-icon">${b.icon}</div><div><div class="upg-name">${b.name}</div><div class="upg-desc">${b.desc}</div><div class="upg-cost">${fmtNum(cost)} purrs</div>${cps>0?`<div class="upg-cost" style="color:#9ab;font-size:.35rem">${fmtNum(cps,1)}/s</div>`:''}</div><span class="upg-owned">${owned>0?owned:''}</span>`;
+    btn.onclick=()=>buyBuilding(b);
+    list.appendChild(btn);
+  });
+}
+function refreshPanels(){
+  BUILDINGS.forEach(b=>{
+    const btn=document.getElementById('bld_'+b.id);if(!btn)return;
+    const cost=buildingCost(b),owned=G.buildings[b.id]||0,cps=buildingCps(b);
+    btn.className='upg-btn'+(G.purrs>=cost?' affordable':'');
+    btn.querySelector('.upg-cost').textContent=fmtNum(cost)+' purrs';
+    btn.querySelector('.upg-owned').textContent=owned>0?owned:'';
+    const cpsEl=btn.querySelector('.upg-cost + div');
+    if(cpsEl&&cps>0)cpsEl.textContent=fmtNum(cps,1)+'/s';
+  });
+  ONCE_UPGRADES.forEach(u=>{
+    const btn=document.getElementById('once_'+u.id);
+    if(!btn||G.owned[u.id])return;
+    btn.className='once-btn'+(G.purrs>=u.cost?' affordable':'');
+  });
+  // Update badges
+  const canBuyUpgrade=ONCE_UPGRADES.some(u=>!G.owned[u.id]&&G.purrs>=u.cost);
+  const canBuyHelper=BUILDINGS.some(b=>G.purrs>=buildingCost(b));
+  document.getElementById('badge-upgrades').classList.toggle('show',canBuyUpgrade);
+  document.getElementById('badge-upgrades').textContent=canBuyUpgrade?'!':'';
+  document.getElementById('badge-helpers').classList.toggle('show',canBuyHelper);
+  document.getElementById('badge-helpers').textContent=canBuyHelper?'!':'';
+}
+
+// ── Buy ───────────────────────────
+function buyBuilding(b){
+  const cost=buildingCost(b);
+  if(G.purrs<cost){toast('Need '+fmtNum(cost)+' purrs!');return;}
+  G.purrs-=cost;G.buildings[b.id]=(G.buildings[b.id]||0)+1;
+  G.cps=totalCps();buildBuildingPanel();refreshPanels();
+  toast(b.icon+' '+b.name+' added!');playSfx();
+}
+function buyOnce(u){
+  if(G.owned[u.id])return;
+  if(G.purrs<u.cost){toast('Need '+fmtNum(u.cost)+' purrs!');return;}
+  G.purrs-=u.cost;G.owned[u.id]=true;
+  if(u.type==='click')G.clickMult*=u.mult;else G.cpsMult*=u.mult;
+  G.cps=totalCps();buildUpgradePanel();refreshPanels();
+  toast('✨ '+u.name+' unlocked!');playSfx();
+}
+
+// ── Click / touch ──────────────────
+let squishTimer=null;
+catCanvas.addEventListener('pointerdown',e=>{
+  e.preventDefault();
+  const earned=Math.max(1,Math.floor(G.clickMult*personalMult));
+  G.purrs+=earned;G.totalPurrs+=earned;
+  playSfx();
+  if(squishTimer)clearTimeout(squishTimer);
+  drawCat(G.evoIndex,true);
+  squishTimer=setTimeout(()=>drawCat(G.evoIndex,false),80);
+  spawnParticle(e,'+'+fmtNum(earned));
+  checkEvolution();updateUI();
+},{passive:false});
+
+function spawnParticle(e,text){
+  const rect=catCanvas.getBoundingClientRect();
+  const p=document.createElement('div');
+  p.className='particle';p.textContent=text;
+  const cx=(e.clientX||e.touches&&e.touches[0].clientX||rect.left+rect.width/2);
+  const cy=(e.clientY||e.touches&&e.touches[0].clientY||rect.top+rect.height/2);
+  p.style.left=(cx-rect.left+rect.width/2-40+Math.random()*30-15)+'px';
+  p.style.top=(cy-rect.top+Math.random()*10-5)+'px';
+  document.getElementById('tab-cat').appendChild(p);
+  setTimeout(()=>p.remove(),900);
+}
+
+// ── Evolution ─────────────────────
+function checkEvolution(){
+  let newEvo=0;
+  for(let i=EVOLUTIONS.length-1;i>=0;i--){
+    if(G.totalPurrs>=EVOLUTIONS[i].threshold){newEvo=i;break;}
+  }
+  if(newEvo!==G.evoIndex){
+    G.evoIndex=newEvo;
+    drawCat(G.evoIndex,false);
+    showMilestone('✨ Evolution: '+EVOLUTIONS[newEvo].name+'! ✨');
+    toast('🎉 Evolved to '+EVOLUTIONS[newEvo].name+'!');
+  }
+}
+function showMilestone(msg){
+  const el=document.getElementById('milestoneMsg');
+  el.textContent=msg;el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+// ── Tick ──────────────────────────
+let lastTick=Date.now();
+setInterval(()=>{
+  const now=Date.now(),dt=(now-lastTick)/1000;lastTick=now;
+  const earned=G.cps*dt;
+  if(earned>0){G.purrs+=earned;G.totalPurrs+=earned;checkEvolution();}
+  updateUI();
+  if(Math.random()<0.05)refreshPanels();
+},100);
+setInterval(()=>save(),10000);
+
+// ── UI ────────────────────────────
+const MILE_MSGS=[
+  [10,'The journey begins.'],
+  [100,'100 purrs! A true cat person.'],
+  [1000,'1,000 purrs! The cat approves.'],
+  [10000,'10K! A cat legend is born.'],
+  [100000,'100K! The cat demands tribute.'],
+  [1000000,'1M PURRS! Infinite floof.'],
+  [10000000,'10M! You have ascended.'],
+];
+let lastMileIdx=-1;
+function updateUI(){
+  const purrs=Math.floor(G.purrs),total=Math.floor(G.totalPurrs);
+  document.getElementById('counterMain').textContent=fmtNum(purrs);
+  document.getElementById('hdrTotal').textContent=fmtNum(total);
+  G.cps=totalCps();
+  document.getElementById('counterCps').textContent='+'+fmtNum(G.cps,1)+' per second';
+  document.getElementById('hdrCps').textContent=fmtNum(G.cps,1);
+  const evo=EVOLUTIONS[G.evoIndex],nextEvo=EVOLUTIONS[G.evoIndex+1];
+  document.getElementById('evoBadge').textContent=evo.name;
+  document.getElementById('evoStage').textContent=evo.name;
+  if(nextEvo){
+    const pct=Math.min(100,((G.totalPurrs-evo.threshold)/(nextEvo.threshold-evo.threshold))*100);
+    document.getElementById('evoFill').style.width=pct+'%';
+    document.getElementById('evoCur').textContent=fmtNum(G.totalPurrs-evo.threshold);
+    document.getElementById('evoNext').textContent=fmtNum(nextEvo.threshold-evo.threshold);
+  } else {
+    document.getElementById('evoFill').style.width='100%';
+    document.getElementById('evoCur').textContent='MAX';
+    document.getElementById('evoNext').textContent='';
+  }
+  for(let i=0;i<MILE_MSGS.length;i++){
+    if(G.totalPurrs>=MILE_MSGS[i][0]&&lastMileIdx<i){lastMileIdx=i;showMilestone(MILE_MSGS[i][1]);}
+  }
+}
+function fmtNum(n,dec=0){
+  if(n>=1e12)return(n/1e12).toFixed(1)+'T';
+  if(n>=1e9)return(n/1e9).toFixed(1)+'B';
+  if(n>=1e6)return(n/1e6).toFixed(1)+'M';
+  if(n>=1e3)return(n/1e3).toFixed(1)+'K';
+  return dec>0?n.toFixed(dec):Math.floor(n).toString();
+}
+
+// ── Toast ─────────────────────────
+let toastTimer=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),2200);
+}
+
+// ── Init ──────────────────────────
+buildUpgradePanel();
+buildBuildingPanel();
+drawCat(G.evoIndex,false);
+updateUI();
+refreshPanels();
+</script>
+</body>
+</html>
