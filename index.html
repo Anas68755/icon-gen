@@ -56,12 +56,6 @@
       font-size: 0.85rem;
       margin-bottom: 0.5rem;
     }
-    .view-counter {
-      color: var(--text-secondary);
-      font-size: 0.75rem;
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.5px;
-    }
     .theme-toggle-btn {
       background: var(--card);
       border: 1px solid var(--border);
@@ -443,7 +437,6 @@
   <div class="app-header">
     <h1>🌙 lunar•view icon generator pro</h1>
     <p>multi‑emoji layers · advanced controls</p>
-    <div class="view-counter">👁 <span id="viewCount">0</span> total views</div>
     <button class="theme-toggle-btn" id="themeToggle">🌓 theme</button>
     <div style="margin-top:0.3rem; display:flex; justify-content:center; gap:0.5rem;">
       <div class="undo-redo-group">
@@ -497,7 +490,7 @@
           <div class="stops-list" id="stopsList"></div>
           <button class="btn btn-outline btn-sm" onclick="addStop()">+ add stop</button>
           <div class="control-row"><label>pattern</label><select id="patternType"><option value="none">none</option><option value="dots">dots</option><option value="grid">grid</option><option value="stripes">stripes</option><option value="noise">noise</option></select></div>
-          <div class="control-row"><label>pattern opacity</label><input type="range" id="patternOpacity" min="0" max="1" step="0.01" value="0.1"><span id="patternOpacityVal" style="font-size:0.65rem; text-align:right;">10%</span></div>
+          <div class="control-row"><label>pattern opacity</label><input type="range" id="patternOpacity" min="0" max="1" step="0.01" value="0.1"><span id="patternOpacityVal" style="font-size:0.65rem;">10%</span></div>
         </div>
       </div>
 
@@ -506,10 +499,10 @@
         <div class="section-header" onclick="toggleSection(this)"><h3>🔷 shape & border</h3><span class="arrow">▼</span></div>
         <div class="section-body">
           <div class="control-row"><label>shape</label><select id="shapeSelect"><option value="rounded">rounded square</option><option value="circle">circle</option><option value="square">square</option><option value="hexagon">hexagon</option><option value="diamond">diamond</option></select></div>
-          <div class="control-row" id="roundnessRow"><label>corner radius</label><input type="range" id="roundness" min="0" max="0.5" step="0.01" value="0.22"><span id="roundnessVal" style="font-size:0.65rem; text-align:right;">22%</span></div>
+          <div class="control-row" id="roundnessRow"><label>corner radius</label><input type="range" id="roundness" min="0" max="0.5" step="0.01" value="0.22"><span id="roundnessVal" style="font-size:0.65rem;">22%</span></div>
           <div class="toggle-row"><label>border</label><label class="toggle-switch"><input type="checkbox" id="borderEnabled"><span class="toggle-slider"></span></label></div>
           <div id="borderColorRow" style="display:none;"><label>border color</label><div class="color-picker-row"><input type="color" id="borderColor" value="#9aa5ff"><input type="text" id="borderColorHex" value="#9aa5ff"></div></div>
-          <div id="borderWidthRow" style="display:none;"><label>border width</label><input type="range" id="borderWidth" min="1" max="20" step="0.5" value="4"><span id="borderWidthVal" style="font-size:0.65rem; text-align:right;">4px</span></div>
+          <div id="borderWidthRow" style="display:none;"><label>border width</label><input type="range" id="borderWidth" min="1" max="20" step="0.5" value="4"><span id="borderWidthVal" style="font-size:0.65rem;">4px</span></div>
         </div>
       </div>
 
@@ -532,20 +525,11 @@
         <div class="section-body">
           <div class="toggle-row"><label>show text</label><label class="toggle-switch"><input type="checkbox" id="textEnabled"><span class="toggle-slider"></span></label></div>
           <input type="text" id="overlayText" value="lunar•view" maxlength="30">
-          <select id="fontFamily"><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="'Arial Black', sans-serif">Arial Black</option><option value="'Courier New', monospace">Courier New</option><option value="'Georgia', serif">Georgia</option><option value="'Comic Sans MS', cursive">Comic Sans</option></select>
+          <select id="fontFamily"><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="'Arial Black', sans-serif">Arial Black</option><option value="'Courier New', monospace">Courier New</option><option value="'Georgia', serif">Georgia</option></select>
           <div><label>size</label><input type="range" id="fontSize" min="5" max="200" step="1" value="40"><span id="fontSizeVal">40px</span></div>
           <div><label>Y pos</label><input type="range" id="textPosY" min="0" max="100" step="1" value="75"><span id="textPosYVal">75%</span></div>
           <div class="color-picker-row"><input type="color" id="textColor" value="#ffffff"><input type="text" id="textColorHex" value="#ffffff"></div>
           <div class="toggle-row"><label>text shadow</label><label class="toggle-switch"><input type="checkbox" id="textShadowEnabled" checked><span class="toggle-slider"></span></label></div>
-        </div>
-      </div>
-
-      <!-- Export Options -->
-      <div class="section">
-        <div class="section-header" onclick="toggleSection(this)"><h3>📤 export options</h3><span class="arrow">▼</span></div>
-        <div class="section-body">
-          <div class="toggle-row"><label>trim transparent</label><label class="toggle-switch"><input type="checkbox" id="trimTransparent" checked><span class="toggle-slider"></span></label></div>
-          <p style="font-size:0.7rem; color:var(--text-secondary); margin-top:0.3rem;">Automatically removes unnecessary transparent corners from exported images.</p>
         </div>
       </div>
 
@@ -568,20 +552,6 @@
   </div>
 
   <script>
-    // View counter initialization
-    function initViewCounter() {
-      let views = localStorage.getItem('iconGenViews');
-      if (!views) {
-        views = 0;
-      }
-      views = parseInt(views) + 1;
-      localStorage.setItem('iconGenViews', views);
-      document.getElementById('viewCount').textContent = views.toLocaleString();
-    }
-
-    // Initialize view counter on page load
-    window.addEventListener('load', initViewCounter);
-
     (function() {
       const canvas = document.getElementById('iconCanvas');
       const ctx = canvas.getContext('2d');
@@ -803,11 +773,11 @@
             </div>
             <input class="layer-emoji-input" type="text" value="${escapeHtml(layer.emoji)}" onchange="updateLayer(${idx},'emoji',this.value)" onclick="event.stopPropagation();">
             <div class="layer-controls">
-              <label>size</label><input type="range" min="0.1" max="0.9" step="0.01" value="${layer.size}" oninput="updateLayer(${idx},'size',parseFloat(this.value));">
-              <label>X</label><input type="range" min="-100" max="100" step="1" value="${layer.x}" oninput="updateLayer(${idx},'x',parseInt(this.value));">
-              <label>Y</label><input type="range" min="-100" max="100" step="1" value="${layer.y}" oninput="updateLayer(${idx},'y',parseInt(this.value));">
-              <label>rot</label><input type="range" min="0" max="360" step="1" value="${layer.rotation}" oninput="updateLayer(${idx},'rotation',parseInt(this.value));">
-              <label>opac</label><input type="range" min="0" max="1" step="0.05" value="${layer.opacity}" oninput="updateLayer(${idx},'opacity',parseFloat(this.value));">
+              <label>size</label><input type="range" min="0.1" max="0.9" step="0.01" value="${layer.size}" oninput="updateLayer(${idx},'size',parseFloat(this.value)); document.getElementById('lsize${idx}').textContent=Math.round(this.value*100)+'%'"><span id="lsize${idx}">${Math.round(layer.size*100)}%</span>
+              <label>X</label><input type="range" min="-100" max="100" step="1" value="${layer.x}" oninput="updateLayer(${idx},'x',parseInt(this.value)); document.getElementById('lx${idx}').textContent=this.value"><span id="lx${idx}">${layer.x}</span>
+              <label>Y</label><input type="range" min="-100" max="100" step="1" value="${layer.y}" oninput="updateLayer(${idx},'y',parseInt(this.value)); document.getElementById('ly${idx}').textContent=this.value"><span id="ly${idx}">${layer.y}</span>
+              <label>rot</label><input type="range" min="0" max="360" step="1" value="${layer.rotation}" oninput="updateLayer(${idx},'rotation',parseInt(this.value)); document.getElementById('lrot${idx}').textContent=this.value+'°'"><span id="lrot${idx}">${layer.rotation}°</span>
+              <label>opac</label><input type="range" min="0" max="1" step="0.05" value="${layer.opacity}" oninput="updateLayer(${idx},'opacity',parseFloat(this.value)); document.getElementById('lopac${idx}').textContent=Math.round(this.value*100)+'%'"><span id="lopac${idx}">${Math.round(layer.opacity*100)}%</span>
               <label>shadow</label><input type="checkbox" ${layer.shadow?'checked':''} onchange="updateLayer(${idx},'shadow',this.checked)">
             </div>
           `;
@@ -1020,361 +990,229 @@
         ctx.restore();
 
         if (borderEnabled) {
+          ctx.save();
+          drawShape(size, shape, roundness);
           ctx.strokeStyle = getVal('borderColor');
           ctx.lineWidth = getNum('borderWidth');
-          drawShape(size, shape, roundness);
           ctx.stroke();
+          ctx.restore();
         }
 
-        if (outerGlow) {
-          ctx.shadowColor = getVal('glowColor');
-          ctx.shadowBlur = outerGlowSize;
-          ctx.lineWidth = 1;
+        if (outerGlow && outerGlowSize > 0) {
+          ctx.save();
+          ctx.filter = `blur(${outerGlowSize}px)`;
+          ctx.globalAlpha = glowIntensity;
           drawShape(size, shape, roundness);
-          ctx.stroke();
+          ctx.fillStyle = getVal('glowColor');
+          ctx.fill();
+          ctx.restore();
         }
       }
 
-      function downloadPNG() {
-        const size = getNum(document.querySelector('.size-tab.active')?.getAttribute('data-size') || '512');
-        const tempCanvas = document.createElement('canvas');
-        const shouldTrim = getChecked('trimTransparent');
-        tempCanvas.width = size; tempCanvas.height = size;
-        const tempCtx = tempCanvas.getContext('2d');
-        drawIconAtSize(tempCanvas, tempCtx, size);
-        let finalCanvas = tempCanvas;
-        if (shouldTrim) {
-          finalCanvas = trimCanvas(tempCanvas);
-        }
-        const link = document.createElement('a');
-        link.download = getVal('exportFileName') + '.png';
-        link.href = finalCanvas.toDataURL('image/png');
-        link.click();
-      }
-
-      function downloadJPG() {
-        const size = getNum(document.querySelector('.size-tab.active')?.getAttribute('data-size') || '512');
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = size; tempCanvas.height = size;
-        const tempCtx = tempCanvas.getContext('2d');
-        tempCtx.fillStyle = '#ffffff';
-        tempCtx.fillRect(0,0,size,size);
-        const currentState = { width: canvas.width, height: canvas.height };
-        canvas.width = size; canvas.height = size;
-        ctx.drawImage(tempCanvas, 0, 0);
-        drawIconAtSize(canvas, ctx, size);
-        const link = document.createElement('a');
-        link.download = getVal('exportFileName') + '.jpg';
-        link.href = canvas.toDataURL('image/jpeg', 0.95);
-        link.click();
-        canvas.width = currentState.width; canvas.height = currentState.height;
-        drawIcon();
-      }
-
-      function downloadSVG() {
-        alert('SVG export is not available for emoji-based icons. Please use PNG or JPG instead.');
-      }
-
-      function downloadICO() {
-        alert('ICO export requires external tools. Please use an online converter with the PNG export.');
-      }
-
-      function trimCanvas(c) {
-        const ctx2 = c.getContext('2d');
-        const imageData = ctx2.getImageData(0,0,c.width,c.height);
-        let left=c.width, right=0, top=c.height, bottom=0;
-        for (let i=0; i<imageData.data.length; i+=4) {
-          if (imageData.data[i+3] > 0) {
-            const idx = i/4;
-            const x = idx % c.width;
-            const y = Math.floor(idx/c.width);
-            if (x<left) left=x; if (x>right) right=x;
-            if (y<top) top=y; if (y>bottom) bottom=y;
-          }
-        }
-        const w = right-left+1, h = bottom-top+1;
-        const trimmedCanvas = document.createElement('canvas');
-        trimmedCanvas.width = w; trimmedCanvas.height = h;
-        trimmedCanvas.getContext('2d').drawImage(c, left, top, w, h, 0, 0, w, h);
-        return trimmedCanvas;
-      }
-
-      function drawIconAtSize(c, ctxTemp, size) {
-        ctxTemp.clearRect(0,0,size,size);
-        ctxTemp.save();
-        drawShape(size, getVal('shapeSelect'), getNum('roundness'));
-        ctxTemp.clip();
-        if (getVal('gradientType') === 'solid') {
-          ctxTemp.fillStyle = stops[0]?.color || '#000';
-          ctxTemp.fillRect(0,0,size,size);
-        } else {
-          let grad;
-          if (getVal('gradientType') === 'linear') {
-            const angle = getNum('gradientAngle')*Math.PI/180;
-            const x1 = size/2 - Math.cos(angle)*size/2;
-            const y1 = size/2 - Math.sin(angle)*size/2;
-            const x2 = size/2 + Math.cos(angle)*size/2;
-            const y2 = size/2 + Math.sin(angle)*size/2;
-            grad = ctxTemp.createLinearGradient(x1,y1,x2,y2);
-          } else if (getVal('gradientType') === 'radial') {
-            grad = ctxTemp.createRadialGradient(size/2,size/2,0,size/2,size/2,size/2);
-          } else if (getVal('gradientType') === 'conic') {
-            grad = ctxTemp.createConicGradient(getNum('gradientAngle')*Math.PI/180, size/2, size/2);
-          }
-          stops.forEach(stop => grad.addColorStop(stop.pos/100, stop.color));
-          ctxTemp.fillStyle = grad;
-          ctxTemp.fillRect(0,0,size,size);
-        }
-        drawPattern(size, getVal('patternType'), getNum('patternOpacity'));
-        if (getChecked('innerGlowEnabled')) {
-          const glowRgb = hexToRgb(getVal('glowColor'));
-          const glowGrad = ctxTemp.createRadialGradient(size/2,size/2,0,size/2,size/2,size*getNum('glowSpread'));
-          glowGrad.addColorStop(0,'rgba(0,0,0,0)');
-          glowGrad.addColorStop(0.4,`rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},${getNum('glowIntensity')})`);
-          glowGrad.addColorStop(1,'rgba(0,0,0,0)');
-          ctxTemp.fillStyle = glowGrad;
-          ctxTemp.fillRect(0,0,size,size);
-        }
-        layers.forEach(layer => {
-          ctxTemp.save();
-          const offX = (layer.x/100)*(size/2);
-          const offY = (layer.y/100)*(size/2);
-          ctxTemp.translate(size/2+offX, size/2+offY);
-          if (layer.rotation) ctxTemp.rotate(layer.rotation*Math.PI/180);
-          ctxTemp.globalAlpha = layer.opacity;
-          const fontSize = size*layer.size;
-          ctxTemp.font = `${fontSize}px 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif`;
-          ctxTemp.textAlign = 'center'; ctxTemp.textBaseline = 'middle';
-          if (layer.shadow) {
-            ctxTemp.shadowColor = 'rgba(0,0,0,0.5)';
-            ctxTemp.shadowBlur = fontSize*0.1;
-            ctxTemp.shadowOffsetX = fontSize*0.03;
-            ctxTemp.shadowOffsetY = fontSize*0.03;
-          }
-          ctxTemp.fillText(layer.emoji, 0, 0);
-          ctxTemp.restore();
-        });
-        ctxTemp.restore();
-      }
-
-      function toggleSection(el) {
-        el.closest('.section').classList.toggle('collapsed');
-      }
-
-      document.getElementById('gradientType').addEventListener('change', () => { drawIcon(); pushHistory(); });
-      document.getElementById('gradientAngle').addEventListener('input', (e) => {
-        document.getElementById('gradientAngleVal').textContent = e.target.value + '°';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('patternType').addEventListener('change', () => { drawIcon(); pushHistory(); });
-      document.getElementById('patternOpacity').addEventListener('input', (e) => {
-        document.getElementById('patternOpacityVal').textContent = Math.round(e.target.value*100)+'%';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('shapeSelect').addEventListener('change', (e) => {
-        document.getElementById('roundnessRow').style.display = e.target.value==='rounded'?'flex':'none';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('roundness').addEventListener('input', (e) => {
-        document.getElementById('roundnessVal').textContent = Math.round(e.target.value*100)+'%';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('borderEnabled').addEventListener('change', (e) => {
-        document.getElementById('borderColorRow').style.display = e.target.checked?'flex':'none';
-        document.getElementById('borderWidthRow').style.display = e.target.checked?'flex':'none';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('borderColor').addEventListener('input', (e) => {
-        document.getElementById('borderColorHex').value = e.target.value;
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('borderColorHex').addEventListener('input', (e) => {
-        document.getElementById('borderColor').value = e.target.value;
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('borderWidth').addEventListener('input', (e) => {
-        document.getElementById('borderWidthVal').textContent = e.target.value+'px';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('innerGlowEnabled').addEventListener('change', () => { drawIcon(); pushHistory(); });
-      document.getElementById('glowColor').addEventListener('input', (e) => {
-        document.getElementById('glowColorHex').value = e.target.value;
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('glowColorHex').addEventListener('input', (e) => {
-        document.getElementById('glowColor').value = e.target.value;
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('glowIntensity').addEventListener('input', (e) => {
-        document.getElementById('glowIntensityVal').textContent = Math.round(e.target.value*100)+'%';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('glowSpread').addEventListener('input', (e) => {
-        document.getElementById('glowSpreadVal').textContent = Math.round(e.target.value*100)+'%';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('outerGlowEnabled').addEventListener('change', () => { drawIcon(); pushHistory(); });
-      document.getElementById('outerGlowSize').addEventListener('input', (e) => {
-        document.getElementById('outerGlowSizeVal').textContent = e.target.value+'px';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('textEnabled').addEventListener('change', () => { drawIcon(); pushHistory(); });
-      document.getElementById('overlayText').addEventListener('input', () => { drawIcon(); pushHistory(); });
-      document.getElementById('fontFamily').addEventListener('change', () => { drawIcon(); pushHistory(); });
-      document.getElementById('fontSize').addEventListener('input', (e) => {
-        document.getElementById('fontSizeVal').textContent = e.target.value+'px';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('textPosY').addEventListener('input', (e) => {
-        document.getElementById('textPosYVal').textContent = e.target.value+'%';
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('textColor').addEventListener('input', (e) => {
-        document.getElementById('textColorHex').value = e.target.value;
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('textColorHex').addEventListener('input', (e) => {
-        document.getElementById('textColor').value = e.target.value;
-        drawIcon(); pushHistory();
-      });
-      document.getElementById('textShadowEnabled').addEventListener('change', () => { drawIcon(); pushHistory(); });
-      document.querySelectorAll('.size-tab').forEach(tab => {
-        tab.addEventListener('click', (e) => {
-          document.querySelectorAll('.size-tab').forEach(t => t.classList.remove('active'));
-          e.target.classList.add('active');
-          currentSize = getNum(e.target.getAttribute('data-size'));
-          drawIcon();
-        });
-      });
-
-      const emojiList = ['😀','😂','😍','🤔','😎','🌟','⭐','🔥','💎','🎨','🎭','🎪','🎯','🎲','🎸','🎹','🎺','🎻','🥁','🎤','🎧','📱','💻','⌨️','🖱️','🖥️','📷','📹','🎬','📺','📻'];
-      const emojiGrid = document.getElementById('emojiGrid');
-      emojiList.forEach(emoji => {
-        const btn = document.createElement('button');
-        btn.className = 'emoji-btn';
-        btn.textContent = emoji;
-        btn.onclick = () => {
-          if (layers[selectedLayerIndex]) {
-            layers[selectedLayerIndex].emoji = emoji;
+      function bindControls() {
+        const sliders = [
+          {id:'gradientAngle', valId:'gradientAngleVal', suffix:'°'},
+          {id:'roundness', valId:'roundnessVal', suffix:'%', scale:100},
+          {id:'glowIntensity', valId:'glowIntensityVal', suffix:'%', scale:100},
+          {id:'glowSpread', valId:'glowSpreadVal', suffix:'%', scale:100},
+          {id:'outerGlowSize', valId:'outerGlowSizeVal', suffix:'px'},
+          {id:'borderWidth', valId:'borderWidthVal', suffix:'px'},
+          {id:'fontSize', valId:'fontSizeVal', suffix:'px'},
+          {id:'textPosY', valId:'textPosYVal', suffix:'%'},
+          {id:'patternOpacity', valId:'patternOpacityVal', suffix:'%', scale:100}
+        ];
+        sliders.forEach(s => {
+          const el = document.getElementById(s.id);
+          if (!el) return;
+          el.addEventListener('input', () => {
+            const val = parseFloat(el.value);
+            document.getElementById(s.valId).textContent = Math.round(val * (s.scale||1)) + s.suffix;
             drawIcon();
             pushHistory();
-          }
-        };
-        emojiGrid.appendChild(btn);
-      });
+          });
+        });
+
+        document.getElementById('shapeSelect').addEventListener('change', () => {
+          document.getElementById('roundnessRow').style.display = getVal('shapeSelect')==='rounded' ? 'flex' : 'none';
+          drawIcon(); pushHistory();
+        });
+
+        document.getElementById('borderEnabled').addEventListener('change', () => {
+          const en = getChecked('borderEnabled');
+          document.getElementById('borderColorRow').style.display = en?'flex':'none';
+          document.getElementById('borderWidthRow').style.display = en?'flex':'none';
+          drawIcon(); pushHistory();
+        });
+
+        document.getElementById('textEnabled').addEventListener('change', () => { drawIcon(); pushHistory(); });
+        ['innerGlowEnabled','outerGlowEnabled','textShadowEnabled'].forEach(id => document.getElementById(id).addEventListener('change', () => { drawIcon(); pushHistory(); }));
+        ['gradientType','patternType','fontFamily'].forEach(id => document.getElementById(id).addEventListener('change', () => { drawIcon(); pushHistory(); }));
+        document.getElementById('overlayText').addEventListener('input', () => { drawIcon(); pushHistory(); });
+      }
 
       function loadPreset(name) {
         const presets = {
-          cosmic: {
-            gradientType: 'linear', gradientAngle: 135,
-            stops: [{color:'#1a1f35',pos:0},{color:'#2d1f4e',pos:50},{color:'#151b2e',pos:100}],
-            shape: 'rounded', roundness: 0.22,
-            glowColor: '#9aa5ff', innerGlowEnabled: true, glowIntensity: 0.25, glowSpread: 0.5
-          },
-          sunset: {
-            gradientType: 'linear', gradientAngle: 45,
-            stops: [{color:'#ff6b6b',pos:0},{color:'#feca57',pos:50},{color:'#ff9ff3',pos:100}],
-            shape: 'rounded', roundness: 0.2,
-            glowColor: '#ff6b6b', innerGlowEnabled: true, glowIntensity: 0.3, glowSpread: 0.6
-          },
-          ocean: {
-            gradientType: 'radial',
-            stops: [{color:'#0077be',pos:0},{color:'#4fb06d',pos:100}],
-            shape: 'circle', roundness: 0.5,
-            glowColor: '#00d4ff', innerGlowEnabled: true, glowIntensity: 0.4, glowSpread: 0.7
-          },
-          forest: {
-            gradientType: 'linear', gradientAngle: 90,
-            stops: [{color:'#27ae60',pos:0},{color:'#229954',pos:100}],
-            shape: 'rounded', roundness: 0.15,
-            glowColor: '#27ae60', innerGlowEnabled: true, glowIntensity: 0.2, glowSpread: 0.4
-          },
-          neon: {
-            gradientType: 'linear', gradientAngle: 225,
-            stops: [{color:'#ff006e',pos:0},{color:'#00d9ff',pos:100}],
-            shape: 'rounded', roundness: 0.1,
-            glowColor: '#00d9ff', innerGlowEnabled: true, glowIntensity: 0.8, glowSpread: 0.8
-          },
-          minimal: {
-            gradientType: 'solid',
-            stops: [{color:'#ffffff',pos:0},{color:'#ffffff',pos:100}],
-            shape: 'square', roundness: 0,
-            glowColor: '#000000', innerGlowEnabled: false, glowIntensity: 0, glowSpread: 0.2
-          }
+          cosmic: { layers:[{emoji:'🌙',size:0.55,x:0,y:0,rotation:0,opacity:1,shadow:true}], stops:[{color:'#1a1f35',pos:0},{color:'#2d1f4e',pos:50},{color:'#151b2e',pos:100}] },
+          sunset: { layers:[{emoji:'☀️',size:0.6,x:0,y:0,rotation:0,opacity:1,shadow:true}], stops:[{color:'#ff6b35',pos:0},{color:'#f7c948',pos:50},{color:'#1a0a2e',pos:100}] },
+          ocean: { layers:[{emoji:'🌊',size:0.55,x:0,y:0,rotation:0,opacity:1,shadow:true}], stops:[{color:'#0077b6',pos:0},{color:'#00b4d8',pos:50},{color:'#03045e',pos:100}] },
+          forest: { layers:[{emoji:'🌲',size:0.55,x:0,y:0,rotation:0,opacity:1,shadow:true}], stops:[{color:'#2d6a4f',pos:0},{color:'#40916c',pos:50},{color:'#081c15',pos:100}] },
+          neon: { layers:[{emoji:'⚡',size:0.6,x:0,y:0,rotation:0,opacity:1,shadow:true}], stops:[{color:'#0d0d0d',pos:0},{color:'#1a1a2e',pos:50},{color:'#0d0d0d',pos:100}] },
+          minimal: { layers:[{emoji:'💎',size:0.55,x:0,y:0,rotation:0,opacity:1,shadow:true}], stops:[{color:'#ffffff',pos:0},{color:'#f0f0f0',pos:50},{color:'#e0e0e0',pos:100}] }
         };
-        const preset = presets[name];
-        if (!preset) return;
-        document.getElementById('gradientType').value = preset.gradientType;
-        document.getElementById('gradientAngle').value = preset.gradientAngle;
-        document.getElementById('gradientAngleVal').textContent = preset.gradientAngle + '°';
-        stops = JSON.parse(JSON.stringify(preset.stops));
+        const p = presets[name];
+        if (!p) return;
+        layers = JSON.parse(JSON.stringify(p.layers));
+        stops = JSON.parse(JSON.stringify(p.stops));
+        selectedLayerIndex = 0;
+        document.getElementById('gradientType').value = 'linear';
+        document.getElementById('shapeSelect').value = 'rounded';
+        document.getElementById('roundness').value = 0.22;
+        document.getElementById('roundnessVal').textContent = '22%';
+        document.getElementById('innerGlowEnabled').checked = true;
+        document.getElementById('glowIntensity').value = 0.25; document.getElementById('glowIntensityVal').textContent = '25%';
+        document.getElementById('glowSpread').value = 0.5; document.getElementById('glowSpreadVal').textContent = '50%';
+        renderLayers();
         renderStops();
-        document.getElementById('shapeSelect').value = preset.shape;
-        document.getElementById('roundness').value = preset.roundness;
-        document.getElementById('roundnessVal').textContent = Math.round(preset.roundness*100)+'%';
-        document.getElementById('roundnessRow').style.display = preset.shape==='rounded'?'flex':'none';
-        document.getElementById('glowColor').value = preset.glowColor;
-        document.getElementById('glowColorHex').value = preset.glowColor;
-        document.getElementById('innerGlowEnabled').checked = preset.innerGlowEnabled;
-        document.getElementById('glowIntensity').value = preset.glowIntensity;
-        document.getElementById('glowIntensityVal').textContent = Math.round(preset.glowIntensity*100)+'%';
-        document.getElementById('glowSpread').value = preset.glowSpread;
-        document.getElementById('glowSpreadVal').textContent = Math.round(preset.glowSpread*100)+'%';
         drawIcon();
         pushHistory();
       }
 
       function resetAll() {
-        if (confirm('Reset all settings to default?')) {
-          layers = [{ emoji: '🌙', size: 0.55, x: 0, y: 0, rotation: 0, opacity: 1, shadow: true }];
-          selectedLayerIndex = 0;
-          stops = [{color:'#1a1f35',pos:0},{color:'#2d1f4e',pos:50},{color:'#151b2e',pos:100}];
-          document.getElementById('gradientType').value = 'linear';
-          document.getElementById('gradientAngle').value = 135;
-          document.getElementById('gradientAngleVal').textContent = '135°';
-          document.getElementById('patternType').value = 'none';
-          document.getElementById('patternOpacity').value = 0.1;
-          document.getElementById('patternOpacityVal').textContent = '10%';
-          document.getElementById('shapeSelect').value = 'rounded';
-          document.getElementById('roundness').value = 0.22;
-          document.getElementById('roundnessVal').textContent = '22%';
-          document.getElementById('borderEnabled').checked = false;
-          document.getElementById('borderColorRow').style.display = 'none';
-          document.getElementById('borderWidthRow').style.display = 'none';
-          document.getElementById('innerGlowEnabled').checked = true;
-          document.getElementById('glowColor').value = '#9aa5ff';
-          document.getElementById('glowColorHex').value = '#9aa5ff';
-          document.getElementById('glowIntensity').value = 0.25;
-          document.getElementById('glowIntensityVal').textContent = '25%';
-          document.getElementById('glowSpread').value = 0.5;
-          document.getElementById('glowSpreadVal').textContent = '50%';
-          document.getElementById('outerGlowEnabled').checked = false;
-          document.getElementById('outerGlowSize').value = 8;
-          document.getElementById('outerGlowSizeVal').textContent = '8px';
-          document.getElementById('textEnabled').checked = false;
-          document.getElementById('overlayText').value = 'lunar•view';
-          document.getElementById('fontFamily').value = "'Segoe UI', sans-serif";
-          document.getElementById('fontSize').value = 40;
-          document.getElementById('fontSizeVal').textContent = '40px';
-          document.getElementById('textPosY').value = 75;
-          document.getElementById('textPosYVal').textContent = '75%';
-          document.getElementById('textColor').value = '#ffffff';
-          document.getElementById('textColorHex').value = '#ffffff';
-          document.getElementById('textShadowEnabled').checked = true;
-          renderLayers();
-          renderStops();
-          drawIcon();
-          pushHistory();
-        }
+        loadPreset('cosmic');
+        document.getElementById('borderEnabled').checked = false;
+        document.getElementById('textEnabled').checked = false;
+        document.getElementById('patternType').value = 'none';
+        document.getElementById('patternOpacity').value = 0.1; document.getElementById('patternOpacityVal').textContent = '10%';
+        document.getElementById('borderColorRow').style.display = 'none';
+        document.getElementById('borderWidthRow').style.display = 'none';
+        pushHistory();
       }
 
-      // Initial setup
-      pushHistory();
-      renderLayers();
-      renderStops();
+      document.querySelectorAll('.size-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.size-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          currentSize = parseInt(tab.dataset.size);
+          drawIcon();
+        });
+      });
+
+      function getFileName() {
+        return document.getElementById('exportFileName').value || 'icon';
+      }
+
+      function downloadPNG() {
+        drawIcon();
+        const a = document.createElement('a');
+        a.download = `${getFileName()}_${currentSize}px.png`;
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+      }
+      function downloadJPG() {
+        drawIcon();
+        const tmp = document.createElement('canvas');
+        tmp.width = currentSize; tmp.height = currentSize;
+        const tctx = tmp.getContext('2d');
+        tctx.fillStyle = stops[0]?.color || '#fff';
+        tctx.fillRect(0,0,currentSize,currentSize);
+        tctx.drawImage(canvas,0,0);
+        const a = document.createElement('a');
+        a.download = `${getFileName()}_${currentSize}px.jpg`;
+        a.href = tmp.toDataURL('image/jpeg',0.95);
+        a.click();
+      }
+      function downloadSVG() {
+        const svg = generateSVG();
+        const blob = new Blob([svg],{type:'image/svg+xml'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.download = `${getFileName()}_${currentSize}px.svg`;
+        a.href = url; a.click();
+        URL.revokeObjectURL(url);
+      }
+      function downloadICO() {
+        drawIcon();
+        const a = document.createElement('a');
+        a.download = `${getFileName()}_${currentSize}px.ico`;
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+      }
+
+      function generateSVG() {
+        const size = currentSize;
+        const shape = getVal('shapeSelect');
+        const roundness = getNum('roundness');
+        let shapeSvg = '';
+        if (shape==='circle') shapeSvg = `<circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="url(#grad)"/>`;
+        else if (shape==='square') shapeSvg = `<rect width="${size}" height="${size}" fill="url(#grad)"/>`;
+        else shapeSvg = `<rect width="${size}" height="${size}" rx="${size*roundness}" fill="url(#grad)"/>`;
+        const stopsSvg = stops.map(s => `<stop offset="${s.pos}%" stop-color="${s.color}"/>`).join('');
+        let layersSvg = '';
+        layers.forEach(layer => {
+          const offX = (layer.x/100)*(size/2), offY = (layer.y/100)*(size/2);
+          layersSvg += `<text x="${size/2+offX}" y="${size/2+offY}" text-anchor="middle" dominant-baseline="central" font-size="${size*layer.size}" transform="rotate(${layer.rotation} ${size/2+offX} ${size/2+offY})" opacity="${layer.opacity}">${layer.emoji}</text>`;
+        });
+        return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      ${stopsSvg}
+    </linearGradient>
+  </defs>
+  ${shapeSvg}
+  ${layersSvg}
+</svg>`;
+      }
+
+      const emojiPresets = ['🌙','☀️','⭐','🪐','💎','🔮','🌌','🔥','⚡','👁️','🌈','🎮','🎯','🧿','💜','🖤','🤍','💚'];
+      function initEmojiGrid() {
+        const grid = document.getElementById('emojiGrid');
+        emojiPresets.forEach(emoji => {
+          const btn = document.createElement('button');
+          btn.className = 'emoji-btn';
+          btn.textContent = emoji;
+          btn.onclick = () => {
+            if (layers[selectedLayerIndex]) {
+              layers[selectedLayerIndex].emoji = emoji;
+              renderLayers();
+              drawIcon();
+              pushHistory();
+            }
+          };
+          grid.appendChild(btn);
+        });
+      }
+
+      function toggleSection(header) {
+        header.parentElement.classList.toggle('collapsed');
+      }
+
       document.getElementById('undoBtn').addEventListener('click', undoAction);
       document.getElementById('redoBtn').addEventListener('click', redoAction);
+
+      window.addLayer = addLayer;
+      window.duplicateLayer = duplicateLayer;
+      window.removeLayer = removeLayer;
+      window.moveLayerUp = moveLayerUp;
+      window.moveLayerDown = moveLayerDown;
+      window.updateLayer = updateLayer;
+      window.addStop = addStop;
+      window.removeStop = removeStop;
+      window.updateStop = updateStop;
+      window.loadPreset = loadPreset;
+      window.resetAll = resetAll;
+      window.toggleSection = toggleSection;
+      window.downloadPNG = downloadPNG;
+      window.downloadJPG = downloadJPG;
+      window.downloadSVG = downloadSVG;
+      window.downloadICO = downloadICO;
+
+      initEmojiGrid();
+      renderLayers();
+      renderStops();
+      bindControls();
       drawIcon();
+      pushHistory();
     })();
   </script>
 </body>
