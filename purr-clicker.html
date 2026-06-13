@@ -12,7 +12,7 @@
 :root {
   --bg:#1a0e07;--wood:#3d2010;--wood2:#4e2a14;--panel:#2a1508;
   --border:#6b3d1e;--caramel:#c4844a;--cream:#f0c987;
-  --text:#fff3dc;--muted:#9a7050;--paw:#e8b87a;
+  --text:#fff3dc;--muted:#a0805a;--paw:#e8b87a;
   --pixel:'Press Start 2P',monospace;--body:'Nunito',sans-serif;
   --tab-h:64px;--hdr-h:52px;
 }
@@ -288,11 +288,13 @@ document.querySelectorAll('.tab-bar-btn').forEach(btn => {
     document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById(target).classList.add('active');
-    // clear badge when opening that tab
     if (target === 'tab-upgrades') document.getElementById('badge-upgrades').classList.remove('show');
     if (target === 'tab-helpers')  document.getElementById('badge-helpers').classList.remove('show');
   });
 });
+
+// ── Constants ──────────────────────
+const ANIM_TIMINGS={refresh:1040,bass:1680,amb:1800,arptiming:0.13,arpdur:0.18,arpdim:0.06,panelRefreshChance:0.02};
 
 // ── Unique user identity ──────────
 let userId = localStorage.getItem('purrUserId');
@@ -317,7 +319,7 @@ function hashStr(s){
 const rng=mulberry32(hashStr(userId));
 const FIRST=['Mochi','Biscuit','Walnut','Caramel','Toffee','Brownie','Hazel','Cocoa','Fudge','Truffle','Cinnamon','Maple','Mocha','Chestnut','Pecan'];
 const LAST=['Pawsworth','Barkley','Crumbleton','von Floof','McWhiskers','Tabbington','Nubbins','Clawsworth','Pouncington','Furball'];
-const TRAITS=['loves knocking things off shelves','judges you silently','always sits on the warmest spot','has a secret stash of bottle caps','zooms at 3am for no reason','biscuit-makes on everything','brings you dead spiders as gifts','ignores you unless food is involved','talks back in tiny meows','claims every cardboard box','stares into corners at nothing','has strong opinions about Mondays'];
+const TRAITS=['loves knocking things off shelves','judges you silently','always sits on the warmest spot','has a secret stash of bottle caps','zooms at 3am for no reason','biscuit-makes constantly','plots world domination','knows you\'re food shopping'];
 const catName=FIRST[Math.floor(rng()*FIRST.length)]+' '+LAST[Math.floor(rng()*LAST.length)];
 const catTrait=TRAITS[Math.floor(rng()*TRAITS.length)];
 const personalMult=1+rng()*0.15;
@@ -376,178 +378,83 @@ function totalCps(){return BUILDINGS.reduce((s,b)=>s+buildingCps(b),0);}
 const catCanvas=document.getElementById('catCanvas');
 const ctx=catCanvas.getContext('2d');
 ctx.imageSmoothingEnabled=false;
+let cachedCatData={};
 
 function drawCat(evoIdx,squish){
   const evo=EVOLUTIONS[evoIdx];
   const[body,belly,eyes,inner,shadow,outline]=evo.palette;
-  const BK='#111111'; // black outline
+  const BK='#111111';
   const S=8;
   ctx.clearRect(0,0,160,160);
   const oy=squish?3:0;
   function px(x,y,c){ctx.fillStyle=c;ctx.fillRect(x*S,oy+y*S,S,S);}
 
-  // ── SITTING (matches reference image exactly) ─────────────────────────────
   if(evo.pose==='sit'){
-    // Ears — black tip then inner colour
-    [[6,0,BK],[7,0,BK],[11,0,BK],[12,0,BK],
-     [5,1,BK],[6,1,BK],[7,1,BK],[11,1,BK],[12,1,BK],[13,1,BK],
-     [6,1,inner],[7,1,inner],[11,1,inner],[12,1,inner],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Head outline row 2
+    [[6,0,BK],[7,0,BK],[11,0,BK],[12,0,BK],[5,1,BK],[6,1,BK],[7,1,BK],[11,1,BK],[12,1,BK],[13,1,BK],[6,1,inner],[7,1,inner],[11,1,inner],[12,1,inner],].forEach(([x,y,c])=>px(x,y,c));
     [[4,2,BK],[5,2,body],[6,2,body],[7,2,body],[8,2,BK],[9,2,BK],[10,2,body],[11,2,body],[12,2,body],[13,2,body],[14,2,BK]].forEach(([x,y,c])=>px(x,y,c));
-    // Head row 3
     [[3,3,BK],[4,3,body],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,body],[11,3,body],[12,3,body],[13,3,body],[14,3,body],[15,3,BK]].forEach(([x,y,c])=>px(x,y,c));
-    // Head row 4 — eyes
     [[3,4,BK],[4,4,body],[5,4,BK],[6,4,BK],[7,4,body],[8,4,body],[9,4,body],[10,4,BK],[11,4,BK],[12,4,body],[13,4,body],[14,4,body],[15,4,BK]].forEach(([x,y,c])=>px(x,y,c));
-    // Eye fill
     [[5,4,eyes],[6,4,eyes],[10,4,eyes],[11,4,eyes]].forEach(([x,y,c])=>px(x,y,c));
-    // Eye shine
     ctx.fillStyle='#ffffff';ctx.fillRect(5*S+2,oy+4*S+1,3,3);ctx.fillRect(10*S+2,oy+4*S+1,3,3);
-    // Head row 5 — nose/muzzle
     [[3,5,BK],[4,5,body],[5,5,belly],[6,5,belly],[7,5,BK],[8,5,belly],[9,5,belly],[10,5,belly],[11,5,BK],[12,5,belly],[13,5,belly],[14,5,body],[15,5,BK]].forEach(([x,y,c])=>px(x,y,c));
-    // Nose dot
     px(7,5,BK);px(9,5,BK);px(8,5,'#e07080');
-    // Whiskers
     ctx.strokeStyle='rgba(255,255,255,0.7)';ctx.lineWidth=1;
     ctx.beginPath();ctx.moveTo(3*S,oy+5*S+2);ctx.lineTo(0,oy+5*S-2);ctx.stroke();
     ctx.beginPath();ctx.moveTo(3*S,oy+5*S+4);ctx.lineTo(0,oy+5*S+8);ctx.stroke();
     ctx.beginPath();ctx.moveTo(15*S,oy+5*S+2);ctx.lineTo(18*S,oy+5*S-2);ctx.stroke();
     ctx.beginPath();ctx.moveTo(15*S,oy+5*S+4);ctx.lineTo(18*S,oy+5*S+8);ctx.stroke();
-    // Chin row 6
     [[4,6,BK],[5,6,belly],[6,6,belly],[7,6,belly],[8,6,BK],[9,6,belly],[10,6,belly],[11,6,belly],[12,6,belly],[13,6,belly],[14,6,belly],[15,6,BK]].forEach(([x,y,c])=>px(x,y,c));
-    // Neck & chest top row 7
     [[4,7,BK],[5,7,body],[6,7,body],[7,7,BK],[8,7,belly],[9,7,belly],[10,7,belly],[11,7,belly],[12,7,BK],[13,7,body],[14,7,body],[15,7,BK]].forEach(([x,y,c])=>px(x,y,c));
-    // Body rows 8–11 with chest marking
-    [[3,8,BK],[4,8,body],[5,8,body],[6,8,BK],[7,8,belly],[8,8,belly],[9,8,belly],[10,8,belly],[11,8,belly],[12,8,BK],[13,8,body],[14,8,body],[15,8,body],[16,8,BK],
-     [3,9,BK],[4,9,body],[5,9,body],[6,9,BK],[7,9,belly],[8,9,belly],[9,9,belly],[10,9,belly],[11,9,belly],[12,9,BK],[13,9,body],[14,9,body],[15,9,body],[16,9,BK],
-     [3,10,BK],[4,10,body],[5,10,body],[6,10,body],[7,10,belly],[8,10,belly],[9,10,belly],[10,10,belly],[11,10,belly],[12,10,body],[13,10,body],[14,10,body],[15,10,body],[16,10,BK],
-     [3,11,BK],[4,11,body],[5,11,body],[6,11,body],[7,11,body],[8,11,belly],[9,11,belly],[10,11,belly],[11,11,body],[12,11,body],[13,11,body],[14,11,body],[15,11,body],[16,11,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Paws row 12-14 — wide chunky paws like reference
-    [[2,12,BK],[3,12,body],[4,12,body],[5,12,body],[6,12,BK],[7,12,BK],[8,12,body],[9,12,body],[10,12,body],[11,12,BK],[12,12,BK],[13,12,body],[14,12,body],[15,12,body],[16,12,BK],[17,12,BK],
-     [2,13,BK],[3,13,belly],[4,13,belly],[5,13,belly],[6,13,BK],[7,13,BK],[8,13,belly],[9,13,belly],[10,13,belly],[11,13,BK],[12,13,BK],[13,13,belly],[14,13,belly],[15,13,belly],[16,13,BK],[17,13,BK],
-     [2,14,BK],[3,14,BK],[4,14,belly],[5,14,BK],[6,14,BK],[8,14,BK],[9,14,belly],[10,14,BK],[11,14,BK],[13,14,BK],[14,14,belly],[15,14,BK],[16,14,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Toe dividers (black lines between toes matching ref)
+    [[3,8,BK],[4,8,body],[5,8,body],[6,8,BK],[7,8,belly],[8,8,belly],[9,8,belly],[10,8,belly],[11,8,belly],[12,8,BK],[13,8,body],[14,8,body],[15,8,body],[16,8,BK],[3,9,BK],[4,9,body],[5,9,body],[6,9,BK],[7,9,belly],[8,9,belly],[9,9,belly],[10,9,belly],[11,9,belly],[12,9,BK],[13,9,body],[14,9,body],[15,9,body],[16,9,BK],[3,10,BK],[4,10,body],[5,10,body],[6,10,body],[7,10,belly],[8,10,belly],[9,10,belly],[10,10,belly],[11,10,belly],[12,10,body],[13,10,body],[14,10,body],[15,10,body],[16,10,BK],[3,11,BK],[4,11,body],[5,11,body],[6,11,body],[7,11,body],[8,11,belly],[9,11,belly],[10,11,belly],[11,11,body],[12,11,body],[13,11,body],[14,11,body],[15,11,body],[16,11,BK],].forEach(([x,y,c])=>px(x,y,c));
+    [[2,12,BK],[3,12,body],[4,12,body],[5,12,body],[6,12,BK],[7,12,BK],[8,12,body],[9,12,body],[10,12,body],[11,12,BK],[12,12,BK],[13,12,body],[14,12,body],[15,12,body],[16,12,BK],[17,12,BK],[2,13,BK],[3,13,belly],[4,13,belly],[5,13,belly],[6,13,BK],[7,13,BK],[8,13,belly],[9,13,belly],[10,13,belly],[11,13,BK],[12,13,BK],[13,13,belly],[14,13,belly],[15,13,belly],[16,13,BK],[17,13,BK],[2,14,BK],[3,14,BK],[4,14,belly],[5,14,BK],[6,14,BK],[8,14,BK],[9,14,belly],[10,14,BK],[11,14,BK],[13,14,BK],[14,14,belly],[15,14,BK],[16,14,BK],].forEach(([x,y,c])=>px(x,y,c));
     px(4,14,BK);px(9,14,BK);px(14,14,BK);
-    // Tail peeking bottom-left like reference
     [[1,13,BK],[1,14,BK],[2,14,body],[2,15,BK],[3,15,body],[4,15,body],[5,15,BK]].forEach(([x,y,c])=>px(x,y,c));
-    // Shadow
     for(let x=2;x<=17;x++) px(x,15,shadow);
-
-  // ── LOAF (compact bread-loaf shape, front view) ─────────────────────────
   } else if(evo.pose==='loaf'){
-    // Ears
-    [[6,1,BK],[7,1,BK],[11,1,BK],[12,1,BK],
-     [5,2,BK],[6,2,BK],[7,2,BK],[11,2,BK],[12,2,BK],[13,2,BK],
-     [6,2,inner],[7,2,inner],[11,2,inner],[12,2,inner],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Head
-    [[4,3,BK],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,body],[11,3,body],[12,3,body],[13,3,body],[14,3,BK],
-     [3,4,BK],[4,4,body],[5,4,body],[6,4,body],[7,4,body],[8,4,body],[9,4,body],[10,4,body],[11,4,body],[12,4,body],[13,4,body],[14,4,body],[15,4,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Sleepy half-eyes (horizontal lines)
+    [[6,1,BK],[7,1,BK],[11,1,BK],[12,1,BK],[5,2,BK],[6,2,BK],[7,2,BK],[11,2,BK],[12,2,BK],[13,2,BK],[6,2,inner],[7,2,inner],[11,2,inner],[12,2,inner],].forEach(([x,y,c])=>px(x,y,c));
+    [[4,3,BK],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,body],[11,3,body],[12,3,body],[13,3,body],[14,3,BK],[3,4,BK],[4,4,body],[5,4,body],[6,4,body],[7,4,body],[8,4,body],[9,4,body],[10,4,body],[11,4,body],[12,4,body],[13,4,body],[14,4,body],[15,4,BK],].forEach(([x,y,c])=>px(x,y,c));
     [[5,4,BK],[6,4,BK],[10,4,BK],[11,4,BK]].forEach(([x,y,c])=>px(x,y,c));
     [[5,4,eyes],[6,4,eyes],[10,4,eyes],[11,4,eyes]].forEach(([x,y,c])=>px(x,y,c));
-    ctx.fillStyle=BK;ctx.fillRect(5*S,oy+4*S,2*S,3); // sleepy eyelid stripe
-    ctx.fillRect(10*S,oy+4*S,2*S,3);
-    // Muzzle row 5
+    ctx.fillStyle=BK;ctx.fillRect(5*S,oy+4*S,2*S,3);ctx.fillRect(10*S,oy+4*S,2*S,3);
     [[3,5,BK],[4,5,body],[5,5,belly],[6,5,belly],[7,5,BK],[8,5,belly],[9,5,belly],[10,5,belly],[11,5,BK],[12,5,belly],[13,5,belly],[14,5,body],[15,5,BK]].forEach(([x,y,c])=>px(x,y,c));
     px(8,5,'#e07080');
     ctx.strokeStyle='rgba(255,255,255,0.7)';ctx.lineWidth=1;
     ctx.beginPath();ctx.moveTo(4*S,oy+5*S+4);ctx.lineTo(S,oy+5*S);ctx.stroke();
     ctx.beginPath();ctx.moveTo(14*S,oy+5*S+4);ctx.lineTo(17*S,oy+5*S);ctx.stroke();
-    // Wide loaf body rows 6-11
-    [[3,6,BK],[4,6,body],[5,6,body],[6,6,body],[7,6,BK],[8,6,belly],[9,6,belly],[10,6,belly],[11,6,BK],[12,6,body],[13,6,body],[14,6,body],[15,6,BK],
-     [2,7,BK],[3,7,body],[4,7,body],[5,7,body],[6,7,body],[7,7,body],[8,7,belly],[9,7,belly],[10,7,belly],[11,7,body],[12,7,body],[13,7,body],[14,7,body],[15,7,body],[16,7,BK],
-     [2,8,BK],[3,8,body],[4,8,body],[5,8,body],[6,8,body],[7,8,body],[8,8,belly],[9,8,belly],[10,8,belly],[11,8,body],[12,8,body],[13,8,body],[14,8,body],[15,8,body],[16,8,BK],
-     [2,9,BK],[3,9,body],[4,9,body],[5,9,body],[6,9,body],[7,9,body],[8,9,body],[9,9,body],[10,9,body],[11,9,body],[12,9,body],[13,9,body],[14,9,body],[15,9,body],[16,9,BK],
-     [2,10,BK],[3,10,body],[4,10,body],[5,10,body],[6,10,body],[7,10,body],[8,10,body],[9,10,body],[10,10,body],[11,10,body],[12,10,body],[13,10,body],[14,10,body],[15,10,body],[16,10,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Tucked paws row 11-13
-    [[2,11,BK],[3,11,BK],[4,11,belly],[5,11,belly],[6,11,BK],[7,11,BK],[8,11,body],[9,11,body],[10,11,BK],[11,11,BK],[12,11,belly],[13,11,belly],[14,11,BK],[15,11,BK],[16,11,BK],
-     [3,12,BK],[4,12,belly],[5,12,belly],[6,12,BK],[10,12,BK],[11,12,belly],[12,12,belly],[13,12,BK],
-     [3,13,BK],[4,13,BK],[5,13,BK],[11,13,BK],[12,13,BK],[13,13,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Tail tip right side
+    [[3,6,BK],[4,6,body],[5,6,body],[6,6,body],[7,6,BK],[8,6,belly],[9,6,belly],[10,6,belly],[11,6,BK],[12,6,body],[13,6,body],[14,6,body],[15,6,BK],[2,7,BK],[3,7,body],[4,7,body],[5,7,body],[6,7,body],[7,7,body],[8,7,belly],[9,7,belly],[10,7,belly],[11,7,body],[12,7,body],[13,7,body],[14,7,body],[15,7,body],[16,7,BK],[2,8,BK],[3,8,body],[4,8,body],[5,8,body],[6,8,body],[7,8,body],[8,8,belly],[9,8,belly],[10,8,belly],[11,8,body],[12,8,body],[13,8,body],[14,8,body],[15,8,body],[16,8,BK],[2,9,BK],[3,9,body],[4,9,body],[5,9,body],[6,9,body],[7,9,body],[8,9,body],[9,9,body],[10,9,body],[11,9,body],[12,9,body],[13,9,body],[14,9,body],[15,9,body],[16,9,BK],[2,10,BK],[3,10,body],[4,10,body],[5,10,body],[6,10,body],[7,10,body],[8,10,body],[9,10,body],[10,10,body],[11,10,body],[12,10,body],[13,10,body],[14,10,body],[15,10,body],[16,10,BK],].forEach(([x,y,c])=>px(x,y,c));
+    [[2,11,BK],[3,11,BK],[4,11,belly],[5,11,belly],[6,11,BK],[7,11,BK],[8,11,body],[9,11,body],[10,11,BK],[11,11,BK],[12,11,belly],[13,11,belly],[14,11,BK],[15,11,BK],[16,11,BK],[3,12,BK],[4,12,belly],[5,12,belly],[6,12,BK],[10,12,BK],[11,12,belly],[12,12,belly],[13,12,BK],[3,13,BK],[4,13,BK],[5,13,BK],[11,13,BK],[12,13,BK],[13,13,BK],].forEach(([x,y,c])=>px(x,y,c));
     [[16,9,BK],[17,9,body],[17,10,body],[16,10,BK],[16,11,belly],[17,11,BK]].forEach(([x,y,c])=>px(x,y,c));
     for(let x=3;x<=15;x++) px(x,13,shadow);
-
-  // ── WALK (side view, tail up) ────────────────────────────────────────────
   } else if(evo.pose==='walk'){
-    // Tail arched up-right
     [[15,1,BK],[16,1,BK],[16,2,body],[17,2,BK],[17,3,body],[17,4,BK],[16,4,body],[16,5,BK],[15,5,body],[15,6,BK]].forEach(([x,y,c])=>px(x,y,c));
     px(16,1,body);px(17,2,body);
-    // Ear
     [[5,1,BK],[6,1,BK],[6,2,BK],[7,2,BK],[6,2,inner]].forEach(([x,y,c])=>px(x,y,c));
-    // Head side-view
-    [[4,2,BK],[5,2,body],[6,2,body],[7,2,body],[8,2,body],[9,2,BK],
-     [3,3,BK],[4,3,body],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,BK],
-     [3,4,BK],[4,4,body],[5,4,body],[6,4,body],[7,4,body],[8,4,body],[9,4,body],[10,4,BK],
-     [3,5,BK],[4,5,belly],[5,5,belly],[6,5,BK],[7,5,belly],[8,5,belly],[9,5,body],[10,5,BK],
-     [4,6,BK],[5,6,belly],[6,6,belly],[7,6,belly],[8,6,belly],[9,6,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Side eye
+    [[4,2,BK],[5,2,body],[6,2,body],[7,2,body],[8,2,body],[9,2,BK],[3,3,BK],[4,3,body],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,BK],[3,4,BK],[4,4,body],[5,4,body],[6,4,body],[7,4,body],[8,4,body],[9,4,body],[10,4,BK],[3,5,BK],[4,5,belly],[5,5,belly],[6,5,BK],[7,5,belly],[8,5,belly],[9,5,body],[10,5,BK],[4,6,BK],[5,6,belly],[6,6,belly],[7,6,belly],[8,6,belly],[9,6,BK],].forEach(([x,y,c])=>px(x,y,c));
     px(6,3,eyes);px(7,3,eyes);
-    ctx.fillStyle=BK;ctx.fillRect(6*S+3,oy+3*S+1,3,6);// pupil slit
-    ctx.fillStyle='#fff';ctx.fillRect(6*S+1,oy+3*S+1,3,3);
-    // Nose
+    ctx.fillStyle=BK;ctx.fillRect(6*S+3,oy+3*S+1,3,6);ctx.fillStyle='#fff';ctx.fillRect(6*S+1,oy+3*S+1,3,3);
     px(3,5,BK);px(4,5,'#e07080');
     ctx.strokeStyle='rgba(255,255,255,0.65)';ctx.lineWidth=1;
     ctx.beginPath();ctx.moveTo(3*S,oy+5*S);ctx.lineTo(0,oy+4*S+4);ctx.stroke();
     ctx.beginPath();ctx.moveTo(3*S,oy+5*S+4);ctx.lineTo(0,oy+5*S+6);ctx.stroke();
-    // Body
-    [[3,7,BK],[4,7,body],[5,7,body],[6,7,body],[7,7,body],[8,7,body],[9,7,body],[10,7,body],[11,7,body],[12,7,body],[13,7,body],[14,7,BK],
-     [2,8,BK],[3,8,body],[4,8,body],[5,8,body],[6,8,belly],[7,8,belly],[8,8,belly],[9,8,belly],[10,8,belly],[11,8,body],[12,8,body],[13,8,body],[14,8,BK],
-     [2,9,BK],[3,9,body],[4,9,body],[5,9,body],[6,9,belly],[7,9,belly],[8,9,belly],[9,9,belly],[10,9,belly],[11,9,body],[12,9,body],[13,9,body],[14,9,BK],
-     [3,10,BK],[4,10,body],[5,10,body],[6,10,body],[7,10,body],[8,10,body],[9,10,body],[10,10,body],[11,10,body],[12,10,body],[13,10,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // 4 Legs in stride (2 visible per side)
-    [[3,11,BK],[4,11,body],[5,11,BK],[8,11,BK],[9,11,body],[10,11,BK],
-     [3,12,BK],[4,12,body],[5,12,BK],[8,12,BK],[9,12,body],[10,12,BK],
-     [3,13,BK],[4,13,belly],[5,13,BK],[8,13,BK],[9,13,belly],[10,13,BK],
-     [3,14,BK],[4,14,BK],[5,14,BK],[7,14,BK],[8,14,BK],[9,14,BK],[10,14,BK],[11,14,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Toe bumps on paws
+    [[3,7,BK],[4,7,body],[5,7,body],[6,7,body],[7,7,body],[8,7,body],[9,7,body],[10,7,body],[11,7,body],[12,7,body],[13,7,body],[14,7,BK],[2,8,BK],[3,8,body],[4,8,body],[5,8,body],[6,8,belly],[7,8,belly],[8,8,belly],[9,8,belly],[10,8,belly],[11,8,body],[12,8,body],[13,8,body],[14,8,BK],[2,9,BK],[3,9,body],[4,9,body],[5,9,body],[6,9,belly],[7,9,belly],[8,9,belly],[9,9,belly],[10,9,belly],[11,9,body],[12,9,body],[13,9,body],[14,9,BK],[3,10,BK],[4,10,body],[5,10,body],[6,10,body],[7,10,body],[8,10,body],[9,10,body],[10,10,body],[11,10,body],[12,10,body],[13,10,BK],].forEach(([x,y,c])=>px(x,y,c));
+    [[3,11,BK],[4,11,body],[5,11,BK],[8,11,BK],[9,11,body],[10,11,BK],[3,12,BK],[4,12,body],[5,12,BK],[8,12,BK],[9,12,body],[10,12,BK],[3,13,BK],[4,13,belly],[5,13,BK],[8,13,BK],[9,13,belly],[10,13,BK],[3,14,BK],[4,14,BK],[5,14,BK],[7,14,BK],[8,14,BK],[9,14,BK],[10,14,BK],[11,14,BK],].forEach(([x,y,c])=>px(x,y,c));
     px(4,14,belly);px(9,14,belly);
     for(let x=3;x<=13;x++) px(x,15,shadow);
-
-  // ── CROUCH (low stalk, alert ears back) ─────────────────────────────────
   } else if(evo.pose==='crouch'){
-    // Ears flat/alert
-    [[4,1,BK],[5,1,BK],[10,1,BK],[11,1,BK],
-     [3,2,BK],[4,2,BK],[5,2,BK],[10,2,BK],[11,2,BK],[12,2,BK],
-     [4,2,inner],[5,2,inner],[10,2,inner],[11,2,inner],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Head stretched low
-    [[2,3,BK],[3,3,body],[4,3,body],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,body],[11,3,body],[12,3,body],[13,3,BK],
-     [2,4,BK],[3,4,body],[4,4,BK],[5,4,BK],[6,4,body],[7,4,body],[8,4,BK],[9,4,BK],[10,4,body],[11,4,body],[12,4,body],[13,4,BK],
-     [2,5,BK],[3,5,body],[4,5,belly],[5,5,belly],[6,5,BK],[7,5,belly],[8,5,belly],[9,5,BK],[10,5,belly],[11,5,belly],[12,5,body],[13,5,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Narrow alert eyes (slit pupils)
+    [[4,1,BK],[5,1,BK],[10,1,BK],[11,1,BK],[3,2,BK],[4,2,BK],[5,2,BK],[10,2,BK],[11,2,BK],[12,2,BK],[4,2,inner],[5,2,inner],[10,2,inner],[11,2,inner],].forEach(([x,y,c])=>px(x,y,c));
+    [[2,3,BK],[3,3,body],[4,3,body],[5,3,body],[6,3,body],[7,3,body],[8,3,body],[9,3,body],[10,3,body],[11,3,body],[12,3,body],[13,3,BK],[2,4,BK],[3,4,body],[4,4,BK],[5,4,BK],[6,4,body],[7,4,body],[8,4,BK],[9,4,BK],[10,4,body],[11,4,body],[12,4,body],[13,4,BK],[2,5,BK],[3,5,body],[4,5,belly],[5,5,belly],[6,5,BK],[7,5,belly],[8,5,belly],[9,5,BK],[10,5,belly],[11,5,belly],[12,5,body],[13,5,BK],].forEach(([x,y,c])=>px(x,y,c));
     [[4,4,eyes],[5,4,eyes],[8,4,eyes],[9,4,eyes]].forEach(([x,y,c])=>px(x,y,c));
     ctx.fillStyle=BK;ctx.fillRect(4*S+3,oy+4*S,2,S);ctx.fillRect(8*S+3,oy+4*S,2,S);
     ctx.fillStyle='#fff';ctx.fillRect(4*S+1,oy+4*S+1,3,3);ctx.fillRect(8*S+1,oy+4*S+1,3,3);
-    // Nose
     px(6,5,BK);px(7,5,'#e07080');
     ctx.strokeStyle='rgba(255,255,255,0.65)';ctx.lineWidth=1;
     ctx.beginPath();ctx.moveTo(2*S,oy+5*S+2);ctx.lineTo(0,oy+5*S);ctx.stroke();
     ctx.beginPath();ctx.moveTo(2*S,oy+5*S+5);ctx.lineTo(0,oy+5*S+8);ctx.stroke();
     ctx.beginPath();ctx.moveTo(13*S,oy+5*S+2);ctx.lineTo(15*S,oy+5*S);ctx.stroke();
     ctx.beginPath();ctx.moveTo(13*S,oy+5*S+5);ctx.lineTo(15*S,oy+5*S+8);ctx.stroke();
-    // Chin
     [[3,6,BK],[4,6,belly],[5,6,belly],[6,6,belly],[7,6,BK],[8,6,belly],[9,6,belly],[10,6,belly],[11,6,belly],[12,6,belly],[13,6,BK]].forEach(([x,y,c])=>px(x,y,c));
-    // Long flat body
-    [[2,7,BK],[3,7,body],[4,7,body],[5,7,BK],[6,7,belly],[7,7,belly],[8,7,belly],[9,7,belly],[10,7,belly],[11,7,BK],[12,7,body],[13,7,body],[14,7,body],[15,7,BK],
-     [1,8,BK],[2,8,body],[3,8,body],[4,8,body],[5,8,body],[6,8,belly],[7,8,belly],[8,8,belly],[9,8,belly],[10,8,body],[11,8,body],[12,8,body],[13,8,body],[14,8,body],[15,8,BK],
-     [1,9,BK],[2,9,body],[3,9,body],[4,9,body],[5,9,body],[6,9,body],[7,9,body],[8,9,body],[9,9,body],[10,9,body],[11,9,body],[12,9,body],[13,9,body],[14,9,body],[15,9,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Legs low + coiled paws
-    [[2,10,BK],[3,10,body],[4,10,BK],[11,10,BK],[12,10,body],[13,10,BK],
-     [2,11,BK],[3,11,belly],[4,11,BK],[11,11,BK],[12,11,belly],[13,11,BK],
-     [2,12,BK],[3,12,BK],[4,12,BK],[11,12,BK],[12,12,BK],[13,12,BK],
-    ].forEach(([x,y,c])=>px(x,y,c));
-    // Sweeping tail low
+    [[2,7,BK],[3,7,body],[4,7,body],[5,7,BK],[6,7,belly],[7,7,belly],[8,7,belly],[9,7,belly],[10,7,belly],[11,7,BK],[12,7,body],[13,7,body],[14,7,body],[15,7,BK],[1,8,BK],[2,8,body],[3,8,body],[4,8,body],[5,8,body],[6,8,belly],[7,8,belly],[8,8,belly],[9,8,belly],[10,8,body],[11,8,body],[12,8,body],[13,8,body],[14,8,body],[15,8,BK],[1,9,BK],[2,9,body],[3,9,body],[4,9,body],[5,9,body],[6,9,body],[7,9,body],[8,9,body],[9,9,body],[10,9,body],[11,9,body],[12,9,body],[13,9,body],[14,9,body],[15,9,BK],].forEach(([x,y,c])=>px(x,y,c));
+    [[2,10,BK],[3,10,body],[4,10,BK],[11,10,BK],[12,10,body],[13,10,BK],[2,11,BK],[3,11,belly],[4,11,BK],[11,11,BK],[12,11,belly],[13,11,BK],[2,12,BK],[3,12,BK],[4,12,BK],[11,12,BK],[12,12,BK],[13,12,BK],].forEach(([x,y,c])=>px(x,y,c));
     [[0,9,BK],[0,10,BK],[1,10,body],[1,11,body],[1,12,BK],[2,12,body],[3,12,belly],[4,12,BK]].forEach(([x,y,c])=>px(x,y,c));
     for(let x=1;x<=14;x++) px(x,12,shadow);
   }
@@ -572,14 +479,14 @@ function note(freq,start,dur,vol,type='square'){
   gain.gain.linearRampToValueAtTime(vol,start+0.01);
   gain.gain.exponentialRampToValueAtTime(0.001,start+dur);
   osc.start(start);osc.stop(start+dur+0.05);
-  musicNodes.push(osc);
+  musicNodes.push({osc,gain});
 }
 function playArp(){
   if(!audioCtx||!musicOn)return;
   const sc=getScale(),now=audioCtx.currentTime;
   [0,2,4,7,4,2,0,4].forEach((si,i)=>{
-    note(sc[si%sc.length],now+i*0.13,0.18,0.06,'square');
-    if(i%3===0)note(sc[(si+2)%sc.length],now+i*0.13,0.18,0.025,'triangle');
+    note(sc[si%sc.length],now+i*ANIM_TIMINGS.arptiming,ANIM_TIMINGS.arpdur,ANIM_TIMINGS.arpdim,'square');
+    if(i%3===0)note(sc[(si+2)%sc.length],now+i*ANIM_TIMINGS.arptiming,ANIM_TIMINGS.arpdur,0.025,'triangle');
   });
 }
 function playBass(){
@@ -596,16 +503,16 @@ function startMusic(){
   if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
   if(audioCtx.state==='suspended')audioCtx.resume();
   musicOn=true;
-  arpInterval=setInterval(playArp,1040);
-  bassInterval=setInterval(playBass,1680);
-  ambInterval=setInterval(playAmbience,1800);
+  arpInterval=setInterval(playArp,ANIM_TIMINGS.refresh);
+  bassInterval=setInterval(playBass,ANIM_TIMINGS.bass);
+  ambInterval=setInterval(playAmbience,ANIM_TIMINGS.amb);
   playArp();playBass();playAmbience();
   document.getElementById('btnMusic').textContent='🔇';
 }
 function stopMusic(){
   musicOn=false;
   clearInterval(arpInterval);clearInterval(bassInterval);clearInterval(ambInterval);
-  musicNodes.forEach(n=>{try{n.stop();}catch(e){}});
+  musicNodes.forEach(n=>{try{n.osc.stop();n.osc.disconnect();n.gain.disconnect();}catch(e){}});
   musicNodes=[];
   document.getElementById('btnMusic').textContent='🎵';
 }
@@ -639,11 +546,12 @@ function buildBuildingPanel(){
     const btn=document.createElement('button');
     btn.className='upg-btn'+(G.purrs>=cost?' affordable':'');
     btn.id='bld_'+b.id;
-    btn.innerHTML=`<div class="upg-icon">${b.icon}</div><div><div class="upg-name">${b.name}</div><div class="upg-desc">${b.desc}</div><div class="upg-cost">${fmtNum(cost)} purrs</div>${cps>0?`<div class="upg-cost" style="color:#9ab;font-size:.35rem">${fmtNum(cps,1)}/s</div>`:''}</div><span class="upg-owned">${owned>0?owned:''}</span>`;
+    btn.innerHTML=`<div class="upg-icon">${b.icon}</div><div><div class="upg-name">${b.name}</div><div class="upg-desc">${b.desc}</div><div class="upg-cost">${fmtNum(cost)} purrs</div>${cps>0?`<div class="upg-cps">${fmtNum(cps,1)}/s</div>`:''}</div><div class="upg-owned">${owned>0?owned:''}</div>`;
     btn.onclick=()=>buyBuilding(b);
     list.appendChild(btn);
   });
 }
+let lastAffordableState={upgrades:false,helpers:false};
 function refreshPanels(){
   BUILDINGS.forEach(b=>{
     const btn=document.getElementById('bld_'+b.id);if(!btn)return;
@@ -651,21 +559,26 @@ function refreshPanels(){
     btn.className='upg-btn'+(G.purrs>=cost?' affordable':'');
     btn.querySelector('.upg-cost').textContent=fmtNum(cost)+' purrs';
     btn.querySelector('.upg-owned').textContent=owned>0?owned:'';
-    const cpsEl=btn.querySelector('.upg-cost + div');
-    if(cpsEl&&cps>0)cpsEl.textContent=fmtNum(cps,1)+'/s';
+    const cpsEl=btn.querySelector('.upg-cps');
+    if(cpsEl)cpsEl.textContent=fmtNum(cps,1)+'/s';
   });
   ONCE_UPGRADES.forEach(u=>{
     const btn=document.getElementById('once_'+u.id);
     if(!btn||G.owned[u.id])return;
     btn.className='once-btn'+(G.purrs>=u.cost?' affordable':'');
   });
-  // Update badges
   const canBuyUpgrade=ONCE_UPGRADES.some(u=>!G.owned[u.id]&&G.purrs>=u.cost);
   const canBuyHelper=BUILDINGS.some(b=>G.purrs>=buildingCost(b));
-  document.getElementById('badge-upgrades').classList.toggle('show',canBuyUpgrade);
-  document.getElementById('badge-upgrades').textContent=canBuyUpgrade?'!':'';
-  document.getElementById('badge-helpers').classList.toggle('show',canBuyHelper);
-  document.getElementById('badge-helpers').textContent=canBuyHelper?'!':'';
+  if(canBuyUpgrade!==lastAffordableState.upgrades){
+    lastAffordableState.upgrades=canBuyUpgrade;
+    document.getElementById('badge-upgrades').classList.toggle('show',canBuyUpgrade);
+    document.getElementById('badge-upgrades').textContent=canBuyUpgrade?'!':'';
+  }
+  if(canBuyHelper!==lastAffordableState.helpers){
+    lastAffordableState.helpers=canBuyHelper;
+    document.getElementById('badge-helpers').classList.toggle('show',canBuyHelper);
+    document.getElementById('badge-helpers').textContent=canBuyHelper?'!':'';
+  }
 }
 
 // ── Buy ───────────────────────────
@@ -737,7 +650,7 @@ setInterval(()=>{
   const earned=G.cps*dt;
   if(earned>0){G.purrs+=earned;G.totalPurrs+=earned;checkEvolution();}
   updateUI();
-  if(Math.random()<0.05)refreshPanels();
+  if(Math.random()<ANIM_TIMINGS.panelRefreshChance)refreshPanels();
 },100);
 setInterval(()=>save(),10000);
 
