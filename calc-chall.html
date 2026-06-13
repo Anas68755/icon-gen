@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>🔥 Math Challenge · 5 Lives · Global Leaderboard 🔥</title>
+  <title>🔥 Math Challenge · 5 Lives · Optional Cloud Leaderboard 🔥</title>
   <style>
     * {
       box-sizing: border-box;
@@ -391,7 +391,7 @@
   <div class="leaderboard-section">
     <div class="leaderboard-title">🏆 Global Leaderboard</div>
     <div class="leaderboard-list" id="leaderboardList">
-      <div class="leaderboard-item">✨ Loading scores... ✨</div>
+      <div class="leaderboard-item">✨ Loading... ✨</div>
     </div>
   </div>
 </div>
@@ -423,7 +423,7 @@
   const leaderboardDiv = document.getElementById('leaderboardList');
 
   // ------------------------------
-  //  Global Leaderboard Functions
+  //  Global Leaderboard Functions (non‑blocking)
   // ------------------------------
   async function fetchLeaderboard() {
     try {
@@ -435,12 +435,12 @@
       
       if (error) {
         console.error('Supabase fetch error:', error);
-        leaderboardDiv.innerHTML = '<div class="leaderboard-item">⚠️ Failed to load leaderboard</div>';
+        leaderboardDiv.innerHTML = '<div class="leaderboard-item">⚠️ Leaderboard offline</div>';
         return;
       }
       
       if (!data || data.length === 0) {
-        leaderboardDiv.innerHTML = '<div class="leaderboard-item">✨ No scores yet. Be the first! ✨</div>';
+        leaderboardDiv.innerHTML = '<div class="leaderboard-item">✨ No scores yet ✨</div>';
         return;
       }
       
@@ -455,7 +455,7 @@
       leaderboardDiv.innerHTML = html;
     } catch (err) {
       console.error('Leaderboard fetch exception:', err);
-      leaderboardDiv.innerHTML = '<div class="leaderboard-item">⚠️ Error loading leaderboard</div>';
+      leaderboardDiv.innerHTML = '<div class="leaderboard-item">⚠️ Leaderboard error</div>';
     }
   }
 
@@ -485,7 +485,9 @@
     });
   }
 
-  // Local highest score (from current session or global best)
+  // ------------------------------
+  //  Local high score (session best)
+  // ------------------------------
   let localHighScore = 0;
   function updateHighScoreDisplay() {
     highScoreSpan.innerText = localHighScore;
@@ -594,7 +596,7 @@
       <div class="game-over-text">💀 GAME OVER 💀</div>
       <div class="final-score">⭐ Your score: ${score} | Level: ${level}</div>
       <input type="text" id="playerNameInput" class="name-input" placeholder="Enter your name" maxlength="15">
-      <button id="saveScoreBtn" class="save-btn">💾 Save Score</button>
+      <button id="saveScoreBtn" class="save-btn">💾 Save Score (Global)</button>
       <button id="overlayRestartBtn" class="restart-overlay-btn">🔥 Play Again 🔥</button>
     `;
     container.style.position = 'relative';
@@ -611,19 +613,15 @@
       saveBtn.innerText = "Saving...";
       const success = await saveScoreToLeaderboard(playerName, score);
       if (success) {
-        messageDiv.innerText = "✓ Score saved! Refreshing leaderboard...";
-        await fetchLeaderboard();
-        if (score > localHighScore) {
-          localHighScore = score;
-          updateHighScoreDisplay();
-        }
+        messageDiv.innerText = "✓ Score saved globally! Refreshing leaderboard...";
+        await fetchLeaderboard(); // refresh without blocking game restart
         saveBtn.innerText = "✓ Saved!";
       } else {
-        messageDiv.innerText = "⚠️ Failed to save. Check console.";
+        messageDiv.innerText = "⚠️ Failed to save (offline or error). Score saved locally only.";
         saveBtn.innerText = "💾 Save Score";
       }
       setTimeout(() => {
-        if (saveBtn.innerText === "✓ Saved!") saveBtn.innerText = "💾 Save Score";
+        if (saveBtn.innerText === "✓ Saved!") saveBtn.innerText = "💾 Save Score (Global)";
       }, 2000);
     });
     
@@ -654,6 +652,7 @@
       setTimeout(() => container.style.borderColor = "#ff5e3a", 300);
     }
     updateUI();
+    // Update local high score if needed
     if (score > localHighScore) {
       localHighScore = score;
       updateHighScoreDisplay();
@@ -834,27 +833,16 @@
   }
 
   // ------------------------------
-  //  Initialization: create table if not exists and load leaderboard
+  //  Initialization (non‑blocking)
   // ------------------------------
   async function init() {
     initButtons();
     fullReset();
-    
-    // Try to ensure the table exists by running SQL (but that requires service role key, so we just handle errors)
-    // Instead, we just fetch leaderboard and also get the highest global score.
-    await fetchLeaderboard();
-    // Fetch highest global score for "HIGHEST" display
-    try {
-      const { data } = await supabase
-        .from('leaderboard')
-        .select('score')
-        .order('score', { ascending: false })
-        .limit(1);
-      if (data && data.length > 0) {
-        localHighScore = data[0].score;
-        updateHighScoreDisplay();
-      }
-    } catch(e) { console.warn(e); }
+    // Load leaderboard in the background, never block the game
+    fetchLeaderboard().catch(e => console.warn(e));
+    // Reset local high score to 0 (player will set during session)
+    localHighScore = 0;
+    updateHighScoreDisplay();
   }
 
   init();
