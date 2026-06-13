@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>🔥 Math Challenge · 5 Lives · Optional Cloud Leaderboard 🔥</title>
+  <title>🔥 Math Challenge · 5 Lives 🔥</title>
   <style>
     * {
       box-sizing: border-box;
@@ -336,7 +336,6 @@
       .leaderboard-item { font-size: 0.75rem; }
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div class="game-container" id="gameContainer">
@@ -389,463 +388,412 @@
   </div>
 
   <div class="leaderboard-section">
-    <div class="leaderboard-title">🏆 Global Leaderboard</div>
+    <div class="leaderboard-title">🏆 Leaderboard</div>
     <div class="leaderboard-list" id="leaderboardList">
-      <div class="leaderboard-item">✨ Loading... ✨</div>
+      <div class="leaderboard-item">✨ Loading scores... ✨</div>
     </div>
   </div>
 </div>
 
 <script>
-  // ------------------------------
-  //  SUPABASE CONFIGURATION (YOUR CREDENTIALS)
-  // ------------------------------
-  const SUPABASE_URL = 'https://pppywminicwjbvshxiwq.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwcHl3bWluaWN3amJ2c2h4aXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNDM0NzQsImV4cCI6MjA5NjkxOTQ3NH0.k9k2rdEflD_3LHgeXtGy9rioIG5sRIqlK-x1hBfE0rU';
-  
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  (function(){
+    // DOM elements
+    const container = document.getElementById('gameContainer');
+    const livesArea = document.getElementById('livesArea');
+    const questionEl = document.getElementById('questionText');
+    const scoreSpan = document.getElementById('score');
+    const levelSpan = document.getElementById('level');
+    const correctSpan = document.getElementById('correctCount');
+    const highScoreSpan = document.getElementById('highScore');
+    const calcDisplay = document.getElementById('calcDisplay');
+    const messageDiv = document.getElementById('messageArea');
+    const timerFill = document.getElementById('timerFill');
+    const timerTextSpan = document.getElementById('timerText');
+    const comboDisplay = document.getElementById('comboDisplay');
+    const leaderboardDiv = document.getElementById('leaderboardList');
 
-  // ------------------------------
-  //  DOM Elements
-  // ------------------------------
-  const container = document.getElementById('gameContainer');
-  const livesArea = document.getElementById('livesArea');
-  const questionEl = document.getElementById('questionText');
-  const scoreSpan = document.getElementById('score');
-  const levelSpan = document.getElementById('level');
-  const correctSpan = document.getElementById('correctCount');
-  const highScoreSpan = document.getElementById('highScore');
-  const calcDisplay = document.getElementById('calcDisplay');
-  const messageDiv = document.getElementById('messageArea');
-  const timerFill = document.getElementById('timerFill');
-  const timerTextSpan = document.getElementById('timerText');
-  const comboDisplay = document.getElementById('comboDisplay');
-  const leaderboardDiv = document.getElementById('leaderboardList');
-
-  // ------------------------------
-  //  Global Leaderboard Functions (non‑blocking)
-  // ------------------------------
-  async function fetchLeaderboard() {
-    try {
-      const { data, error } = await supabase
-        .from('leaderboard')
-        .select('player, score')
-        .order('score', { ascending: false })
-        .limit(10);
-      
-      if (error) {
-        console.error('Supabase fetch error:', error);
-        leaderboardDiv.innerHTML = '<div class="leaderboard-item">⚠️ Leaderboard offline</div>';
-        return;
-      }
-      
-      if (!data || data.length === 0) {
+    // ---------- Leaderboard Management ----------
+    let highScores = [];
+    function loadScores() {
+      try {
+        let stored = localStorage.getItem('mathHighScores');
+        if (stored) highScores = JSON.parse(stored);
+        else highScores = [];
+      } catch(e) { highScores = []; }
+      highScores.sort((a,b) => b.score - a.score);
+      updateLeaderboardDisplay();
+    }
+    function saveScores() {
+      localStorage.setItem('mathHighScores', JSON.stringify(highScores.slice(0,10)));
+    }
+    function addScore(name, scoreValue) {
+      if (!name.trim()) name = "Mystery Adventurer";
+      highScores.push({ name: name.trim(), score: scoreValue });
+      highScores.sort((a,b) => b.score - a.score);
+      if (highScores.length > 10) highScores.pop();
+      saveScores();
+      updateLeaderboardDisplay();
+    }
+    function updateLeaderboardDisplay() {
+      if (!leaderboardDiv) return;
+      if (highScores.length === 0) {
         leaderboardDiv.innerHTML = '<div class="leaderboard-item">✨ No scores yet ✨</div>';
         return;
       }
-      
       let html = '';
-      data.forEach((item, idx) => {
+      highScores.forEach((item, idx) => {
         html += `<div class="leaderboard-item">
                     <span class="leaderboard-rank">${idx+1}</span>
-                    <span>${escapeHtml(item.player)}</span>
+                    <span>${escapeHtml(item.name)}</span>
                     <span>⭐ ${item.score}</span>
                   </div>`;
       });
       leaderboardDiv.innerHTML = html;
-    } catch (err) {
-      console.error('Leaderboard fetch exception:', err);
-      leaderboardDiv.innerHTML = '<div class="leaderboard-item">⚠️ Leaderboard error</div>';
     }
-  }
+    function escapeHtml(str) {
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+    function getCurrentHighScore() {
+      if (highScores.length === 0) return 0;
+      return highScores[0].score;
+    }
+    function updateHighScoreDisplay() {
+      highScoreSpan.innerText = getCurrentHighScore();
+    }
 
-  async function saveScoreToLeaderboard(playerName, finalScore) {
-    try {
-      const { data, error } = await supabase
-        .from('leaderboard')
-        .insert([{ player: playerName, score: finalScore }]);
-      
-      if (error) {
-        console.error('Supabase insert error:', error);
-        return false;
+    // ---------- Game State ----------
+    let lives = 5;
+    let currentQuestion = { text: "", answer: 0 };
+    let score = 0;
+    let level = 1;
+    let correctAnswers = 0;
+    let combo = 1;
+    let timer = 10.0;
+    let timerInterval = null;
+    let waitingForAnswer = false;
+    let gameActive = true;
+    let expression = "0";
+    let currentValue = 0;
+
+    function updateLivesDisplay() {
+      let heartsHtml = '';
+      for (let i=0; i<5; i++) {
+        heartsHtml += (i < lives) ? '❤️ ' : '🖤 ';
       }
-      return true;
-    } catch (err) {
-      console.error('Save score exception:', err);
-      return false;
+      livesArea.innerHTML = heartsHtml;
     }
-  }
 
-  function escapeHtml(str) {
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
-  }
-
-  // ------------------------------
-  //  Local high score (session best)
-  // ------------------------------
-  let localHighScore = 0;
-  function updateHighScoreDisplay() {
-    highScoreSpan.innerText = localHighScore;
-  }
-
-  // ------------------------------
-  //  Game State
-  // ------------------------------
-  let lives = 5;
-  let currentQuestion = { text: "", answer: 0 };
-  let score = 0;
-  let level = 1;
-  let correctAnswers = 0;
-  let combo = 1;
-  let timer = 10.0;
-  let timerInterval = null;
-  let waitingForAnswer = false;
-  let gameActive = true;
-  let expression = "0";
-  let currentValue = 0;
-
-  function updateLivesDisplay() {
-    let heartsHtml = '';
-    for (let i=0; i<5; i++) {
-      heartsHtml += (i < lives) ? '❤️ ' : '🖤 ';
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
     }
-    livesArea.innerHTML = heartsHtml;
-  }
 
-  function stopTimer() {
-    if (timerInterval) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-    }
-  }
-
-  function startTimer() {
-    if (!gameActive) return;
-    stopTimer();
-    timer = 10.0;
-    updateTimerUI();
-    timerInterval = setInterval(() => {
-      if (!waitingForAnswer || !gameActive) return;
-      timer -= 0.1;
-      if (timer <= 0) {
-        timer = 0;
-        updateTimerUI();
-        if (waitingForAnswer && gameActive) {
-          waitingForAnswer = false;
-          stopTimer();
-          loseLife("⏰ Time's up!");
-        }
-      } else {
-        updateTimerUI();
-        if (timer < 3) {
-          document.querySelector('.timer-text').style.color = "#ff3333";
-          document.querySelector('.timer-bar-fill').style.background = "linear-gradient(90deg, #ff6666, #ff0000)";
+    function startTimer() {
+      if (!gameActive) return;
+      stopTimer();
+      timer = 10.0;
+      updateTimerUI();
+      timerInterval = setInterval(() => {
+        if (!waitingForAnswer || !gameActive) return;
+        timer -= 0.1;
+        if (timer <= 0) {
+          timer = 0;
+          updateTimerUI();
+          if (waitingForAnswer && gameActive) {
+            waitingForAnswer = false;
+            stopTimer();
+            loseLife("⏰ Time's up!");
+          }
         } else {
-          document.querySelector('.timer-text').style.color = "#ffaa66";
-          document.querySelector('.timer-bar-fill').style.background = "linear-gradient(90deg, #facc15, #ff4d4d)";
+          updateTimerUI();
+          if (timer < 3) {
+            document.querySelector('.timer-text').style.color = "#ff3333";
+            document.querySelector('.timer-bar-fill').style.background = "linear-gradient(90deg, #ff6666, #ff0000)";
+          } else {
+            document.querySelector('.timer-text').style.color = "#ffaa66";
+            document.querySelector('.timer-bar-fill').style.background = "linear-gradient(90deg, #facc15, #ff4d4d)";
+          }
         }
-      }
-    }, 100);
-  }
-
-  function updateTimerUI() {
-    let percent = (timer / 10.0) * 100;
-    timerFill.style.width = `${Math.max(0, percent)}%`;
-    timerTextSpan.innerText = timer.toFixed(1);
-  }
-
-  function loseLife(reason) {
-    if (!gameActive) return;
-    lives--;
-    updateLivesDisplay();
-    combo = 1;
-    updateComboDisplay();
-    container.classList.add('shake');
-    setTimeout(() => container.classList.remove('shake'), 300);
-    messageDiv.style.backgroundColor = "#4a0f0f";
-    messageDiv.innerHTML = `❌ ${reason}! You lost a life. ${lives} lives left.`;
-    setTimeout(() => messageDiv.style.backgroundColor = "", 1200);
-    
-    if (lives <= 0) {
-      gameOver();
-      return;
+      }, 100);
     }
-    waitingForAnswer = false;
-    stopTimer();
-    generateQuestion();
-    startTimer();
-    waitingForAnswer = true;
-    expression = "0";
-    currentValue = 0;
-    updateDisplay();
-  }
 
-  function gameOver() {
-    gameActive = false;
-    waitingForAnswer = false;
-    stopTimer();
-    
-    const overlay = document.createElement('div');
-    overlay.className = 'game-overlay';
-    overlay.innerHTML = `
-      <div class="game-over-text">💀 GAME OVER 💀</div>
-      <div class="final-score">⭐ Your score: ${score} | Level: ${level}</div>
-      <input type="text" id="playerNameInput" class="name-input" placeholder="Enter your name" maxlength="15">
-      <button id="saveScoreBtn" class="save-btn">💾 Save Score (Global)</button>
-      <button id="overlayRestartBtn" class="restart-overlay-btn">🔥 Play Again 🔥</button>
-    `;
-    container.style.position = 'relative';
-    container.appendChild(overlay);
-    
-    const saveBtn = overlay.querySelector('#saveScoreBtn');
-    const restartBtn = overlay.querySelector('#overlayRestartBtn');
-    const nameInput = overlay.querySelector('#playerNameInput');
-    
-    saveBtn.addEventListener('click', async () => {
-      let playerName = nameInput.value.trim();
-      if (playerName === "") playerName = "Adventurer";
+    function updateTimerUI() {
+      let percent = (timer / 10.0) * 100;
+      timerFill.style.width = `${Math.max(0, percent)}%`;
+      timerTextSpan.innerText = timer.toFixed(1);
+    }
+
+    function loseLife(reason) {
+      if (!gameActive) return;
+      lives--;
+      updateLivesDisplay();
+      combo = 1;
+      updateComboDisplay();
+      container.classList.add('shake');
+      setTimeout(() => container.classList.remove('shake'), 300);
+      messageDiv.style.backgroundColor = "#4a0f0f";
+      messageDiv.innerHTML = `❌ ${reason}! You lost a life. ${lives} lives left.`;
+      setTimeout(() => messageDiv.style.backgroundColor = "", 1200);
       
-      saveBtn.innerText = "Saving...";
-      const success = await saveScoreToLeaderboard(playerName, score);
-      if (success) {
-        messageDiv.innerText = "✓ Score saved globally! Refreshing leaderboard...";
-        await fetchLeaderboard(); // refresh without blocking game restart
-        saveBtn.innerText = "✓ Saved!";
-      } else {
-        messageDiv.innerText = "⚠️ Failed to save (offline or error). Score saved locally only.";
-        saveBtn.innerText = "💾 Save Score";
+      if (lives <= 0) {
+        gameOver();
+        return;
       }
-      setTimeout(() => {
-        if (saveBtn.innerText === "✓ Saved!") saveBtn.innerText = "💾 Save Score (Global)";
-      }, 2000);
-    });
-    
-    restartBtn.addEventListener('click', () => {
-      overlay.remove();
-      fullReset();
-    });
-  }
-
-  function handleCorrect() {
-    let points = Math.floor(10 + level * 1.5 + (timer * 0.8) + (combo * 2));
-    points = Math.max(5, points);
-    score += points;
-    correctAnswers++;
-    combo++;
-    if (combo > 12) combo = 12;
-    updateComboDisplay();
-    
-    messageDiv.style.backgroundColor = "#1f5a2e";
-    messageDiv.innerHTML = `✅ Correct! +${points} (Combo x${combo-1}) 🔥`;
-    setTimeout(() => messageDiv.style.backgroundColor = "", 800);
-    
-    let newLevel = 1 + Math.floor(correctAnswers / 3);
-    if (newLevel > level) {
-      level = newLevel;
-      messageDiv.innerHTML += ` 🎉 Level ${level}! 🎉`;
-      container.style.borderColor = "#ffaa44";
-      setTimeout(() => container.style.borderColor = "#ff5e3a", 300);
-    }
-    updateUI();
-    // Update local high score if needed
-    if (score > localHighScore) {
-      localHighScore = score;
-      updateHighScoreDisplay();
-    }
-    waitingForAnswer = false;
-    stopTimer();
-    generateQuestion();
-    startTimer();
-    waitingForAnswer = true;
-    expression = "0";
-    currentValue = 0;
-    updateDisplay();
-  }
-
-  function generateQuestion() {
-    let maxNum = Math.min(25 + level * 6, 250);
-    let useDivision = (level >= 4) && (Math.random() < 0.25);
-    let useMultiplication = (level >= 2) && (Math.random() < 0.4);
-    
-    let a, b, answer, text;
-    if (useDivision && level >= 4) {
-      let divisor = Math.floor(Math.random() * (Math.min(maxNum/3, 15))) + 2;
-      let quotient = Math.floor(Math.random() * (Math.min(maxNum/divisor, 15))) + 1;
-      a = divisor * quotient;
-      b = divisor;
-      answer = quotient;
-      text = `${a} ÷ ${b} = ?`;
-    } else if (useMultiplication) {
-      a = Math.floor(Math.random() * (Math.min(maxNum/5, 12))) + 2;
-      b = Math.floor(Math.random() * (Math.min(maxNum/a, 12))) + 2;
-      answer = a * b;
-      text = `${a} × ${b} = ?`;
-    } else {
-      let isSubtraction = (Math.random() > 0.5);
-      if (isSubtraction) {
-        a = Math.floor(Math.random() * maxNum) + 10;
-        b = Math.floor(Math.random() * (a - 1)) + 1;
-        answer = a - b;
-        text = `${a} - ${b} = ?`;
-      } else {
-        a = Math.floor(Math.random() * maxNum) + 1;
-        b = Math.floor(Math.random() * (maxNum - a + 5)) + 1;
-        answer = a + b;
-        text = `${a} + ${b} = ?`;
-      }
-    }
-    currentQuestion = { text, answer };
-    questionEl.innerText = text;
-  }
-
-  function updateComboDisplay() {
-    comboDisplay.innerHTML = `🔥 Combo: x${combo}`;
-    if (combo >= 5) comboDisplay.classList.add('combo-glow');
-    else comboDisplay.classList.remove('combo-glow');
-  }
-
-  function updateUI() {
-    scoreSpan.innerText = score;
-    levelSpan.innerText = level;
-    correctSpan.innerText = correctAnswers;
-    updateHighScoreDisplay();
-  }
-
-  function checkAnswer() {
-    if (!gameActive || !waitingForAnswer) return;
-    let userAnswer = currentValue;
-    if (isNaN(userAnswer)) {
-      messageDiv.innerHTML = "⚠️ Please enter a valid number!";
-      return;
-    }
-    let correct = currentQuestion.answer;
-    if (Math.abs(userAnswer - correct) < 0.001) {
-      handleCorrect();
-    } else {
       waitingForAnswer = false;
       stopTimer();
-      loseLife(`Wrong answer! Correct: ${correct}`);
+      generateQuestion();
+      startTimer();
+      waitingForAnswer = true;
+      expression = "0";
+      currentValue = 0;
+      updateDisplay();
     }
-  }
 
-  function fullReset() {
-    gameActive = true;
-    lives = 5;
-    score = 0;
-    level = 1;
-    correctAnswers = 0;
-    combo = 1;
-    updateLivesDisplay();
-    updateComboDisplay();
-    updateUI();
-    generateQuestion();
-    waitingForAnswer = false;
-    stopTimer();
-    startTimer();
-    waitingForAnswer = true;
-    expression = "0";
-    currentValue = 0;
-    updateDisplay();
-    messageDiv.innerHTML = "🔥 New game! You have 5 lives. 🔥";
-    messageDiv.style.backgroundColor = "";
-    container.classList.remove('shake');
-  }
+    function gameOver() {
+      gameActive = false;
+      waitingForAnswer = false;
+      stopTimer();
+      const overlay = document.createElement('div');
+      overlay.className = 'game-overlay';
+      overlay.innerHTML = `
+        <div class="game-over-text">💀 GAME OVER 💀</div>
+        <div class="final-score">⭐ Your score: ${score} | Level: ${level}</div>
+        <input type="text" id="playerNameInput" class="name-input" placeholder="Enter your name" maxlength="15">
+        <button id="saveScoreBtn" class="save-btn">💾 Save Score</button>
+        <button id="overlayRestartBtn" class="restart-overlay-btn">🔥 Play Again 🔥</button>
+      `;
+      container.style.position = 'relative';
+      container.appendChild(overlay);
+      
+      const saveBtn = overlay.querySelector('#saveScoreBtn');
+      const restartBtn = overlay.querySelector('#overlayRestartBtn');
+      const nameInput = overlay.querySelector('#playerNameInput');
+      
+      saveBtn.addEventListener('click', () => {
+        let playerName = nameInput.value.trim();
+        if (playerName === "") playerName = "Adventurer";
+        addScore(playerName, score);
+        updateHighScoreDisplay();
+        saveBtn.innerText = "✓ Saved!";
+        setTimeout(() => saveBtn.innerText = "💾 Save Score", 1500);
+      });
+      
+      restartBtn.addEventListener('click', () => {
+        overlay.remove();
+        fullReset();
+      });
+    }
 
-  // ------------------------------
-  //  Calculator Logic
-  // ------------------------------
-  function evaluateExpression(expr) {
-    try {
-      let sanitized = expr.replace(/×/g, '*').replace(/÷/g, '/');
-      let result = Function('"use strict";return (' + sanitized + ')')();
-      return (isNaN(result) || !isFinite(result)) ? NaN : result;
-    } catch(e) { return NaN; }
-  }
+    function handleCorrect() {
+      let points = Math.floor(10 + level * 1.5 + (timer * 0.8) + (combo * 2));
+      points = Math.max(5, points);
+      score += points;
+      correctAnswers++;
+      combo++;
+      if (combo > 12) combo = 12;
+      updateComboDisplay();
+      
+      messageDiv.style.backgroundColor = "#1f5a2e";
+      messageDiv.innerHTML = `✅ Correct! +${points} (Combo x${combo-1}) 🔥`;
+      setTimeout(() => messageDiv.style.backgroundColor = "", 800);
+      
+      let newLevel = 1 + Math.floor(correctAnswers / 3);
+      if (newLevel > level) {
+        level = newLevel;
+        messageDiv.innerHTML += ` 🎉 Level ${level}! 🎉`;
+        container.style.borderColor = "#ffaa44";
+        setTimeout(() => container.style.borderColor = "#ff5e3a", 300);
+      }
+      updateUI();
+      if (score > getCurrentHighScore()) {
+        updateHighScoreDisplay();
+      }
+      waitingForAnswer = false;
+      stopTimer();
+      generateQuestion();
+      startTimer();
+      waitingForAnswer = true;
+      expression = "0";
+      currentValue = 0;
+      updateDisplay();
+    }
 
-  function updateExpression(newExpr) {
-    expression = newExpr;
-    if (expression === "") expression = "0";
-    let evaluated = evaluateExpression(expression);
-    if (!isNaN(evaluated) && isFinite(evaluated)) currentValue = evaluated;
-    else currentValue = 0;
-    updateDisplay();
-  }
+    function generateQuestion() {
+      let maxNum = Math.min(25 + level * 6, 250);
+      let useDivision = (level >= 4) && (Math.random() < 0.25);
+      let useMultiplication = (level >= 2) && (Math.random() < 0.4);
+      
+      let a, b, answer, text;
+      if (useDivision && level >= 4) {
+        let divisor = Math.floor(Math.random() * (Math.min(maxNum/3, 15))) + 2;
+        let quotient = Math.floor(Math.random() * (Math.min(maxNum/divisor, 15))) + 1;
+        a = divisor * quotient;
+        b = divisor;
+        answer = quotient;
+        text = `${a} ÷ ${b} = ?`;
+      } else if (useMultiplication) {
+        a = Math.floor(Math.random() * (Math.min(maxNum/5, 12))) + 2;
+        b = Math.floor(Math.random() * (Math.min(maxNum/a, 12))) + 2;
+        answer = a * b;
+        text = `${a} × ${b} = ?`;
+      } else {
+        let isSubtraction = (Math.random() > 0.5);
+        if (isSubtraction) {
+          a = Math.floor(Math.random() * maxNum) + 10;
+          b = Math.floor(Math.random() * (a - 1)) + 1;
+          answer = a - b;
+          text = `${a} - ${b} = ?`;
+        } else {
+          a = Math.floor(Math.random() * maxNum) + 1;
+          b = Math.floor(Math.random() * (maxNum - a + 5)) + 1;
+          answer = a + b;
+          text = `${a} + ${b} = ?`;
+        }
+      }
+      currentQuestion = { text, answer };
+      questionEl.innerText = text;
+    }
 
-  function updateDisplay() {
-    calcDisplay.innerText = expression.length > 28 ? expression.slice(0,26)+"…" : expression;
-  }
+    function updateComboDisplay() {
+      comboDisplay.innerHTML = `🔥 Combo: x${combo}`;
+      if (combo >= 5) comboDisplay.classList.add('combo-glow');
+      else comboDisplay.classList.remove('combo-glow');
+    }
 
-  // ------------------------------
-  //  Button Binding
-  // ------------------------------
-  function initButtons() {
-    document.querySelectorAll('.calc-btn[data-value]').forEach(btn => {
-      btn.addEventListener('click', () => {
+    function updateUI() {
+      scoreSpan.innerText = score;
+      levelSpan.innerText = level;
+      correctSpan.innerText = correctAnswers;
+      updateHighScoreDisplay();
+    }
+
+    function checkAnswer() {
+      if (!gameActive || !waitingForAnswer) return;
+      let userAnswer = currentValue;
+      if (isNaN(userAnswer)) {
+        messageDiv.innerHTML = "⚠️ Please enter a valid number!";
+        return;
+      }
+      let correct = currentQuestion.answer;
+      if (Math.abs(userAnswer - correct) < 0.001) {
+        handleCorrect();
+      } else {
+        waitingForAnswer = false;
+        stopTimer();
+        loseLife(`Wrong answer! Correct: ${correct}`);
+      }
+    }
+
+    function fullReset() {
+      gameActive = true;
+      lives = 5;
+      score = 0;
+      level = 1;
+      correctAnswers = 0;
+      combo = 1;
+      updateLivesDisplay();
+      updateComboDisplay();
+      updateUI();
+      generateQuestion();
+      waitingForAnswer = false;
+      stopTimer();
+      startTimer();
+      waitingForAnswer = true;
+      expression = "0";
+      currentValue = 0;
+      updateDisplay();
+      messageDiv.innerHTML = "🔥 New game! You have 5 lives. 🔥";
+      messageDiv.style.backgroundColor = "";
+      container.classList.remove('shake');
+    }
+
+    // Calculator logic
+    function evaluateExpression(expr) {
+      try {
+        let sanitized = expr.replace(/×/g, '*').replace(/÷/g, '/');
+        let result = Function('"use strict";return (' + sanitized + ')')();
+        return (isNaN(result) || !isFinite(result)) ? NaN : result;
+      } catch(e) { return NaN; }
+    }
+
+    function updateExpression(newExpr) {
+      expression = newExpr;
+      if (expression === "") expression = "0";
+      let evaluated = evaluateExpression(expression);
+      if (!isNaN(evaluated) && isFinite(evaluated)) currentValue = evaluated;
+      else currentValue = 0;
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      calcDisplay.innerText = expression.length > 28 ? expression.slice(0,26)+"…" : expression;
+    }
+
+    // Button bindings
+    function initButtons() {
+      document.querySelectorAll('.calc-btn[data-value]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!gameActive) return;
+          let val = btn.getAttribute('data-value');
+          if (expression === "0") expression = val;
+          else expression += val;
+          updateExpression(expression);
+        });
+      });
+      document.querySelectorAll('.calc-btn[data-op]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!gameActive) return;
+          let op = btn.getAttribute('data-op');
+          let last = expression.slice(-1);
+          if ("+-*/".includes(last)) expression = expression.slice(0, -1);
+          expression += op;
+          updateExpression(expression);
+        });
+      });
+      document.getElementById('clearBtn').addEventListener('click', () => {
         if (!gameActive) return;
-        let val = btn.getAttribute('data-value');
-        if (expression === "0") expression = val;
-        else expression += val;
+        expression = "0";
         updateExpression(expression);
       });
-    });
-    document.querySelectorAll('.calc-btn[data-op]').forEach(btn => {
-      btn.addEventListener('click', () => {
+      document.getElementById('clearAllBtn').addEventListener('click', () => {
         if (!gameActive) return;
-        let op = btn.getAttribute('data-op');
-        let last = expression.slice(-1);
-        if ("+-*/".includes(last)) expression = expression.slice(0, -1);
-        expression += op;
+        expression = "0";
         updateExpression(expression);
       });
-    });
-    document.getElementById('clearBtn').addEventListener('click', () => {
-      if (!gameActive) return;
-      expression = "0";
-      updateExpression(expression);
-    });
-    document.getElementById('clearAllBtn').addEventListener('click', () => {
-      if (!gameActive) return;
-      expression = "0";
-      updateExpression(expression);
-    });
-    document.getElementById('backspaceBtn').addEventListener('click', () => {
-      if (!gameActive) return;
-      if (expression.length > 1) expression = expression.slice(0, -1);
-      else expression = "0";
-      updateExpression(expression);
-    });
-    document.getElementById('negativeBtn').addEventListener('click', () => {
-      if (!gameActive) return;
-      let val = currentValue;
-      let newVal = -val;
-      expression = newVal.toString();
-      updateExpression(expression);
-    });
-    document.getElementById('equalsBtn').addEventListener('click', () => {
-      if (!gameActive) return;
-      checkAnswer();
-    });
-  }
+      document.getElementById('backspaceBtn').addEventListener('click', () => {
+        if (!gameActive) return;
+        if (expression.length > 1) expression = expression.slice(0, -1);
+        else expression = "0";
+        updateExpression(expression);
+      });
+      document.getElementById('negativeBtn').addEventListener('click', () => {
+        if (!gameActive) return;
+        let val = currentValue;
+        let newVal = -val;
+        expression = newVal.toString();
+        updateExpression(expression);
+      });
+      document.getElementById('equalsBtn').addEventListener('click', () => {
+        if (!gameActive) return;
+        checkAnswer();
+      });
+    }
 
-  // ------------------------------
-  //  Initialization (non‑blocking)
-  // ------------------------------
-  async function init() {
-    initButtons();
-    fullReset();
-    // Load leaderboard in the background, never block the game
-    fetchLeaderboard().catch(e => console.warn(e));
-    // Reset local high score to 0 (player will set during session)
-    localHighScore = 0;
-    updateHighScoreDisplay();
-  }
+    function init() {
+      loadScores();
+      initButtons();
+      fullReset();
+    }
 
-  init();
+    init();
+  })();
 </script>
 </body>
 </html>
