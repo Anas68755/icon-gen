@@ -5,15 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Purr Clicker · 20+ ترقيات · 10 مساعدين</title>
+  <title>Purr Clicker · نسخة متجاوبة</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:#1a0e07;--wood:#3d2010;--wood2:#4e2a14;--panel:#2a1508;
-      --border:#6b3d1e;--caramel:#c4844a;--cream:#f0c987;
-      --text:#fff3dc;--muted:#a0805a;--paw:#e8b87a;
-      --pixel:'Press Start 2P',monospace;--body:'Nunito',sans-serif;
-      --tab-h:64px;--hdr-h:52px;
+      --bg:#1a0e07; --wood:#3d2010; --wood2:#4e2a14; --panel:#2a1508;
+      --border:#6b3d1e; --caramel:#c4844a; --cream:#f0c987;
+      --text:#fff3dc; --muted:#a0805a; --paw:#e8b87a;
+      --pixel:'Press Start 2P',monospace; --body:'Nunito',sans-serif;
+      --glow: #ffcc77;
+      --tab-h:64px; --hdr-h:52px;
     }
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
     html{height:100%;overflow:hidden;}
@@ -25,54 +26,148 @@
     body::before{
       content:'';position:fixed;inset:0;
       background:repeating-linear-gradient(90deg,rgba(0,0,0,0) 0,rgba(0,0,0,0) 18px,rgba(0,0,0,.06) 19px,rgba(0,0,0,0) 20px),
-                 repeating-linear-gradient(0deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 28px,rgba(255,255,255,.015) 29px,rgba(255,255,255,0) 30px);
+                 repeating-linear-gradient(0deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 28px,rgba(255,255,255,.02) 29px,rgba(255,255,255,0) 30px);
       pointer-events:none;z-index:0;
     }
-    header{height:calc(var(--hdr-h) + env(safe-area-inset-top,0));background:var(--wood);border-bottom:3px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 14px;padding-top:env(safe-area-inset-top,0);}
+    header{height:calc(var(--hdr-h) + env(safe-area-inset-top,0));background:var(--wood);border-bottom:3px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 14px;padding-top:env(safe-area-inset-top,0);backdrop-filter:blur(2px);}
     header h1{font-family:var(--pixel);font-size:.6rem;color:var(--cream);text-shadow:2px 2px 0 #6b3000;}
     .hdr-cat{font-size:1.1rem;}.hdr-spacer{flex:1;}
     .hdr-stats{display:flex;gap:10px;}
     .hdr-stat{font-family:var(--pixel);font-size:.38rem;color:var(--muted);display:flex;flex-direction:column;align-items:flex-end;}
     .hdr-stat span{color:var(--cream);font-size:.48rem;}
-    .btn-icon{background:var(--wood2);border:2px solid var(--border);border-radius:8px;color:var(--cream);width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-    .btn-icon:active{background:var(--border);}
+    .btn-icon{background:var(--wood2);border:2px solid var(--border);border-radius:8px;color:var(--cream);width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s;}
+    .btn-icon:active{transform:scale(0.95);background:var(--border);}
     .tabs-content{flex:1;position:relative;overflow:hidden;}
     .tab-pane{position:absolute;inset:0;overflow-y:auto;display:none;flex-direction:column;padding:12px;gap:10px;}
     .tab-pane.active{display:flex;}
     #tab-cat{background:radial-gradient(ellipse at 50% 85%,rgba(61,32,16,.9) 0%,transparent 55%),var(--bg);align-items:center;justify-content:flex-start;}
-    .counter-wrap{text-align:center;margin-bottom:10px;}
-    .counter-main{font-family:var(--pixel);font-size:min(1.5rem,7vw);color:var(--cream);text-shadow:3px 3px 0 #6b3000;}
+    .counter-wrap{text-align:center;margin-bottom:10px;background:rgba(0,0,0,.3);padding:8px 16px;border-radius:40px;backdrop-filter:blur(6px);}
+    .counter-main{font-family:var(--pixel);font-size:min(1.5rem,7vw);color:var(--cream);text-shadow:0 0 8px #facc15,3px 3px 0 #6b3000;}
     .counter-label,.counter-cps,.evo-badge{font-family:var(--pixel);font-size:.42rem;color:var(--caramel);}
-    .evo-badge{background:var(--wood2);border:2px solid var(--caramel);border-radius:4px;padding:5px 14px;margin-bottom:12px;}
-    #catEmoji{cursor:pointer;font-size:min(240px,60vw);line-height:1;filter:drop-shadow(0 8px 24px rgba(0,0,0,.7));transition:transform .06s;user-select:none;display:inline-block;}
-    #catEmoji:active{transform:scale(0.9);}
-    .den-floor{width:min(260px,65vw);height:22px;background:repeating-linear-gradient(90deg,#3d2010 0,#3d2010 38px,#4e2a14 39px,#4e2a14 77px);border-top:3px solid #6b3d1e;margin-top:-4px;}
-    .cat-name-tag{font-family:var(--pixel);font-size:.48rem;color:var(--paw);margin-top:8px;}
-    .cat-trait{font-size:.75rem;color:var(--muted);font-style:italic;}
+    .evo-badge{background:var(--wood2);border:2px solid var(--caramel);border-radius:4px;padding:5px 14px;margin-bottom:12px;box-shadow:0 0 6px var(--caramel);}
+    #catEmoji{
+      cursor:pointer;font-size:min(200px,55vw);line-height:1;filter:drop-shadow(0 0 12px #facc15) drop-shadow(0 0 20px #ffaa44);
+      transition:transform .08s, filter .2s;user-select:none;display:inline-block;
+      animation: catGlow 1.5s infinite alternate;
+    }
+    @keyframes catGlow{
+      0%{filter:drop-shadow(0 0 5px #ffaa44) drop-shadow(0 0 10px #ffaa44);}
+      100%{filter:drop-shadow(0 0 20px #ffdd77) drop-shadow(0 0 30px #ffaa44);}
+    }
+    #catEmoji:active{transform:scale(0.9);filter:drop-shadow(0 0 30px #ff8800);}
+    .den-floor{width:min(260px,65vw);height:22px;background:repeating-linear-gradient(90deg,#3d2010 0,#3d2010 38px,#4e2a14 39px,#4e2a14 77px);border-top:3px solid #6b3d1e;margin-top:-12px;border-radius:0 0 4px 4px;}
+    .cat-name-tag{font-family:var(--pixel);font-size:.48rem;color:var(--paw);text-shadow:0 0 5px #c4844a;margin-top:8px;}
+    .cat-trait{font-size:.75rem;color:var(--muted);font-style:italic;background:rgba(0,0,0,.3);padding:4px 12px;border-radius:40px;}
     .evo-progress-wrap{width:100%;max-width:300px;margin-top:12px;}
     .evo-progress-label{display:flex;justify-content:space-between;font-family:var(--pixel);font-size:.32rem;color:var(--muted);margin-bottom:5px;}
-    .evo-bar-track{height:10px;background:var(--panel);border:2px solid var(--border);}
-    .evo-bar-fill{height:100%;background:linear-gradient(90deg,var(--caramel),var(--cream));transition:width .3s;}
-    .panel-title{font-family:var(--pixel);font-size:.42rem;color:var(--caramel);background:var(--panel);border:2px solid var(--border);border-radius:4px;padding:7px;text-align:center;}
-    .upg-btn,.once-btn{background:var(--panel);border:2px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;display:grid;grid-template-columns:44px 1fr auto;gap:8px;align-items:center;}
-    .upg-btn:active:not(:disabled),.once-btn:active:not(:disabled){background:var(--wood2);transform:scale(.98);}
-    .upg-btn.affordable,.once-btn.affordable{border-color:var(--caramel);box-shadow:0 0 10px rgba(196,132,74,.35);}
-    .upg-icon,.once-icon{font-size:1.8rem;text-align:center;}
-    .upg-name,.once-name{font-family:var(--pixel);font-size:.4rem;color:var(--cream);margin-bottom:4px;}
-    .upg-desc,.once-desc{font-size:.7rem;color:var(--muted);}
-    .upg-cost,.once-cost{font-family:var(--pixel);font-size:.4rem;color:var(--caramel);}
-    .tab-bar{flex-shrink:0;background:var(--wood);border-top:3px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);height:calc(var(--tab-h) + env(safe-area-inset-bottom,0));padding-bottom:env(safe-area-inset-bottom,0);}
-    .tab-bar-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;border:none;cursor:pointer;font-family:var(--pixel);font-size:.3rem;color:var(--muted);position:relative;}
-    .tab-bar-btn .tab-icon{font-size:1.4rem;}
-    .tab-bar-btn.active{color:var(--caramel);}
-    .tab-bar-btn.active::after{content:'';position:absolute;top:0;left:20%;right:20%;height:3px;background:var(--caramel);border-radius:0 0 3px 3px;}
-    .tab-badge{position:absolute;top:0;right:calc(50% - 20px);background:var(--caramel);color:#1a0e07;font-family:var(--pixel);font-size:.26rem;padding:2px 4px;border-radius:3px;display:none;}
-    .tab-badge.show{display:block;}
-    .toast{position:fixed;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0) + 12px);left:50%;transform:translateX(-50%);background:var(--wood2);border:2px solid var(--caramel);border-radius:8px;padding:8px 12px;font-size:.75rem;opacity:0;transition:opacity .2s;z-index:10;}
+    .evo-bar-track{height:12px;background:var(--panel);border:2px solid var(--border);border-radius:12px;overflow:hidden;}
+    .evo-bar-fill{height:100%;background:linear-gradient(90deg,var(--caramel),var(--cream));width:0%;border-radius:12px;transition:width .3s;box-shadow:0 0 6px var(--cream);}
+    .panel-title{font-family:var(--pixel);font-size:.42rem;color:var(--caramel);background:var(--panel);border:2px solid var(--border);border-radius:4px;padding:7px;text-align:center;margin-bottom:5px;box-shadow:0 0 5px rgba(196,132,74,.5);}
+    /* --- أزرار القوائم المتجاوبة --- */
+    .upg-btn, .once-btn{
+      display:flex;
+      flex-direction:row;
+      align-items:center;
+      gap:12px;
+      width:100%;
+      background:var(--panel);
+      border:2px solid var(--border);
+      border-radius:12px;
+      padding:12px 12px;
+      cursor:pointer;
+      transition:all 0.08s linear;
+      margin-bottom:8px;
+      text-align:right;
+      word-break:break-word;
+    }
+    .upg-btn:active:not(:disabled), .once-btn:active:not(:disabled){
+      transform:scale(0.97);
+      background:var(--wood2);
+    }
+    .upg-btn.affordable, .once-btn.affordable{
+      border-color:var(--caramel);
+      box-shadow:0 0 12px rgba(196,132,74,0.6);
+    }
+    .upg-icon, .once-icon{
+      font-size:2rem;
+      flex-shrink:0;
+      width:48px;
+      text-align:center;
+    }
+    .upg-info, .once-info{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .upg-name, .once-name{
+      font-family:var(--pixel);
+      font-size:.45rem;
+      color:var(--cream);
+      line-height:1.4;
+    }
+    .upg-desc, .once-desc{
+      font-size:.7rem;
+      color:var(--muted);
+      line-height:1.3;
+    }
+    .upg-cost, .once-cost{
+      font-family:var(--pixel);
+      font-size:.4rem;
+      color:var(--caramel);
+      margin-top:2px;
+    }
+    .upg-owned{
+      font-family:var(--pixel);
+      font-size:.6rem;
+      color:var(--muted);
+      background:rgba(0,0,0,0.4);
+      padding:4px 8px;
+      border-radius:20px;
+      white-space:nowrap;
+      flex-shrink:0;
+      margin-right:8px;
+    }
+    /* للشاشات الصغيرة جداً */
+    @media (max-width: 550px) {
+      .upg-btn, .once-btn{
+        padding:10px 8px;
+        gap:8px;
+      }
+      .upg-icon, .once-icon{ font-size:1.6rem; width:40px; }
+      .upg-name, .once-name{ font-size:.4rem; }
+      .upg-desc, .once-desc{ font-size:.65rem; }
+      .upg-cost, .once-cost{ font-size:.35rem; }
+      .upg-owned{ font-size:.5rem; padding:2px 6px; }
+    }
+    .tab-bar{
+      flex-shrink:0;background:var(--wood);border-top:3px solid var(--border);
+      display:grid;grid-template-columns:repeat(4,1fr);
+      height:calc(var(--tab-h) + env(safe-area-inset-bottom,0));padding-bottom:env(safe-area-inset-bottom,0);
+      backdrop-filter:blur(4px);
+    }
+    .tab-bar-btn{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+      background:none;border:none;cursor:pointer;font-family:var(--pixel);font-size:.3rem;
+      color:var(--muted);position:relative;transition:all .1s;
+    }
+    .tab-bar-btn .tab-icon{font-size:1.4rem;filter:drop-shadow(0 0 2px #a0805a);}
+    .tab-bar-btn.active{color:var(--caramel);text-shadow:0 0 6px #ffaa66;}
+    .tab-bar-btn.active::after{content:'';position:absolute;top:0;left:20%;right:20%;height:3px;background:var(--caramel);border-radius:0 0 3px 3px;box-shadow:0 0 6px var(--caramel);}
+    .tab-badge{position:absolute;top:4px;right:calc(50% - 20px);background:var(--caramel);color:#1a0e07;font-family:var(--pixel);font-size:.26rem;padding:2px 5px;border-radius:20px;display:none;font-weight:bold;}
+    .tab-badge.show{display:block;animation: pulseBadge .8s infinite;}
+    @keyframes pulseBadge{0%{opacity:0.6;}100%{opacity:1;transform:scale(1.05);}}
+    .toast{
+      position:fixed;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0) + 12px);left:50%;
+      transform:translateX(-50%);background:var(--wood2);border:2px solid var(--caramel);
+      border-radius:12px;padding:8px 16px;font-family:var(--pixel);font-size:.45rem;color:var(--cream);
+      opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;box-shadow:0 0 12px #c4844a;white-space:nowrap;
+    }
     .toast.show{opacity:1;}
-    .ripple{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.6),transparent);pointer-events:none;animation:rippleAnim .4s ease-out forwards;}
-    @keyframes rippleAnim{0%{transform:scale(0);opacity:1;}100%{transform:scale(3);opacity:0;}}
-    .small-stat{font-size:.7rem;color:var(--caramel);margin-top:6px;text-align:center;}
+    .ripple{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,220,100,0.8),transparent);pointer-events:none;animation:rippleAnim .4s ease-out forwards;}
+    @keyframes rippleAnim{0%{transform:scale(0);opacity:1;}100%{transform:scale(4);opacity:0;}}
+    .small-stat{font-size:.7rem;color:var(--caramel);margin-top:6px;text-align:center;background:rgba(0,0,0,.3);padding:4px 12px;border-radius:40px;}
+    @keyframes float{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-60px);}}
   </style>
 </head>
 <body>
@@ -98,7 +193,7 @@
     <div class="evo-progress-wrap"><div class="evo-progress-label"><span id="evoCur">0</span><span id="evoStage"></span><span id="evoNext"></span></div><div class="evo-bar-track"><div class="evo-bar-fill" id="evoFill" style="width:0%"></div></div></div>
     <div class="small-stat" id="activeCompanionMsg"></div>
   </div>
-  <div class="tab-pane" id="tab-upgrades"><div class="panel-title">✨ One-Time Upgrades (20+)</div><div id="onceList"></div><div class="section-div"></div><div class="panel-title">🎯 Milestones</div></div>
+  <div class="tab-pane" id="tab-upgrades"><div class="panel-title">✨ One-Time Upgrades (20+)</div><div id="onceList"></div></div>
   <div class="tab-pane" id="tab-helpers"><div class="panel-title">🏠 Passive Helpers (10 total)</div><div id="buildingList"></div></div>
   <div class="tab-pane" id="tab-companions"><div class="panel-title">⭐ Companion Cats (5 unique)</div><div id="companionList"></div><div class="small-stat">✨ Companions boost production for 30 seconds!</div></div>
 </div>
@@ -257,13 +352,7 @@
     }
   }, 5000);
   
-  // ---------- SIMPLE EMOJI CAT ----------
-  const catEmoji = document.getElementById('catEmoji');
-  function updateCatEmoji(){
-    catEmoji.textContent = '🐱';
-  }
-  
-  // ---------- UI BUILDERS ----------
+  // UI Builders with mobile-friendly structure
   function buildUpgradePanel(){
     const list=document.getElementById('onceList'); list.innerHTML='';
     ONCE_UPGRADES.forEach(u=>{
@@ -271,7 +360,14 @@
       let btn=document.createElement('button');
       btn.className='once-btn'+(owned?'':(G.purrs>=u.cost?' affordable':''));
       btn.disabled=!!owned;
-      btn.innerHTML=`<span class="once-icon">${u.icon}</span><div><div class="once-name">${u.name}</div><div class="once-desc">${u.desc}</div><div class="once-cost">${owned?'✓ owned':fmtNum(u.cost)+' purrs'}</div></div>`;
+      btn.innerHTML=`
+        <div class="once-icon">${u.icon}</div>
+        <div class="once-info">
+          <div class="once-name">${u.name}</div>
+          <div class="once-desc">${u.desc}</div>
+          <div class="once-cost">${owned?'✓ owned':fmtNum(u.cost)+' purrs'}</div>
+        </div>
+      `;
       if(!owned) btn.onclick=()=>buyOnce(u);
       list.appendChild(btn);
     });
@@ -282,7 +378,15 @@
       let cost=buildingCost(b), owned=G.buildings[b.id]||0, cps=buildingCps(b);
       let btn=document.createElement('button');
       btn.className='upg-btn'+(G.purrs>=cost?' affordable':'');
-      btn.innerHTML=`<div class="upg-icon">${b.icon}</div><div><div class="upg-name">${b.name}</div><div class="upg-desc">${b.desc}</div><div class="upg-cost">${fmtNum(cost)} purrs</div><div style="font-size:.6rem;color:var(--paw);">Owned: ${owned} (+${fmtNum(cps,2)}/s)</div></div>`;
+      btn.innerHTML=`
+        <div class="upg-icon">${b.icon}</div>
+        <div class="upg-info">
+          <div class="upg-name">${b.name}</div>
+          <div class="upg-desc">${b.desc}</div>
+          <div class="upg-cost">${fmtNum(cost)} purrs</div>
+          <div style="font-size:.6rem;color:var(--paw);">Owned: ${owned} (+${fmtNum(cps,2)}/s)</div>
+        </div>
+      `;
       btn.onclick=()=>buyBuilding(b);
       list.appendChild(btn);
     });
@@ -292,7 +396,14 @@
     COMPANIONS.forEach(c=>{
       let btn=document.createElement('button');
       btn.className='once-btn'+(G.purrs>=c.cost?' affordable':'');
-      btn.innerHTML=`<span class="once-icon">${c.icon}</span><div><div class="once-name">${c.name}</div><div class="once-desc">${c.desc}</div><div class="once-cost">${fmtNum(c.cost)} purrs</div></div>`;
+      btn.innerHTML=`
+        <div class="once-icon">${c.icon}</div>
+        <div class="once-info">
+          <div class="once-name">${c.name}</div>
+          <div class="once-desc">${c.desc}</div>
+          <div class="once-cost">${fmtNum(c.cost)} purrs</div>
+        </div>
+      `;
       btn.onclick=()=>activateCompanion(c);
       list.appendChild(btn);
     });
@@ -350,28 +461,29 @@
   function checkEvolution(){
     let newIdx=0;
     for(let i=EVOLUTIONS.length-1;i>=0;i--) if(G.totalPurrs>=EVOLUTIONS[i].threshold){ newIdx=i; break; }
-    if(newIdx!==G.evoIndex){ G.evoIndex=newIdx; updateCatEmoji(); toast(`🎉 Evolved to ${EVOLUTIONS[newIdx].name}!`); playSfx(); }
+    if(newIdx!==G.evoIndex){ G.evoIndex=newIdx; toast(`🎉 Evolved to ${EVOLUTIONS[newIdx].name}!`); playSfx(); updateUI(); }
   }
   
-  // Click handler
+  // Click handler with improved effects
+  const catEmoji = document.getElementById('catEmoji');
   catEmoji.addEventListener('pointerdown',e=>{
     e.preventDefault();
     let earn = Math.max(1, Math.floor(getClickPower()));
     G.purrs += earn; G.totalPurrs += earn;
     playSfx();
-    catEmoji.style.transform = 'scale(0.9)';
-    setTimeout(()=>{ catEmoji.style.transform = 'scale(1)'; }, 80);
+    catEmoji.style.transform = 'scale(0.92)';
+    setTimeout(()=>{ catEmoji.style.transform = 'scale(1)'; }, 100);
     let rect=catEmoji.getBoundingClientRect();
     let x = (e.clientX||e.touches?.[0]?.clientX||rect.left+rect.width/2) - rect.left;
     let y = (e.clientY||e.touches?.[0]?.clientY||rect.top+rect.height/2) - rect.top;
     let ripple = document.createElement('div');
-    ripple.className='ripple'; ripple.style.left=x+'px'; ripple.style.top=y+'px'; ripple.style.width='20px'; ripple.style.height='20px';
+    ripple.className='ripple'; ripple.style.left=x+'px'; ripple.style.top=y+'px'; ripple.style.width='30px'; ripple.style.height='30px';
     catEmoji.parentElement.appendChild(ripple); setTimeout(()=>ripple.remove(),400);
-    let particle=document.createElement('div'); particle.style.position='absolute'; particle.style.left=(rect.left+x-30)+'px'; particle.style.top=(rect.top+y-30)+'px'; particle.style.fontSize='1rem'; particle.textContent='+'+fmtNum(earn); particle.style.pointerEvents='none'; particle.style.fontWeight='bold'; particle.style.color='var(--cream)'; particle.style.textShadow='2px 2px 0 #6b3000'; particle.style.animation='float 1s ease-out forwards'; document.body.appendChild(particle); setTimeout(()=>particle.remove(),1000);
+    let particle=document.createElement('div'); particle.style.position='absolute'; particle.style.left=(rect.left+x-30)+'px'; particle.style.top=(rect.top+y-30)+'px'; particle.style.fontSize='1.3rem'; particle.textContent='+'+fmtNum(earn); particle.style.pointerEvents='none'; particle.style.fontWeight='bold'; particle.style.color='var(--cream)'; particle.style.textShadow='0 0 6px #ffaa44'; particle.style.animation='float 0.9s ease-out forwards'; document.body.appendChild(particle); setTimeout(()=>particle.remove(),1000);
     checkEvolution(); updateUI();
   });
   
-  // Audio (simplified from original)
+  // Audio (simplified but functional)
   let audioCtx=null, musicOn=false, musicNodes=[], arpInt,bassInt,ambInt;
   const SCALES=[[261.63,293.66,329.63,349.23,392.00,440.00,493.88,523.25],[293.66,329.63,369.99,392.00,440.00,493.88,554.37,587.33],[261.63,293.66,311.13,349.23,392.00,415.30,466.16,523.25],[220.00,246.94,261.63,293.66,329.63,349.23,392.00,440.00]];
   function getScale(){ let idx=Math.min(G.evoIndex,SCALES.length-1); return SCALES[idx]; }
@@ -380,9 +492,9 @@
   function bass(){ if(!audioCtx||!musicOn)return; let sc=getScale(); let now=audioCtx.currentTime; [0,0,4,3].forEach((i,idx)=>note(sc[i]*0.5,now+idx*0.42,0.38,0.05,'sawtooth')); }
   function amb(){ if(!audioCtx||!musicOn)return; let sc=getScale(); let now=audioCtx.currentTime; [0,2,4].forEach(si=>{ note(sc[si]*0.5,now,1.8,0.012,'sine'); }); }
   function startMusic(){ if(!audioCtx){ audioCtx=new(window.AudioContext||window.webkitAudioContext)(); } if(audioCtx.state==='suspended') audioCtx.resume(); musicOn=true; arpInt=setInterval(arp,1040); bassInt=setInterval(bass,1680); ambInt=setInterval(amb,3360); }
-  function stopMusic(){ musicOn=false; clearInterval(arpInt);clearInterval(bassInt);clearInterval(ambInt); musicNodes.forEach(n=>{ try{ n.osc.stop(); n.osc.disconnect(); n.gain.disconnect(); }catch(e){} }); musicNodes=[]; }
+  function stopMusic(){ musicOn=false; clearInterval(arpInt);clearInterval(bassInt);clearInterval(ambInt); musicNodes.forEach(n=>{ try{ n.osc.stop(); n.osc.disconnect(); n.gain.disconnect(); }catch(e){} }); musicNodes=[]; document.getElementById('btnMusic').textContent='🎵'; }
   function playSfx(){ if(audioCtx && musicOn) note(880, audioCtx.currentTime, 0.1, 0.08, 'square'); }
-  document.getElementById('btnMusic').onclick=()=>musicOn?stopMusic():startMusic();
+  document.getElementById('btnMusic').onclick=()=>{ if(musicOn) stopMusic(); else startMusic(); document.getElementById('btnMusic').textContent=musicOn?'🔇':'🎵'; };
   document.getElementById('btnReset').onclick=()=>{ if(confirm('Reset game? All progress lost!')){ localStorage.removeItem('purrSave'); location.reload(); } };
   
   // tick
@@ -405,15 +517,9 @@
     });
   });
   
-  // float animation
-  const style = document.createElement('style');
-  style.textContent = '@keyframes float { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-60px); } }';
-  document.head.appendChild(style);
-  
   // init
   function init(){
     buildUpgradePanel(); buildBuildingPanel(); buildCompanionPanel();
-    updateCatEmoji();
     updateUI();
     refreshPanels();
     if(!musicOn && localStorage.getItem('purrMusicPref')!=='off') startMusic();
