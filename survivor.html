@@ -45,24 +45,96 @@
         #reroll-count { color:#faa; font-size:11px; }
         #achievement-popup { position:absolute; top:-80px; left:50%; transform:translateX(-50%); background:rgba(20,10,30,0.95); border:2px solid #ffd040; border-radius:16px; padding:12px 20px; color:#ffd080; font-size:13px; font-weight:bold; text-align:center; z-index:30; pointer-events:none; transition:top 0.4s; display:flex; align-items:center; gap:8px; white-space:nowrap; box-shadow:0 0 24px #ffd04066; }
         #achievement-popup.show { top:20px; }
-        #start-screen { position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(160deg,#07071a,#0d0520); z-index:70; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:20px; overflow-y:auto; }
-        #start-screen h1 { color:#e0d0ff; font-size:26px; text-shadow:0 0 30px #a080f0cc; letter-spacing:2px; }
-        .menu-tabs { display:flex; gap:8px; margin:10px 0; }
-        .menu-tab { padding:6px 16px; background:#1a1a28; border:1px solid #333; border-radius:20px; color:#ccc; cursor:pointer; font-size:12px; transition:all 0.15s; }
-        .menu-tab.active { border-color:#a080f0; background:#222240; color:#fff; box-shadow:0 0 10px #a080f044; }
-        .class-select { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
-        .class-card { width:90px; padding:10px; background:#1a1a28; border:2px solid #333; border-radius:14px; color:#ddd; cursor:pointer; text-align:center; font-size:10px; transition:all 0.15s; }
-        .class-card.selected { border-color:#a080f0; background:#222240; color:#fff; box-shadow:0 0 14px #a080f066; }
-        .class-card .emoji { font-size:30px; display:block; margin-bottom:4px; }
-        .class-desc { font-size:9px; color:#888; margin-top:2px; }
-        #gold-display { color:#d4a840; font-size:13px; background:#111; padding:4px 16px; border-radius:14px; }
-        .perm-btn { padding:6px 12px; background:#111; border:1px solid #444; border-radius:16px; color:#bbb; font-size:10px; cursor:pointer; transition:all 0.15s; }
-        .perm-btn:hover { border-color:#d4a840; color:#ffd080; }
-        .perm-btn .cost { color:#d4a840; font-weight:bold; }
-        .skin-upload { display:flex; align-items:center; gap:8px; margin:6px 0; }
-        .skin-upload span { width:70px; font-size:11px; color:#ccc; }
-        .skin-upload img { width:28px; height:28px; border-radius:50%; border:1px solid #555; }
-        .skin-upload button { background:#2a2a40; border:1px solid #555; border-radius:6px; color:#ccc; padding:4px 10px; font-size:10px; cursor:pointer; }
+        #start-screen { position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(160deg,#07071a,#0d0520); z-index:70; display:flex; flex-direction:column; align-items:stretch; overflow:hidden; }
+
+        /* ── Hero banner ── */
+        #menu-hero { flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px 16px 12px; background:linear-gradient(180deg,#0d0025 0%,transparent 100%); }
+        #menu-hero h1 { color:#e0d0ff; font-size:22px; letter-spacing:2px; text-shadow:0 0 28px #a080f0cc; margin:0; }
+        #menu-hero .hero-sub { font-size:10px; color:#6050a0; letter-spacing:3px; margin-top:3px; text-transform:uppercase; }
+        #menu-gold-bar { display:flex; align-items:center; justify-content:center; gap:8px; margin-top:8px; }
+        #menu-gold-pill { background:#1a140a; border:1px solid #604020; border-radius:20px; padding:4px 14px; color:#d4a840; font-size:13px; font-weight:bold; }
+
+        /* ── Bottom nav tabs ── */
+        #menu-nav { flex-shrink:0; display:flex; background:#0a0a14; border-top:1px solid #1a1a2e; border-bottom:1px solid #1a1a2e; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+        #menu-nav::-webkit-scrollbar { display:none; }
+        .mnav-btn { flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 14px; color:#555; font-size:9px; letter-spacing:.5px; text-transform:uppercase; cursor:pointer; border-bottom:2px solid transparent; transition:all .15s; white-space:nowrap; background:none; border-left:none; border-right:none; border-top:none; }
+        .mnav-btn .mnav-icon { font-size:18px; line-height:1; }
+        .mnav-btn.active { color:#c0a0ff; border-bottom-color:#a080f0; }
+        .mnav-btn:active { background:rgba(160,128,240,.08); }
+
+        /* ── Scrollable content area ── */
+        #menu-content { flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; padding:0 0 16px; }
+        .menu-panel { padding:12px 14px; display:none; }
+        .menu-panel.active-panel { display:block; }
+
+        /* ── Play tab ── */
+        .section-label { font-size:10px; color:#5040a0; letter-spacing:2px; text-transform:uppercase; margin:10px 0 6px; font-weight:bold; }
+        .class-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+        .class-card { padding:10px 6px; background:#111122; border:1.5px solid #222235; border-radius:14px; color:#bbb; cursor:pointer; text-align:center; font-size:10px; transition:all .15s; -webkit-tap-highlight-color:transparent; }
+        .class-card.selected { border-color:#a080f0; background:#1e1a38; color:#fff; box-shadow:0 0 14px #a080f055; }
+        .class-card .emoji { font-size:28px; display:block; margin-bottom:4px; }
+        .class-card .class-name { font-weight:bold; font-size:11px; }
+        .class-desc { font-size:9px; color:#666; margin-top:2px; }
+        .diff-row { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin:0; }
+        .diff-btn { padding:8px 4px; background:#111122; border:1.5px solid #222235; border-radius:10px; color:#888; cursor:pointer; font-size:11px; text-align:center; transition:all .15s; font-family:inherit; -webkit-tap-highlight-color:transparent; }
+        .diff-btn.active { border-color:#a080f0; background:#1e1a38; color:#e0d0ff; }
+        #diff-desc { font-size:10px; color:#666; text-align:center; min-height:14px; margin:4px 0; }
+        #start-btn { width:100%; padding:16px; background:linear-gradient(135deg,#3a1a50,#6030a0); border:1.5px solid #a080f0; border-radius:14px; color:#e8d8ff; cursor:pointer; font-size:18px; font-weight:bold; letter-spacing:1px; transition:all .15s; margin-top:4px; -webkit-tap-highlight-color:transparent; }
+        #start-btn:active { transform:scale(0.98); background:linear-gradient(135deg,#4a2060,#7040b0); }
+
+        /* ── Upgrades tab ── */
+        .perm-upgrade-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+        .perm-btn-card { padding:10px 8px; background:#111122; border:1.5px solid #222235; border-radius:12px; color:#bbb; font-size:10px; cursor:pointer; transition:all .15s; text-align:center; -webkit-tap-highlight-color:transparent; }
+        .perm-btn-card:active { border-color:#d4a840; background:#1a1810; transform:scale(.97); }
+        .perm-btn-card .perm-icon { font-size:22px; display:block; margin-bottom:4px; }
+        .perm-btn-card .perm-name { font-weight:bold; color:#e0c080; font-size:11px; }
+        .perm-btn-card .perm-lvl { font-size:9px; color:#666; margin:2px 0; }
+        .perm-btn-card .cost { color:#d4a840; font-weight:bold; }
+
+        /* ── Achievements tab ── */
+        #ach-summary { font-size:12px; color:#a080f0; text-align:center; padding:8px 4px 4px; font-weight:bold; }
+        #achievements-list { font-size:10px; max-height:none; overflow:visible; }
+        .ach-cat-header { font-size:10px; font-weight:bold; color:#7060a0; padding:10px 4px 4px; letter-spacing:1px; text-transform:uppercase; border-top:1px solid #1a1a2e; margin-top:4px; }
+        .ach-cat-header:first-child { border-top:none; margin-top:0; }
+        .ach-entry { padding:8px 10px; margin:4px 0; background:#0e0e1e; border-radius:10px; color:#ffd080; display:flex; align-items:center; gap:8px; border:1px solid #1e1e30; }
+        .ach-entry.locked { color:#333; background:#090910; border-color:#111118; }
+        .ach-entry .ach-name { font-weight:bold; font-size:11px; }
+        .ach-entry .ach-ddesc { font-size:9px; color:#666; }
+        .ach-entry.locked .ach-name { color:#2a2a40; }
+        .ach-entry.locked .ach-ddesc { color:#1a1a28; }
+        .ach-prog { font-size:9px; color:#7060a0; margin-left:auto; white-space:nowrap; }
+        .ach-secret { color:#4a3060 !important; background:#080810 !important; border-color:#120e20 !important; }
+
+        /* ── Challenges tab ── */
+        #daily-bonus { background:#0e1808; border:1px solid #304010; border-radius:10px; padding:10px 12px; margin:4px 0 10px; font-size:11px; color:#90c030; text-align:center; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+        .challenge-card { background:#0e0e1e; border:1px solid #1e1e30; border-radius:12px; padding:10px 12px; margin:6px 0; }
+        .challenge-name { font-size:12px; font-weight:bold; color:#d0c0ff; }
+        .challenge-desc { font-size:10px; color:#666; margin-top:3px; }
+        .challenge-reward { font-size:10px; color:#d4a840; margin-top:4px; }
+        .challenge-done .challenge-name { color:#80c040; }
+        .challenge-done { border-color:#2a3a10; }
+
+        /* ── History tab ── */
+        #run-history { display:flex; flex-direction:column; gap:6px; }
+        .run-record { background:#0e0e1e; border-radius:10px; padding:10px 12px; font-size:10px; color:#888; border-left:3px solid #222; }
+        .run-record.run-best { border-left-color:#d4a840; }
+        #alltime-stats { margin-top:10px; font-size:10px; color:#555; background:#0a0a14; border-radius:10px; padding:10px 12px; }
+
+        /* ── Arcapedia tab ── */
+        .arc-tabs { display:flex; gap:6px; margin-bottom:10px; }
+        .arc-tab { flex:1; padding:8px 4px; background:#111122; border:1.5px solid #222235; border-radius:10px; color:#888; font-size:11px; cursor:pointer; text-align:center; transition:all .15s; -webkit-tap-highlight-color:transparent; }
+        .arc-tab.active { border-color:#a080f0; background:#1e1a38; color:#c0a0ff; }
+
+        /* ── Skins tab ── */
+        .skin-upload { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #111118; }
+        .skin-upload span { width:70px; font-size:11px; color:#aaa; }
+        .skin-upload img { width:32px; height:32px; border-radius:50%; border:1.5px solid #333; object-fit:cover; }
+        .skin-upload button { background:#1a1a2e; border:1px solid #333; border-radius:8px; color:#bbb; padding:6px 12px; font-size:11px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+
+        /* Legacy compat */
+        .menu-tabs { display:none; }
+        .menu-tab { display:none; }
+        #gold-display { display:none; }
         #wave-display { background:#1a1a24; border:1px solid #445; border-radius:8px; padding:2px 8px; font-weight:bold; font-size:11px; color:#c0a0ff; }
         #status-effects { position:absolute; top:110px; left:6px; display:flex; flex-direction:column; gap:3px; z-index:12; pointer-events:none; }
         .status-badge { background:rgba(10,10,20,0.85); border-radius:6px; padding:2px 6px; font-size:10px; border:1px solid #444; }
@@ -108,9 +180,28 @@
         #daily-bonus { background:#1a200a; border:1px solid #4a6020; border-radius:8px; padding:6px 10px; margin:4px 0; font-size:10px; color:#a0d040; text-align:center; cursor:pointer; }
         #daily-bonus:hover { border-color:#80c040; }
         .ach-secret { color:#604080 !important; background:#100a18 !important; }
-        #joystick-container { position:absolute; bottom:90px; right:20px; width:120px; height:120px; z-index:25; pointer-events:auto; display:flex; align-items:center; justify-content:center; }
-        #joystick-base { width:100px; height:100px; border-radius:50%; background:rgba(20,20,40,0.7); border:2px solid #555; position:relative; }
-        #joystick-thumb { width:40px; height:40px; border-radius:50%; background:rgba(200,180,255,0.8); border:2px solid #c0a0ff; position:absolute; top:30px; left:30px; box-shadow:0 0 10px #c0a0ff66; }
+        #joystick-container { position:absolute; z-index:25; pointer-events:auto; display:flex; align-items:center; justify-content:center; touch-action:none; transition:bottom 0.2s,left 0.2s,right 0.2s; }
+        #joystick-base { border-radius:50%; background:rgba(20,20,40,0.65); border:2px solid rgba(160,140,220,0.5); position:relative; backdrop-filter:blur(4px); transition:width 0.2s,height 0.2s,opacity 0.2s; }
+        #joystick-thumb { border-radius:50%; background:rgba(200,180,255,0.85); border:2px solid #c0a0ff; position:absolute; box-shadow:0 0 12px #c0a0ff88; transition:background 0.2s,border-color 0.2s; }
+        #joy-settings-btn { position:absolute; z-index:26; width:26px; height:26px; border-radius:50%; background:rgba(20,20,40,0.8); border:1px solid #555; color:#aaa; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; pointer-events:auto; }
+        #joy-panel { position:absolute; bottom:0; left:0; right:0; background:rgba(8,8,20,0.97); backdrop-filter:blur(12px); border-top:1px solid #2a2a40; border-radius:14px 14px 0 0; padding:16px; z-index:60; display:none; flex-direction:column; gap:10px; pointer-events:auto; max-height:70vh; overflow-y:auto; }
+        #joy-panel.open { display:flex; }
+        #joy-panel h3 { color:#c0a0ff; font-size:14px; text-align:center; letter-spacing:1px; margin-bottom:2px; }
+        .joy-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+        .joy-label { font-size:11px; color:#aaa; min-width:90px; }
+        .joy-slider { flex:1; -webkit-appearance:none; height:5px; border-radius:3px; background:#2a2a40; outline:none; }
+        .joy-slider::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:#a080f0; border:2px solid #c0a0ff; cursor:pointer; }
+        .joy-val { font-size:11px; color:#c0a0ff; min-width:36px; text-align:right; }
+        .joy-pos-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; }
+        .joy-pos-btn { padding:6px; background:#1a1a28; border:1px solid #333; border-radius:8px; color:#bbb; font-size:10px; cursor:pointer; text-align:center; transition:all 0.12s; }
+        .joy-pos-btn.active { border-color:#a080f0; background:#222240; color:#fff; }
+        .joy-color-row { display:flex; gap:6px; flex-wrap:wrap; }
+        .joy-color-dot { width:22px; height:22px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition:all 0.12s; }
+        .joy-color-dot.active { border-color:#fff; transform:scale(1.2); }
+        .joy-close { padding:8px; background:#1a1a2e; border:1px solid #3a3a55; border-radius:10px; color:#ccc; cursor:pointer; font-size:12px; text-align:center; }
+        .joy-toggle-row { display:flex; gap:6px; }
+        .joy-toggle-btn { flex:1; padding:6px; background:#1a1a28; border:1px solid #333; border-radius:8px; color:#bbb; font-size:10px; cursor:pointer; text-align:center; transition:all 0.12s; }
+        .joy-toggle-btn.active { border-color:#a080f0; background:#222240; color:#fff; }
         #kill-streak { position:absolute; top:110px; right:10px; color:#ff8040; font-size:12px; font-weight:bold; text-shadow:0 0 10px #ff804099; z-index:12; pointer-events:none; opacity:0; transition:opacity 0.3s; }
         #kill-streak.show { opacity:1; }
         .stat-line { display:block; margin:4px 0; color:#ccc; font-size:13px; }
@@ -161,79 +252,182 @@
         <div id="achievement-popup"><span class="ach-icon"></span><span class="ach-text"></span></div>
         <div id="kill-streak"></div>
         <div id="fps-counter"></div>
+        <button id="joy-settings-btn" title="Customize joystick">⚙️</button>
         <div id="joystick-container">
             <div id="joystick-base"><div id="joystick-thumb"></div></div>
+        </div>
+        <div id="joy-panel">
+            <h3>🕹️ Joystick Settings</h3>
+            <div class="joy-row">
+                <span class="joy-label">Size</span>
+                <input class="joy-slider" type="range" id="joy-size" min="60" max="220" value="100" step="4">
+                <span class="joy-val" id="joy-size-val">100</span>
+            </div>
+            <div class="joy-row">
+                <span class="joy-label">Thumb Size</span>
+                <input class="joy-slider" type="range" id="joy-thumb-size" min="20" max="90" value="40" step="2">
+                <span class="joy-val" id="joy-thumb-val">40</span>
+            </div>
+            <div class="joy-row">
+                <span class="joy-label">Opacity</span>
+                <input class="joy-slider" type="range" id="joy-opacity" min="10" max="100" value="70" step="5">
+                <span class="joy-val" id="joy-opacity-val">70%</span>
+            </div>
+            <div class="joy-row">
+                <span class="joy-label">Sensitivity</span>
+                <input class="joy-slider" type="range" id="joy-sens" min="200" max="900" value="500" step="50">
+                <span class="joy-val" id="joy-sens-val">Med</span>
+            </div>
+            <div class="joy-row">
+                <span class="joy-label">Position</span>
+                <div class="joy-pos-grid">
+                    <button class="joy-pos-btn" data-pos="bl">↙ B.Left</button>
+                    <button class="joy-pos-btn" data-pos="bc">↓ Bottom</button>
+                    <button class="joy-pos-btn active" data-pos="br">↘ B.Right</button>
+                    <button class="joy-pos-btn" data-pos="ml">← Mid.L</button>
+                    <button class="joy-pos-btn" data-pos="mc">Center</button>
+                    <button class="joy-pos-btn" data-pos="mr">→ Mid.R</button>
+                </div>
+            </div>
+            <div class="joy-row">
+                <span class="joy-label">Thumb Color</span>
+                <div class="joy-color-row" id="joy-colors">
+                    <div class="joy-color-dot active" data-color="#c0a0ff" style="background:#c0a0ff"></div>
+                    <div class="joy-color-dot" data-color="#ff8080" style="background:#ff8080"></div>
+                    <div class="joy-color-dot" data-color="#80ff80" style="background:#80ff80"></div>
+                    <div class="joy-color-dot" data-color="#80d0ff" style="background:#80d0ff"></div>
+                    <div class="joy-color-dot" data-color="#ffd080" style="background:#ffd080"></div>
+                    <div class="joy-color-dot" data-color="#ff80d0" style="background:#ff80d0"></div>
+                    <div class="joy-color-dot" data-color="#ffffff" style="background:#ffffff"></div>
+                    <div class="joy-color-dot" data-color="#ff6040" style="background:#ff6040"></div>
+                </div>
+            </div>
+            <div class="joy-row">
+                <span class="joy-label">Mode</span>
+                <div class="joy-toggle-row">
+                    <button class="joy-toggle-btn active" data-mode="fixed">Fixed</button>
+                    <button class="joy-toggle-btn" data-mode="float">Floating</button>
+                    <button class="joy-toggle-btn" data-mode="hidden">Hidden</button>
+                </div>
+            </div>
+            <button class="joy-close" onclick="document.getElementById('joy-panel').classList.remove('open')">✕ Close</button>
         </div>
         <div class="overlay" id="levelup-overlay"><h2>🎯 Choose Upgrade</h2><div id="levelup-choices"></div><span id="reroll-count">Rerolls: 2</span><button class="action-btn" id="reroll-btn">🔄 Reroll</button></div>
         <div class="overlay" id="chest-overlay"><h2>📦 Treasure Chest!</h2><div id="chest-choices"></div></div>
         <div class="overlay" id="game-over-overlay"><h2>💀 Game Over</h2><div id="gameover-stats"></div><button class="action-btn" id="restart-btn">🔁 Try Again</button></div>
         <div id="start-screen">
-            <h1>⚔️ SURVIVOR'S ARCANE</h1>
-            <div class="menu-tabs">
-                <div class="menu-tab active" data-tab="play">Play</div>
-                <div class="menu-tab" data-tab="upgrades">Upgrades</div>
-                <div class="menu-tab" data-tab="arcapedia">📖 Arcapedia</div>
-                <div class="menu-tab" data-tab="skins">Skins</div>
-                <div class="menu-tab" data-tab="achievements">🏆 Ach.</div>
-                <div class="menu-tab" data-tab="challenges">🎯 Daily</div>
-                <div class="menu-tab" data-tab="history">📊 History</div>
-            </div>
-            <div id="menu-panel-play" class="menu-panel">
-                <div class="class-select" id="class-select">
-                    <div class="class-card selected" data-class="wizard"><span class="emoji">🧙</span>Wizard<div class="class-desc">Magic Bolt · Fast cast</div></div>
-                    <div class="class-card" data-class="pyromancer"><span class="emoji">🔥</span>Pyro<div class="class-desc">Fireball · AOE burst</div></div>
-                    <div class="class-card" data-class="frost"><span class="emoji">❄️</span>Frost<div class="class-desc">Nova · Slows all</div></div>
-                    <div class="class-card" data-class="summoner"><span class="emoji">👻</span>Summoner<div class="class-desc">Orbits · Constant dmg</div></div>
-                    <div class="class-card" data-class="necro"><span class="emoji">💀</span>Necromancer<div class="class-desc">Undead army · Summon</div></div>
-                    <div class="class-card" data-class="berserker"><span class="emoji">⚔️</span>Berserker<div class="class-desc">Blade Storm · Rage</div></div>
+            <!-- Hero -->
+            <div id="menu-hero">
+                <h1>⚔️ SURVIVOR'S ARCANE</h1>
+                <div class="hero-sub">Hardcore Roguelite</div>
+                <div id="menu-gold-bar">
+                    <div id="menu-gold-pill">💰 <span id="menu-gold-val">0</span></div>
                 </div>
-                <div style="display:flex;gap:6px;justify-content:center;margin:6px 0;">
-                    <button class="diff-btn active" id="diff-normal" data-diff="normal">Normal</button>
-                    <button class="diff-btn" id="diff-hard" data-diff="hard">Hard 🔥</button>
-                    <button class="diff-btn" id="diff-nightmare" data-diff="nightmare">Nightmare 💀</button>
+            </div>
+
+            <!-- Bottom nav -->
+            <nav id="menu-nav">
+                <button class="mnav-btn active" data-panel="play"><span class="mnav-icon">⚔️</span>Play</button>
+                <button class="mnav-btn" data-panel="upgrades"><span class="mnav-icon">⬆️</span>Upgrades</button>
+                <button class="mnav-btn" data-panel="achievements"><span class="mnav-icon">🏆</span>Achieve</button>
+                <button class="mnav-btn" data-panel="challenges"><span class="mnav-icon">🎯</span>Daily</button>
+                <button class="mnav-btn" data-panel="history"><span class="mnav-icon">📊</span>History</button>
+                <button class="mnav-btn" data-panel="arcapedia"><span class="mnav-icon">📖</span>Arcapedia</button>
+                <button class="mnav-btn" data-panel="skins"><span class="mnav-icon">🎨</span>Skins</button>
+            </nav>
+
+            <!-- Scrollable content -->
+            <div id="menu-content">
+
+                <!-- ── PLAY ── -->
+                <div class="menu-panel active-panel" id="menu-panel-play">
+                    <div class="section-label">Choose Class</div>
+                    <div class="class-grid" id="class-select">
+                        <div class="class-card selected" data-class="wizard"><span class="emoji">🧙</span><div class="class-name">Wizard</div><div class="class-desc">Magic Bolt · Fast cast</div></div>
+                        <div class="class-card" data-class="pyromancer"><span class="emoji">🔥</span><div class="class-name">Pyro</div><div class="class-desc">Fireball · AOE burst</div></div>
+                        <div class="class-card" data-class="frost"><span class="emoji">❄️</span><div class="class-name">Frost</div><div class="class-desc">Nova · Slows all</div></div>
+                        <div class="class-card" data-class="summoner"><span class="emoji">👻</span><div class="class-name">Summoner</div><div class="class-desc">Orbits · Constant dmg</div></div>
+                        <div class="class-card" data-class="necro"><span class="emoji">💀</span><div class="class-name">Necromancer</div><div class="class-desc">Undead · Summon</div></div>
+                        <div class="class-card" data-class="berserker"><span class="emoji">⚔️</span><div class="class-name">Berserker</div><div class="class-desc">Blade Storm · Rage</div></div>
+                    </div>
+
+                    <div class="section-label">Difficulty</div>
+                    <div class="diff-row">
+                        <button class="diff-btn active" id="diff-normal" data-diff="normal">🟢 Normal</button>
+                        <button class="diff-btn" id="diff-hard" data-diff="hard">🔥 Hard</button>
+                        <button class="diff-btn" id="diff-nightmare" data-diff="nightmare">💀 Nightmare</button>
+                    </div>
+                    <div id="diff-desc">Standard difficulty</div>
+
+                    <!-- hidden legacy gold display for compat -->
+                    <span id="gold-display" style="display:none">💰 Gold: 0</span>
+                    <button id="start-btn">▶ Start Battle</button>
                 </div>
-                <div id="diff-desc" style="font-size:10px;color:#888;text-align:center;margin:2px 0;">Standard difficulty</div>
-                <span id="gold-display">💰 Gold: 0</span>
-                <button class="action-btn" id="start-btn" style="padding:16px 40px;font-size:18px;">▶ Start Battle</button>
-            </div>
-            <div id="menu-panel-upgrades" class="menu-panel" style="display:none;">
-                <div class="perm-upgrade-grid">
-                    <button class="perm-btn-card" data-upgrade="attack"><span class="perm-icon">⚔️</span><span class="perm-name">Attack</span><div class="perm-lvl" id="plvl-attack">Lv 0/8</div><div>Cost: <span class="cost" id="pcost-attack">75</span>💰</div></button>
-                    <button class="perm-btn-card" data-upgrade="hp"><span class="perm-icon">❤️</span><span class="perm-name">Max HP</span><div class="perm-lvl" id="plvl-hp">Lv 0/8</div><div>Cost: <span class="cost" id="pcost-hp">75</span>💰</div></button>
-                    <button class="perm-btn-card" data-upgrade="cdr"><span class="perm-icon">⏱</span><span class="perm-name">Cooldown</span><div class="perm-lvl" id="plvl-cdr">Lv 0/8</div><div>Cost: <span class="cost" id="pcost-cdr">100</span>💰</div></button>
-                    <button class="perm-btn-card" data-upgrade="speed"><span class="perm-icon">👟</span><span class="perm-name">Speed</span><div class="perm-lvl" id="plvl-speed">Lv 0/8</div><div>Cost: <span class="cost" id="pcost-speed">75</span>💰</div></button>
-                    <button class="perm-btn-card" data-upgrade="crit"><span class="perm-icon">💥</span><span class="perm-name">Crit Rate</span><div class="perm-lvl" id="plvl-crit">Lv 0/8</div><div>Cost: <span class="cost" id="pcost-crit">100</span>💰</div></button>
-                    <button class="perm-btn-card" data-upgrade="xpboost"><span class="perm-icon">⭐</span><span class="perm-name">XP Boost</span><div class="perm-lvl" id="plvl-xpboost">Lv 0/5</div><div>Cost: <span class="cost" id="pcost-xpboost">120</span>💰</div></button>
-                    <button class="perm-btn-card" data-upgrade="dashcd"><span class="perm-icon">💨</span><span class="perm-name">Dash CD</span><div class="perm-lvl" id="plvl-dashcd">Lv 0/5</div><div>Cost: <span class="cost" id="pcost-dashcd">80</span>💰</div></button>
-                    <button class="perm-btn-card" data-upgrade="rerolls"><span class="perm-icon">🔄</span><span class="perm-name">Rerolls</span><div class="perm-lvl" id="plvl-rerolls">Lv 0/4</div><div>Cost: <span class="cost" id="pcost-rerolls">90</span>💰</div></button>
+
+                <!-- ── UPGRADES ── -->
+                <div class="menu-panel" id="menu-panel-upgrades">
+                    <div class="section-label">Permanent Upgrades</div>
+                    <div class="perm-upgrade-grid">
+                        <button class="perm-btn-card" data-upgrade="attack"><span class="perm-icon">⚔️</span><span class="perm-name">Attack</span><div class="perm-lvl" id="plvl-attack">Lv 0/8</div><div>Cost: <span class="cost" id="pcost-attack">150</span>💰</div></button>
+                        <button class="perm-btn-card" data-upgrade="hp"><span class="perm-icon">❤️</span><span class="perm-name">Max HP</span><div class="perm-lvl" id="plvl-hp">Lv 0/8</div><div>Cost: <span class="cost" id="pcost-hp">150</span>💰</div></button>
+                        <button class="perm-btn-card" data-upgrade="cdr"><span class="perm-icon">⏱</span><span class="perm-name">Cooldown</span><div class="perm-lvl" id="plvl-cdr">Lv 0/8</div><div>Cost: <span class="cost" id="pcost-cdr">200</span>💰</div></button>
+                        <button class="perm-btn-card" data-upgrade="speed"><span class="perm-icon">👟</span><span class="perm-name">Speed</span><div class="perm-lvl" id="plvl-speed">Lv 0/8</div><div>Cost: <span class="cost" id="pcost-speed">150</span>💰</div></button>
+                        <button class="perm-btn-card" data-upgrade="crit"><span class="perm-icon">💥</span><span class="perm-name">Crit Rate</span><div class="perm-lvl" id="plvl-crit">Lv 0/8</div><div>Cost: <span class="cost" id="pcost-crit">220</span>💰</div></button>
+                        <button class="perm-btn-card" data-upgrade="xpboost"><span class="perm-icon">⭐</span><span class="perm-name">XP Boost</span><div class="perm-lvl" id="plvl-xpboost">Lv 0/5</div><div>Cost: <span class="cost" id="pcost-xpboost">250</span>💰</div></button>
+                        <button class="perm-btn-card" data-upgrade="dashcd"><span class="perm-icon">💨</span><span class="perm-name">Dash CD</span><div class="perm-lvl" id="plvl-dashcd">Lv 0/5</div><div>Cost: <span class="cost" id="pcost-dashcd">180</span>💰</div></button>
+                        <button class="perm-btn-card" data-upgrade="rerolls"><span class="perm-icon">🔄</span><span class="perm-name">Rerolls</span><div class="perm-lvl" id="plvl-rerolls">Lv 0/4</div><div>Cost: <span class="cost" id="pcost-rerolls">300</span>💰</div></button>
+                    </div>
+                    <div style="font-size:9px;color:#333;text-align:center;margin-top:10px;">Upgrades persist between runs</div>
                 </div>
-                <div style="font-size:9px;color:#555;text-align:center;margin-top:4px;">Upgrades persist between runs</div>
-            </div>
-            <div id="menu-panel-skins" class="menu-panel" style="display:none;">
-                <p style="color:#aaa;font-size:11px;">Upload PNG images (stored locally)</p>
-                <div id="skins-container"></div>
-            </div>
-            <div id="menu-panel-arcapedia" class="menu-panel" style="display:none;">
-                <div class="arc-tabs">
-                    <button class="arc-tab active" data-arc="spells">🔮 Spells</button>
-                    <button class="arc-tab" data-arc="enemies">👹 Enemies</button>
-                    <button class="arc-tab" data-arc="synergies">✨ Synergies</button>
+
+                <!-- ── ACHIEVEMENTS ── -->
+                <div class="menu-panel" id="menu-panel-achievements">
+                    <div id="ach-summary">🏆 Loading...</div>
+                    <div id="achievements-list"></div>
                 </div>
-                <div id="arc-content"></div>
-            </div>
-            <div id="menu-panel-achievements" class="menu-panel" style="display:none;">
-                <div id="ach-summary">🏆 Loading...</div>
-                <div id="achievements-list"></div>
-            </div>
-            <div id="menu-panel-challenges" class="menu-panel" style="display:none;">
-                <p style="color:#a0d040;font-size:11px;text-align:center;">🎯 Daily Challenges</p>
-                <div id="daily-bonus" onclick="claimDailyBonus()">🎁 Claim Daily Login Bonus</div>
-                <div id="challenge-panel"></div>
-            </div>
-            <div id="menu-panel-history" class="menu-panel" style="display:none;">
-                <p style="color:#e0c080;font-size:11px;text-align:center;">📊 Run History (last 10)</p>
-                <div id="run-history"></div>
-                <div id="alltime-stats" style="margin-top:6px;font-size:10px;color:#888;"></div>
+
+                <!-- ── DAILY CHALLENGES ── -->
+                <div class="menu-panel" id="menu-panel-challenges">
+                    <div class="section-label">Daily Challenges</div>
+                    <div id="daily-bonus" onclick="claimDailyBonus()">🎁 Claim Daily Login Bonus (+25 💰)</div>
+                    <div id="challenge-panel"></div>
+                </div>
+
+                <!-- ── HISTORY ── -->
+                <div class="menu-panel" id="menu-panel-history">
+                    <div class="section-label">Run History</div>
+                    <div id="run-history"></div>
+                    <div id="alltime-stats"></div>
+                </div>
+
+                <!-- ── ARCAPEDIA ── -->
+                <div class="menu-panel" id="menu-panel-arcapedia">
+                    <div class="section-label">Encyclopedia</div>
+                    <div class="arc-tabs">
+                        <button class="arc-tab active" data-arc="spells">🔮 Spells</button>
+                        <button class="arc-tab" data-arc="enemies">👹 Enemies</button>
+                        <button class="arc-tab" data-arc="synergies">✨ Synergies</button>
+                    </div>
+                    <div id="arc-content"></div>
+                </div>
+
+                <!-- ── SKINS ── -->
+                <div class="menu-panel" id="menu-panel-skins">
+                    <div class="section-label">Custom Skins (PNG)</div>
+                    <div id="skins-container"></div>
+                </div>
+
+            </div><!-- end menu-content -->
+
+            <!-- Legacy hidden tab wrappers so JS lookups don't error -->
+            <div class="menu-tabs" style="display:none">
+                <div class="menu-tab active" data-tab="play"></div>
+                <div class="menu-tab" data-tab="upgrades"></div>
+                <div class="menu-tab" data-tab="arcapedia"></div>
+                <div class="menu-tab" data-tab="skins"></div>
+                <div class="menu-tab" data-tab="achievements"></div>
+                <div class="menu-tab" data-tab="challenges"></div>
+                <div class="menu-tab" data-tab="history"></div>
             </div>
         </div>
     </div>
@@ -652,7 +846,8 @@
             _xpBonus:1,_goldBonus:1,_chainReact:false,glowAngle:0};
         player.maxHp=80+(permUp.hp||0)*4; player.hp=player.maxHp;
         player.speed=170+(permUp.speed||0)*1.5;
-        // Class-specific bonuses{  player.cdr+=8; player.attack+=10; player.spells.push(makeSpell('magic_bolt')); }
+        // Class-specific bonuses
+        if(selectedClass==='wizard'){  player.cdr+=8; player.attack+=10; player.spells.push(makeSpell('magic_bolt')); }
         if(selectedClass==='pyromancer'){ player.attack+=20; player.critRate+=5; player.spells.push(makeSpell('fireball')); }
         if(selectedClass==='frost'){   player.maxHp+=30; player.hp+=30; player.dmgRed+=8; player.spells.push(makeSpell('frost_nova')); }
         if(selectedClass==='summoner'){ player.pickup+=30; player.speed+=15; player.spells.push(makeSpell('spirit_orbits')); }
@@ -1372,23 +1567,94 @@
         // AOEs
         aoes.forEach(a=>{
             let prog=1-a.age/a.dur,r=a.spell.size*0.55;
+            ctx.save();
+
+            // ── Black Hole ──
+            if(a.blackhole){
+                let gr2=ctx.createRadialGradient(a.x,a.y,0,a.x,a.y,r);
+                gr2.addColorStop(0,'#000000ff'); gr2.addColorStop(0.4,'#550088cc'); gr2.addColorStop(1,'transparent');
+                ctx.fillStyle=gr2; ctx.beginPath(); ctx.arc(a.x,a.y,r,0,Math.PI*2); ctx.fill();
+                // Pulsing dark rings
+                for(let ri=0;ri<3;ri++){
+                    ctx.strokeStyle='#cc00ff'; ctx.lineWidth=2; ctx.globalAlpha=0.5+0.4*Math.sin(a.age*6+ri*1.5);
+                    ctx.beginPath(); ctx.arc(a.x,a.y,r*(0.25+ri*0.25),0,Math.PI*2); ctx.stroke();
+                }
+                // Event horizon
+                ctx.globalAlpha=0.9; ctx.fillStyle='#000'; ctx.beginPath(); ctx.arc(a.x,a.y,r*0.18,0,Math.PI*2); ctx.fill();
+                ctx.restore(); return;
+            }
+            // ── Gravity well ──
             if(a.gravity){
-                // Gravity well: spinning vortex
-                ctx.save();
                 let gr2=ctx.createRadialGradient(a.x,a.y,0,a.x,a.y,r);
                 gr2.addColorStop(0,'#ff00ff55'); gr2.addColorStop(0.5,(a.spell.color||'#6000a0')+'88'); gr2.addColorStop(1,'transparent');
                 ctx.fillStyle=gr2; ctx.beginPath(); ctx.arc(a.x,a.y,r,0,Math.PI*2); ctx.fill();
-                // Spinning ring
                 ctx.strokeStyle=a.spell.color||'#6000a0'; ctx.lineWidth=3; ctx.globalAlpha=prog*0.8;
                 ctx.beginPath(); ctx.arc(a.x,a.y,r*(0.4+0.3*Math.sin(a.age*4)),0,Math.PI*2); ctx.stroke();
                 ctx.beginPath(); ctx.arc(a.x,a.y,r*0.7,0,Math.PI*2); ctx.stroke();
-                ctx.restore();
-                return;
+                ctx.restore(); return;
             }
+            // ── Mine ──
+            if(a.mine){
+                let armed=a.armed<=0;
+                let pulse=armed?(0.7+0.3*Math.sin(a.age*10)):0.5;
+                ctx.globalAlpha=pulse;
+                let gr2=ctx.createRadialGradient(a.x,a.y,0,a.x,a.y,r*0.5);
+                gr2.addColorStop(0,'#80e0ff'); gr2.addColorStop(1,'#40a0ff00');
+                ctx.fillStyle=gr2; ctx.beginPath(); ctx.arc(a.x,a.y,r*0.5,0,Math.PI*2); ctx.fill();
+                ctx.strokeStyle=armed?'#80e0ff':'#405060'; ctx.lineWidth=2;
+                ctx.beginPath(); ctx.arc(a.x,a.y,r*0.28,0,Math.PI*2); ctx.stroke();
+                // Rune symbol
+                ctx.fillStyle=armed?'#c0f0ff':'#406080'; ctx.font=`${Math.round(r*0.3)}px sans-serif`;
+                ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('💠',a.x,a.y);
+                ctx.restore(); return;
+            }
+            // ── Shockwave: expanding ring ──
+            if(a.shockwave){
+                let ringR=r*(a.age/a.dur);
+                ctx.strokeStyle=a.spell.color||'#ffe060'; ctx.lineWidth=6*(1-a.age/a.dur)+1; ctx.globalAlpha=prog*0.85;
+                ctx.beginPath(); ctx.arc(a.x,a.y,ringR,0,Math.PI*2); ctx.stroke();
+                // Inner glow
+                ctx.lineWidth=2; ctx.globalAlpha=prog*0.4;
+                ctx.beginPath(); ctx.arc(a.x,a.y,Math.max(0,ringR-12),0,Math.PI*2); ctx.stroke();
+                ctx.restore(); return;
+            }
+            // ── Inferno: cone in direction ──
+            if(a.inferno){
+                ctx.globalAlpha=0.45+0.15*Math.sin(a.age*15);
+                let half=0.55;
+                let gr2=ctx.createRadialGradient(player.x,player.y,0,player.x,player.y,r);
+                gr2.addColorStop(0,'#ffff8088'); gr2.addColorStop(0.5,'#ff441088'); gr2.addColorStop(1,'transparent');
+                ctx.fillStyle=gr2;
+                ctx.beginPath(); ctx.moveTo(player.x,player.y);
+                ctx.arc(player.x,player.y,r,a.ang-half,a.ang+half);
+                ctx.closePath(); ctx.fill();
+                // Flame edge
+                ctx.strokeStyle='#ff6610'; ctx.lineWidth=2; ctx.globalAlpha=0.6;
+                ctx.beginPath(); ctx.arc(player.x,player.y,r,a.ang-half,a.ang+half); ctx.stroke();
+                ctx.restore(); return;
+            }
+            // ── Blizzard / Sustained AOE ──
+            if(a.sustained){
+                ctx.globalAlpha=0.3+0.1*Math.sin(a.age*8);
+                let gr2=ctx.createRadialGradient(a.x,a.y,0,a.x,a.y,r);
+                gr2.addColorStop(0,'#e0f8ffaa'); gr2.addColorStop(0.6,'#a0e8ff44'); gr2.addColorStop(1,'transparent');
+                ctx.fillStyle=gr2; ctx.beginPath(); ctx.arc(a.x,a.y,r,0,Math.PI*2); ctx.fill();
+                // Snowflake dots
+                for(let si=0;si<8;si++){
+                    let ang=si/8*Math.PI*2+a.age*1.5;
+                    let dx2=Math.cos(ang)*r*(0.3+0.3*Math.random()), dy2=Math.sin(ang)*r*(0.3+0.3*Math.random());
+                    ctx.fillStyle='#c0f0ff'; ctx.globalAlpha=0.5+0.5*Math.random();
+                    ctx.beginPath(); ctx.arc(a.x+dx2,a.y+dy2,2,0,Math.PI*2); ctx.fill();
+                }
+                ctx.restore(); return;
+            }
+
+            // ── Default AOE ──
             ctx.globalAlpha=0.4*prog;
             let gr=ctx.createRadialGradient(a.x,a.y,0,a.x,a.y,r);gr.addColorStop(0,(a.spell.color||'#fff')+'ff');gr.addColorStop(1,(a.spell.color||'#fff')+'00');
             ctx.fillStyle=gr;ctx.beginPath();ctx.arc(a.x,a.y,r,0,Math.PI*2);ctx.fill();
-            ctx.globalAlpha=prog*0.8;ctx.strokeStyle=a.spell.color||'#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(a.x,a.y,r,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
+            ctx.globalAlpha=prog*0.8;ctx.strokeStyle=a.spell.color||'#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(a.x,a.y,r,0,Math.PI*2);ctx.stroke();
+            ctx.restore();
         });
 
         // Projectiles
@@ -1510,19 +1776,178 @@
         }
     }
 
-    // ────────────── JOYSTICK ──────────────
+    // ────────────── JOYSTICK CUSTOMIZER ──────────────
     const joyBase=document.getElementById('joystick-base'),joyThumb=document.getElementById('joystick-thumb');
-    let joyActive=false,joyVec={x:0,y:0},joyMax=40;
-    function handleJoyStart(e){e.preventDefault();e.stopPropagation();joyActive=true;const t=e.touches?e.touches[0]:e;updateJoy(t);}
-    function handleJoyMove(e){if(!joyActive)return;e.preventDefault();e.stopPropagation();const t=e.touches?e.touches[0]:e;updateJoy(t);}
-    function handleJoyEnd(e){e.preventDefault();e.stopPropagation();joyActive=false;joyThumb.style.left='30px';joyThumb.style.top='30px';joyVec.x=0;joyVec.y=0;player.moving=false;}
-    function updateJoy(touch){const br=joyBase.getBoundingClientRect(),cx=br.left+br.width/2,cy=br.top+br.height/2;let dx=touch.clientX-cx,dy=touch.clientY-cy,dist=Math.hypot(dx,dy);if(dist>joyMax){dx=(dx/dist)*joyMax;dy=(dy/dist)*joyMax;}joyThumb.style.left=(30+dx)+'px';joyThumb.style.top=(30+dy)+'px';if(dist>5){joyVec.x=dx/joyMax;joyVec.y=dy/joyMax;player.targetX=player.x+joyVec.x*500;player.targetY=player.y+joyVec.y*500;player.moving=true;}else{joyVec.x=0;joyVec.y=0;player.moving=false;}}
-    document.getElementById('joystick-container').addEventListener('touchstart',handleJoyStart,{passive:false});
-    document.getElementById('joystick-container').addEventListener('touchmove',handleJoyMove,{passive:false});
-    document.getElementById('joystick-container').addEventListener('touchend',handleJoyEnd);
-    document.getElementById('joystick-container').addEventListener('mousedown',handleJoyStart);
+    const joyContainer=document.getElementById('joystick-container');
+    const joyPanel=document.getElementById('joy-panel');
+    const joySettingsBtn=document.getElementById('joy-settings-btn');
+
+    // Load saved prefs
+    let joyPrefs = JSON.parse(localStorage.getItem('surv_joy')||'{"size":100,"thumbSize":40,"opacity":70,"sens":500,"pos":"br","color":"#c0a0ff","mode":"fixed"}');
+    let joyActive=false,joyVec={x:0,y:0},joyFloatOrigin={x:0,y:0};
+
+    function applyJoyPrefs(){
+        const s=joyPrefs.size, ts=joyPrefs.thumbSize, op=joyPrefs.opacity/100;
+        const half=Math.round(s/2), thumbOff=Math.round((s-ts)/2);
+        // Base size
+        joyBase.style.width=s+'px'; joyBase.style.height=s+'px';
+        joyBase.style.opacity=op;
+        // Container size with padding
+        const cSize=s+24;
+        joyContainer.style.width=cSize+'px'; joyContainer.style.height=cSize+'px';
+        // Thumb
+        joyThumb.style.width=ts+'px'; joyThumb.style.height=ts+'px';
+        joyThumb.style.left=thumbOff+'px'; joyThumb.style.top=thumbOff+'px';
+        joyThumb.style.background=joyPrefs.color+'dd';
+        joyThumb.style.borderColor=joyPrefs.color;
+        joyThumb.style.boxShadow=`0 0 12px ${joyPrefs.color}88`;
+        // Visibility
+        const hidden=joyPrefs.mode==='hidden';
+        joyContainer.style.display=hidden?'none':'flex';
+        joySettingsBtn.style.display=hidden?'none':'flex';
+        // Position presets
+        const g=document.getElementById('game-container').getBoundingClientRect();
+        const off=14;
+        const positions={
+            br:{bottom:(90)+'px',right:off+'px',left:'auto',top:'auto'},
+            bl:{bottom:(90)+'px',left:off+'px',right:'auto',top:'auto'},
+            bc:{bottom:(90)+'px',left:'50%',right:'auto',top:'auto',transform:'translateX(-50%)'},
+            mr:{bottom:'auto',top:'50%',right:off+'px',left:'auto',transform:'translateY(-50%)'},
+            ml:{bottom:'auto',top:'50%',left:off+'px',right:'auto',transform:'translateY(-50%)'},
+            mc:{bottom:'auto',top:'50%',left:'50%',right:'auto',transform:'translate(-50%,-50%)'},
+        };
+        const pos=positions[joyPrefs.pos]||positions.br;
+        Object.assign(joyContainer.style,{bottom:'',left:'',right:'',top:'',transform:'',...pos});
+        // Settings gear btn position
+        Object.assign(joySettingsBtn.style,{bottom:'',left:'',right:'',top:'',transform:'',...pos,
+            bottom:pos.bottom?`calc(${pos.bottom} + ${cSize}px)`:'',
+            top:pos.top&&pos.top!=='auto'?pos.top:'',
+            right:pos.right, left:pos.left});
+        // Store joyMax for calculations
+        window._joyMax=Math.round(s/2-ts/3);
+        window._joySens=joyPrefs.sens;
+    }
+
+    function resetThumb(){
+        const s=joyPrefs.size, ts=joyPrefs.thumbSize;
+        const thumbOff=Math.round((s-ts)/2);
+        joyThumb.style.left=thumbOff+'px'; joyThumb.style.top=thumbOff+'px';
+    }
+
+    function updateJoy(touch){
+        let br, cx, cy;
+        if(joyPrefs.mode==='float'){
+            cx=joyFloatOrigin.x; cy=joyFloatOrigin.y;
+            br={left:cx-joyPrefs.size/2,top:cy-joyPrefs.size/2,width:joyPrefs.size,height:joyPrefs.size};
+        } else {
+            br=joyBase.getBoundingClientRect();
+            cx=br.left+br.width/2; cy=br.top+br.height/2;
+        }
+        let dx=touch.clientX-cx, dy=touch.clientY-cy, dist=Math.hypot(dx,dy);
+        const jMax=window._joyMax||40;
+        const ts=joyPrefs.thumbSize, s=joyPrefs.size, thumbOff=Math.round((s-ts)/2);
+        if(dist>jMax){dx=(dx/dist)*jMax;dy=(dy/dist)*jMax;}
+        joyThumb.style.left=(thumbOff+dx)+'px'; joyThumb.style.top=(thumbOff+dy)+'px';
+        const sens=window._joySens||500;
+        if(dist>5){
+            joyVec.x=dx/jMax; joyVec.y=dy/jMax;
+            player.targetX=player.x+joyVec.x*sens;
+            player.targetY=player.y+joyVec.y*sens;
+            player.moving=true;
+        } else { joyVec.x=0; joyVec.y=0; player.moving=false; }
+    }
+
+    function handleJoyStart(e){
+        e.preventDefault(); e.stopPropagation(); joyActive=true;
+        const t=e.touches?e.touches[0]:e;
+        if(joyPrefs.mode==='float'){
+            // Float: snap joystick base to touch point
+            const r=document.getElementById('game-container').getBoundingClientRect();
+            joyFloatOrigin.x=t.clientX; joyFloatOrigin.y=t.clientY;
+            const left=t.clientX-r.left-joyPrefs.size/2;
+            const top=t.clientY-r.top-joyPrefs.size/2;
+            joyBase.style.position='absolute';
+            joyBase.style.left=left+'px'; joyBase.style.top=top+'px';
+            joyBase.style.visibility='visible';
+        }
+        updateJoy(t);
+    }
+    function handleJoyMove(e){if(!joyActive)return;e.preventDefault();e.stopPropagation();updateJoy(e.touches?e.touches[0]:e);}
+    function handleJoyEnd(e){
+        e.preventDefault(); e.stopPropagation(); joyActive=false;
+        resetThumb(); joyVec.x=0; joyVec.y=0; player.moving=false;
+        if(joyPrefs.mode==='float'){ joyBase.style.left=''; joyBase.style.top=''; }
+    }
+
+    joyContainer.addEventListener('touchstart',handleJoyStart,{passive:false});
+    joyContainer.addEventListener('touchmove',handleJoyMove,{passive:false});
+    joyContainer.addEventListener('touchend',handleJoyEnd);
+    joyContainer.addEventListener('mousedown',handleJoyStart);
     window.addEventListener('mousemove',e=>{if(joyActive){e.preventDefault();updateJoy(e);}});
     window.addEventListener('mouseup',()=>{if(joyActive)handleJoyEnd({});});
+
+    // Settings panel wiring
+    joySettingsBtn.addEventListener('click',e=>{
+        e.stopPropagation();
+        joyPanel.classList.toggle('open');
+        syncJoyUI();
+    });
+
+    function syncJoyUI(){
+        document.getElementById('joy-size').value=joyPrefs.size;
+        document.getElementById('joy-size-val').textContent=joyPrefs.size;
+        document.getElementById('joy-thumb-size').value=joyPrefs.thumbSize;
+        document.getElementById('joy-thumb-val').textContent=joyPrefs.thumbSize;
+        document.getElementById('joy-opacity').value=joyPrefs.opacity;
+        document.getElementById('joy-opacity-val').textContent=joyPrefs.opacity+'%';
+        document.getElementById('joy-sens').value=joyPrefs.sens;
+        const sensLabel=['Very Low','Low','Med','High','Very High','Max'];
+        document.getElementById('joy-sens-val').textContent=sensLabel[Math.round((joyPrefs.sens-200)/140)]||'Med';
+        document.querySelectorAll('.joy-pos-btn').forEach(b=>b.classList.toggle('active',b.dataset.pos===joyPrefs.pos));
+        document.querySelectorAll('.joy-color-dot').forEach(d=>d.classList.toggle('active',d.dataset.color===joyPrefs.color));
+        document.querySelectorAll('.joy-toggle-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===joyPrefs.mode));
+    }
+
+    function saveJoy(){ localStorage.setItem('surv_joy',JSON.stringify(joyPrefs)); applyJoyPrefs(); syncJoyUI(); }
+
+    document.getElementById('joy-size').addEventListener('input',function(){
+        joyPrefs.size=parseInt(this.value);
+        document.getElementById('joy-size-val').textContent=this.value;
+        // Keep thumb proportional if thumb bigger than base
+        if(joyPrefs.thumbSize>joyPrefs.size*0.55) joyPrefs.thumbSize=Math.round(joyPrefs.size*0.45);
+        saveJoy();
+    });
+    document.getElementById('joy-thumb-size').addEventListener('input',function(){
+        joyPrefs.thumbSize=Math.min(parseInt(this.value),Math.round(joyPrefs.size*0.7));
+        document.getElementById('joy-thumb-val').textContent=joyPrefs.thumbSize;
+        saveJoy();
+    });
+    document.getElementById('joy-opacity').addEventListener('input',function(){
+        joyPrefs.opacity=parseInt(this.value);
+        document.getElementById('joy-opacity-val').textContent=this.value+'%';
+        saveJoy();
+    });
+    document.getElementById('joy-sens').addEventListener('input',function(){
+        joyPrefs.sens=parseInt(this.value);
+        const sensLabel=['Very Low','Low','Med','High','Very High','Max'];
+        document.getElementById('joy-sens-val').textContent=sensLabel[Math.round((joyPrefs.sens-200)/140)]||'Med';
+        saveJoy();
+    });
+    document.querySelectorAll('.joy-pos-btn').forEach(b=>b.addEventListener('click',()=>{
+        joyPrefs.pos=b.dataset.pos; saveJoy();
+    }));
+    document.querySelectorAll('.joy-color-dot').forEach(d=>d.addEventListener('click',()=>{
+        joyPrefs.color=d.dataset.color; saveJoy();
+    }));
+    document.querySelectorAll('.joy-toggle-btn').forEach(b=>b.addEventListener('click',()=>{
+        joyPrefs.mode=b.dataset.mode; saveJoy();
+        joyPanel.classList.remove('open');
+        // Re-open after a tick so layout updates
+        setTimeout(()=>{ if(joyPrefs.mode!=='hidden') joyPanel.classList.add('open'); },100);
+    }));
+
+    // Apply on load
+    applyJoyPrefs();
 
     function inputPos(e){const r=canvas.getBoundingClientRect();let cx,cy;if(e.touches){cx=e.touches[0].clientX;cy=e.touches[0].clientY;}else{cx=e.clientX;cy=e.clientY;}return{x:(cx-r.left)/r.width*W+camera.x,y:(cy-r.top)/r.height*H+camera.y};}
     canvas.addEventListener('mousedown',e=>{if(state===GAME_STATES.PLAYING||state===GAME_STATES.PAUSED){let p=inputPos(e);player.targetX=p.x;player.targetY=p.y;player.moving=true;if(state===GAME_STATES.PAUSED)state=GAME_STATES.PLAYING;}});
@@ -1544,6 +1969,27 @@
         if(t.dataset.tab==='challenges'){renderChallenges();}
         if(t.dataset.tab==='history'){renderHistory();}
     });
+
+    // ── MNAV BUTTONS (new bottom nav) ──
+    function switchMenuPanel(panel){
+        document.querySelectorAll('.mnav-btn').forEach(b=>b.classList.toggle('active',b.dataset.panel===panel));
+        document.querySelectorAll('.menu-panel').forEach(p=>p.classList.remove('active-panel'));
+        const target=document.getElementById('menu-panel-'+panel);
+        if(target) target.classList.add('active-panel');
+        if(panel==='achievements'){renderAchList();}
+        if(panel==='arcapedia'){renderArcapedia('spells');}
+        if(panel==='challenges'){renderChallenges();}
+        if(panel==='history'){renderHistory();}
+        // Update menu gold display
+        const mgv=document.getElementById('menu-gold-val');
+        if(mgv) mgv.textContent=permGold;
+    }
+    document.querySelectorAll('.mnav-btn').forEach(b=>b.addEventListener('click',()=>{
+        if(b.dataset.panel) switchMenuPanel(b.dataset.panel);
+    }));
+    // Initialize gold display on load
+    const _mgv=document.getElementById('menu-gold-val');
+    if(_mgv) _mgv.textContent=permGold;
     document.addEventListener('click',e=>{if(e.target.classList.contains('arc-tab'))renderArcapedia(e.target.dataset.arc);});
     document.getElementById('start-btn').onclick=()=>{
         document.getElementById('start-screen').style.display='none';
@@ -1555,7 +2001,7 @@
         generateMap();
         state=GAME_STATES.PLAYING;updateUI();initAudio();if(musicEnabled)startMusic();
     };
-    document.getElementById('restart-btn').onclick=()=>{document.getElementById('game-over-overlay').classList.remove('show');state=GAME_STATES.START;document.getElementById('start-screen').style.display='flex';updatePermButtons();renderAchList();renderHistory();stopMusic();};
+    document.getElementById('restart-btn').onclick=()=>{document.getElementById('game-over-overlay').classList.remove('show');state=GAME_STATES.START;document.getElementById('start-screen').style.display='flex';updatePermButtons();renderAchList();renderHistory();stopMusic();switchMenuPanel('play');};
     document.getElementById('pause-btn').onclick=()=>{if(state===GAME_STATES.PLAYING)state=GAME_STATES.PAUSED;else if(state===GAME_STATES.PAUSED)state=GAME_STATES.PLAYING;};
     document.querySelectorAll('.class-card').forEach(c=>c.onclick=()=>{document.querySelectorAll('.class-card').forEach(x=>x.classList.remove('selected'));c.classList.add('selected');selectedClass=c.dataset.class;});
     document.querySelectorAll('.perm-btn-card').forEach(b=>b.onclick=()=>{
@@ -1580,6 +2026,8 @@
             }
         });
         document.getElementById('gold-display').textContent='💰 Gold: '+permGold;
+        const mgv=document.getElementById('menu-gold-val');
+        if(mgv) mgv.textContent=permGold;
     }
 
     function buildSkinUI(){const c=document.getElementById('skins-container');c.innerHTML='';Object.keys(skinImgs).forEach(key=>{let row=document.createElement('div');row.className='skin-upload';let label=document.createElement('span');label.textContent=key.charAt(0).toUpperCase()+key.slice(1);let prev=document.createElement('img');if(skinImgs[key])prev.src=skinImgs[key].src;let btn=document.createElement('button');btn.textContent='Upload PNG';let inp=document.createElement('input');inp.type='file';inp.accept='image/png';inp.style.display='none';inp.onchange=e=>{let f=e.target.files[0];if(!f)return;let reader=new FileReader();reader.onload=ev=>{let img=new Image();img.src=ev.target.result;img.onload=()=>{skinImgs[key]=img;prev.src=img.src;saveSkins();};};reader.readAsDataURL(f);};btn.onclick=()=>inp.click();row.appendChild(label);row.appendChild(prev);row.appendChild(btn);row.appendChild(inp);c.appendChild(row);});}
