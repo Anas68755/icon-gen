@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أرشيف الألعاب - النسخة النهائية (حسب المعايير المحدّثة)</title>
+    <title>أرشيف الألعاب - النسخة الموسعة (عرض كامل للتصنيفات)</title>
     <style>
         * {
             margin: 0;
@@ -23,11 +23,11 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1500px;
             width: 100%;
             background: rgba(18, 18, 30, 0.7);
             backdrop-filter: blur(3px);
-            padding: 2rem 2rem 2.5rem;
+            padding: 2rem 1.5rem 2.5rem;
             border-radius: 32px;
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.15), 0 0 10px rgba(180, 0, 255, 0.2);
             border: 1px solid rgba(0, 255, 255, 0.15);
@@ -60,9 +60,9 @@
             flex-wrap: wrap;
             gap: 1.8rem;
             justify-content: center;
-            margin-bottom: 2.2rem;
+            margin-bottom: 2rem;
             background: #14141f;
-            padding: 0.8rem 1.8rem;
+            padding: 0.8rem 2rem;
             border-radius: 60px;
             border: 1px solid #2f2f55;
         }
@@ -71,7 +71,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .dot {
@@ -96,23 +96,23 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
-            min-width: 800px;
+            font-size: 0.9rem;
+            min-width: 1000px;
         }
 
         th {
             background: #1a1a32;
             color: #c6c6f0;
-            font-weight: 600;
-            padding: 0.9rem 0.6rem;
+            font-weight: 700;
+            padding: 1rem 0.8rem;
             text-align: center;
             border-bottom: 2px solid #3a3a7a;
-            font-size: 0.9rem;
-            letter-spacing: 0.3px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
         }
 
         td {
-            padding: 0.75rem 0.6rem;
+            padding: 0.8rem 0.8rem;
             border-bottom: 1px solid #232345;
             vertical-align: middle;
             text-align: center;
@@ -129,34 +129,60 @@
 
         .badge {
             display: inline-block;
-            padding: 0.15rem 0.9rem;
+            padding: 0.2rem 1rem;
             border-radius: 30px;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.7rem;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
             background: #1f1f3a;
             border: 1px solid;
             white-space: nowrap;
         }
 
-        .badge-green { color: #1de9b6; border-color: #1de9b6; box-shadow: 0 0 12px rgba(29, 233, 182, 0.2); }
-        .badge-yellow { color: #f9d849; border-color: #f9d849; box-shadow: 0 0 12px rgba(249, 216, 73, 0.2); }
-        .badge-red { color: #ff5577; border-color: #ff5577; box-shadow: 0 0 12px rgba(255, 85, 119, 0.2); }
+        .badge-green { color: #1de9b6; border-color: #1de9b6; box-shadow: 0 0 15px rgba(29, 233, 182, 0.25); }
+        .badge-yellow { color: #f9d849; border-color: #f9d849; box-shadow: 0 0 15px rgba(249, 216, 73, 0.25); }
+        .badge-red { color: #ff5577; border-color: #ff5577; box-shadow: 0 0 15px rgba(255, 85, 119, 0.25); }
 
         .icon-check { color: #1de9b6; font-size: 1.1rem; }
         .icon-warning { color: #f9d849; font-size: 1.1rem; }
         .icon-ban { color: #ff5577; font-size: 1.1rem; }
 
         .game-name {
-            font-weight: 600;
+            font-weight: 700;
             color: #e8e8ff;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .criteria-text {
             font-size: 0.85rem;
+            line-height: 1.4;
+            color: #c0c0e0;
+        }
+
+        .note-text {
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #aab0cc;
+            max-width: 250px;
+            margin: 0 auto;
+        }
+
+        .section-title td {
+            background: #252550;
+            color: #d0d0ff;
+            font-weight: 700;
+            padding: 0.6rem 0;
+            text-align: center;
+            border-bottom: 3px solid #4a4a8a;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
         }
 
         .footer-note {
             margin-top: 2rem;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #6a7aa0;
             border-top: 1px solid #222244;
             padding-top: 1.8rem;
@@ -171,15 +197,15 @@
             font-size: 0.7rem;
             color: #99aacf;
             display: block;
-            margin-top: 0.15rem;
+            margin-top: 0.2rem;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>⚡ أرشيف الألعاب الشامل</h1>
-    <p class="subtitle">جميع الألعاب التي تم مناقشتها — مرتبة حسب المعايير (شرك، شذوذ، عري، إيقاف الموسيقى)</p>
+    <h1>⚡ أرشيف الألعاب الشامل (موسع)</h1>
+    <p class="subtitle">أكثر من 120 لعبة — مع عرض كامل للأسباب والتصنيفات</p>
 
     <div class="legend">
         <span class="legend-item"><span class="dot dot-green"></span> آمنة</span>
@@ -191,558 +217,186 @@
         <table>
             <thead>
                 <tr>
-                    <th>المستوى</th>
-                    <th>اسم اللعبة</th>
-                    <th>المعايير</th>
-                    <th>ملاحظات</th>
+                    <th style="width:12%;">المستوى</th>
+                    <th style="width:22%;">اسم اللعبة</th>
+                    <th style="width:28%;">المعايير</th>
+                    <th style="width:38%;">الملاحظات (سبب التصنيف)</th>
                 </tr>
             </thead>
             <tbody>
 
-                <!-- ================= 🟢 آمنة ================= -->
-                <!-- الألعاب التي تحتوي على سحر عادي أو وحوش أسطورية (بدون آلهة/أنبياء/ملائكة) -->
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Subnautica</td>
-                    <td><span class="icon-check">✔️</span> سحر/خيال علمي</td>
-                    <td>أسماء مثل "Leviathan" ومفاهيم فلسفية بسيطة، بدون آلهة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Stardew Valley</td>
-                    <td><span class="icon-check">✔️</span> سحر خفيف</td>
-                    <td>عناصر سحرية قليلة، يمكن التركيز على الزراعة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Terraria</td>
-                    <td><span class="icon-check">✔️</span> وحوش وفانتازيا</td>
-                    <td>وحوش أسطورية وعناصر سحرية، بدون آلهة تُعبد.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Rune Factory 5</td>
-                    <td><span class="icon-check">✔️</span> سحر ووحوش</td>
-                    <td>سحر ووحوش أسطورية، بدون عبادة آلهة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Wylde Flowers</td>
-                    <td><span class="icon-check">✔️</span> سحر وشعوذة</td>
-                    <td>سحر كجزء من اللعبة، بدون آلهة أو أنبياء.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Spiritfarer</td>
-                    <td><span class="icon-check">✔️</span> أرواح وآخرة</td>
-                    <td>تعالج فكرة الأرواح والآخرة بشكل عاطفي، بدون آلهة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">No Man's Sky</td>
-                    <td><span class="icon-check">✔️</span> خيال علمي</td>
-                    <td>استكشاف فضائي، بدون محتوى ديني صريح.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Valheim</td>
-                    <td><span class="icon-check">✔️</span> ميثولوجيا نورسية</td>
-                    <td>ميثولوجيا ووحوش، لكن بدون عبادة آلهة (تُذكر كأساطير فقط).</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Pokémon GO / Pokémon TCG Pocket</td>
-                    <td><span class="icon-check">✔️</span> كائنات خارقة</td>
-                    <td>مخلوقات خيالية، بدون عبادة أو آلهة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Clash of Clans / Clash Royale / Brawl Stars</td>
-                    <td><span class="icon-check">✔️</span> أسماء فولكلورية</td>
-                    <td>أسماء شخصيات مستوحاة من الأساطير، بدون عبادة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Mail Time</td>
-                    <td><span class="icon-check">✔️</span> كائنات خيالية</td>
-                    <td>شخصيات خيالية، بدون محتوى ديني.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Strange Horticulture</td>
-                    <td><span class="icon-check">✔️</span> نباتات سحرية</td>
-                    <td>نباتات ذات خصائص سحرية، بدون آلهة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Vampire Survivors</td>
-                    <td><span class="icon-check">✔️</span> خيال/وحوش</td>
-                    <td>قتال ضد الوحوش، بدون قصة دينية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Minecraft</td>
-                    <td><span class="icon-check">✔️</span> خيال/وحوش</td>
-                    <td>إندر دراغون ومخلوقات خيالية، بدون آلهة (يمكن تجنب رسالة النهاية).</td>
-                </tr>
+                <!-- ============================================================ -->
+                <!-- 🟢 القسم الأول: ألعاب آمنة (نظيفة + سعر/وحوش بدون آلهة)        -->
+                <!-- ============================================================ -->
+                <tr class="section-title"><td colspan="4">🟢 ألعاب آمنة</td></tr>
 
-                <!-- الألعاب النظيفة تماماً (بدون سحر أو وحوش) -->
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Cities: Skylines</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>بناء مدن، خالية من المحتوى الممنوع.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Euro Truck Simulator 2 / American Truck Simulator</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>تحتوي على كنائس كمعالم تاريخية في بعض الإضافات (DLC) فقط.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Factorio / Portal 2 / Baba Is You</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألعاب ألغاز وهندسة وإنتاج بحتة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Assetto Corsa / Dirt Rally 2.0 / Rocket League / Wreckfest</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألعاب سباقات، خالية من المحتوى الممنوع.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Forza Horizon 5 / F1 23/24 / Ace Combat 7</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>محاكاة سباقات وطيران، خالية تماماً.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Microsoft Flight Simulator / Farming Simulator</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>محاكاة طيران وزراعة بحتة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Satisfactory / SnowRunner / Hardspace: Shipbreaker</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>بناء وإنتاج واستكشاف في بيئة خيال علمي.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Poly Bridge 3 / Superliminal</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألغاز هندسية وبصرية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Two Point Museum</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة إدارة ومحاكاة جديدة وممتازة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Coral Island</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة مزرعة استوائية، بدون محتوى ديني.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Palia</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة MMO خفيفة، تركيزها على البناء والمغامرة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Littlewood</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة بناء مجتمع بأسلوب 8-bit.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Unpacking</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة ترتيب وتنظيم بدون قصة دينية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Agent A / Down in Bermuda</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألعاب ألغاز وتجسس، خالية من المحتوى الديني.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Old Man's Journey</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة قصصية عاطفية بدون عناصر دينية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Subway Surfers / Temple Run 2</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألعاب جري لا نهائي، خالية من المحتوى الديني.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Candy Crush Saga / Royal Match</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألعاب ألغاز مطابقة (Match-3)، لا محتوى قصصي ممنوع.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">8 Ball Pool / EA Sports FC Mobile</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألعاب محاكاة (بلياردو، كرة قدم)، آمنة تماماً.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Plants vs Zombies 2</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>دفاع عن البرج بأسلوب كوميدي، لا آلهة أو عبادة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Hay Day / Township</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألعاب مزرعة وإدارة موارد، لا محتوى ديني.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Monument Valley 3</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألغاز بصرية، خالية من الحوارات الدينية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Balatro</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة بطاقات "روجلايك" بدون قصة دينية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Among Us</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة اجتماعية خفيفة، لا قصة أو دين.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Angry Birds 2, Crossy Road, Fruit Ninja, Jetpack Joyride, Hill Climb Racing</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألعاب أركيد خفيفة، لا تحتوي على محاذير.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Ludo King, Snake Clash</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>ألعاب لوحية تقليدية، آمنة تماماً.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Free Fire</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة "باتل رويال" (قتال البقاء)، لا قصة أو محتوى ديني.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Pizza Ready!</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة إدارة مطعم بيتزا خفيفة، لا محتوى ديني.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">My Talking Tom 2</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة حيوان أليف تفاعلية، خالية من المحتوى الممنوع.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Vita Mahjong</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة ماهجونغ تقليدية، آمنة تماماً.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Hole.io</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>لعبة أركيد خفيفة، بدون محتوى ديني.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Game For Peace</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>نسخة من PUBG Mobile للسوق الصيني، خالية من المحتوى الديني.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">OpenTTD</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>محاكاة اقتصادية وبناء شبكات نقل.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Mini Metro</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>تصميم شبكات المترو.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Mini Motorways</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>بناء الطرق وتنظيم المرور.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Dorfromantik</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>تركيب بلاطات ومناظر طبيعية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">PowerWash Simulator</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>تنظيف ومهام بسيطة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-green">آمنة</span></td>
-                    <td class="game-name">Train Sim World</td>
-                    <td><span class="icon-check">✔️</span> نظيفة</td>
-                    <td>محاكاة قطارات.</td>
-                </tr>
+                <!-- ألعاب نظيفة تماماً -->
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Cities: Skylines</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة بناء مدن، خالية تماماً من أي محتوى ديني أو سحري أو مخالف.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Euro Truck Simulator 2</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة قيادة شاحنات، تظهر كنائس كمعالم تاريخية في بعض الإضافات (DLC) فقط وبدون طقوس.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Factorio</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة هندسة وإنتاج بحتة، لا قصة ولا محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Portal 2</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألغاز ذهنية فيزيائية، بدون أي عناصر دينية أو سحرية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Baba Is You</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة ألغاز مبتكرة تعتمد على قواعد اللغة، خالية من المحتوى الممنوع.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Assetto Corsa / Dirt Rally 2.0</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب سباقات محاكاة واقعية، بدون أي محتوى ديني أو سحري.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Rocket League</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة كرة قدم بالسيارات، خالية من أي قصص أو محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Forza Horizon 5</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">سباقات عالم مفتوح، تركيز كامل على القيادة والمغامرة بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">F1 23 / F1 24</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة دقيقة لسباقات فورمولا 1، خالية من أي محتوى ممنوع.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Ace Combat 7</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة طيران حربي بقصة عسكرية، بدون آلهة أو سحر.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Microsoft Flight Simulator</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة طيران واقعية تعتمد على خرائط العالم الحقيقي، بدون قصص أو محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Farming Simulator</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة زراعة وإدارة مزرعة، خالية تماماً من المحتوى الديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Satisfactory</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">بناء مصانع وإنتاج في بيئة خيال علمي، بدون أي مرجع ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">SnowRunner</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">قيادة شاحنات في تضاريس وعرة، تركيز على التحدي والمغامرة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Hardspace: Shipbreaker</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">تفكيك سفن فضائية في بيئة علمية، بدون قصة دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Poly Bridge 3</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألغاز هندسية لبناء الجسور، بدون أي محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Superliminal</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألغاز بصرية ومنظورية تعتمد على الخداع البصري، خالية من المحتوى الممنوع.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Two Point Museum</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة إدارة متحف ومحاكاة جديدة، تركيزها على التنظيم والترفيه.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Coral Island</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة مزرعة استوائية مع عناصر مغامرة، بدون أي إشارات دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Palia</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">MMO خفيفة تركز على البناء والمغامرة الاجتماعية، لا يوجد محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Littlewood</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">بناء مجتمع بأسلوب 8-bit بسيط، بدون قصة أو محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Unpacking</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة ترتيب وتنظيم belongings، تعتمد على الاسترخاء بدون أي قصص دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Agent A / Down in Bermuda</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب ألغاز وتجسس بأجواء خفيفة، خالية من المحتوى الديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Old Man's Journey</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة قصصية عاطفية عن رحلة رجل عجوز، بدون عناصر دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Subway Surfers / Temple Run 2</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب جري لا نهائي، تركيزها على المرح والتحدي بدون قصة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Candy Crush Saga / Royal Match</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب ألغاز مطابقة (Match-3) بدون أي محتوى قصصي أو ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">8 Ball Pool / EA Sports FC Mobile</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة رياضية (بلياردو، كرة قدم)، خالية من المحتوى الممنوع.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Plants vs Zombies 2</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">دفاع عن البرج بأسلوب كوميدي، لا آلهة أو عبادة أو سحر صريح.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Hay Day / Township</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب مزرعة وإدارة موارد، بدون أي محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Monument Valley 3</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألغاز بصرية بأسلوب فني جميل، بدون حوارات أو قصص دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Balatro</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة بطاقات "روجلايك" تعتمد على الاستراتيجية، بدون قصة دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Among Us</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة اجتماعية خفيفة في الفضاء، بدون أي محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Angry Birds 2, Crossy Road, Fruit Ninja, Jetpack Joyride, Hill Climb Racing</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب أركيد خفيفة، تركيزها على المتعة والتحدي بدون قصص.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Ludo King / Snake Clash</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب لوحية تقليدية، خالية من المحتوى الديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Free Fire</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">"باتل رويال" للقتال والبقاء، لا قصة أو محتوى ديني (يوجد عنف كلعبة).</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Pizza Ready!</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة إدارة مطعم بيتزا خفيفة، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">My Talking Tom 2</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة حيوان أليف تفاعلي، خالية من المحتوى الممنوع.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Vita Mahjong</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة ماهجونغ تقليدية، بدون أي محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Hole.io</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة أركيد بسيطة تعتمد على جمع الأشياء، بدون قصة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Game For Peace</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">نسخة PUBG Mobile للسوق الصيني، خالية من المحتوى الديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">OpenTTD</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة اقتصادية وبناء شبكات نقل، بدون أي محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Mini Metro / Mini Motorways</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">تصميم شبكات المترو والطرق، ألعاب ألغاز هندسية بحتة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Dorfromantik</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">تركيب بلاطات لبناء مناظر طبيعية، لعبة هادئة بدون قصص.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">PowerWash Simulator</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة تنظيف بالضغط، مهام بسيطة بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Train Sim World</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة قيادة القطارات، تركيز على الواقعية بدون قصص.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Professional Fishing 2</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة صيد الأسماك، خالية من المحتوى الديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Truck Driving</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة قيادة الشاحنات، بدون أي عناصر دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Comic Book Store Simulator</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">إدارة متجر قصص مصورة، لعبة محاكاة خفيفة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">The Diner at the End of the Galaxy</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">إدارة مطعم في الفضاء، بأجواء كوميدية بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Egging On</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة منصات صعبة، تركيز على التحدي بدون قصة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Kaizen: A Factory Story</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة إدارة مصنع وتحسين إنتاج، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Xenotilt: Hostile Pinball Action</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة كرة ودبابيس، خالية من المحتوى الممنوع.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Is This Seat Taken</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة ألغاز اجتماعية، بدون أي إشارات دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Crime Simulator</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة، بدون محتوى ديني (يوجد عنف كلعبة).</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Colonies of the Remnant</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة استراتيجية، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Digging Together</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة حفر تعاونية، تركيز على العمل الجماعي.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Chrono CCG / Space Grunts: Chrono Shard / Force of Warships</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب بطاقات واستراتيجية، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Dark War Survival</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة بقاء واستراتيجية، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Age of Empires Mobile</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">نسخة الهاتف من Age of Empires، يمكن تجنب الوحدات الدينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">New Year Simulator 2025</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة الاحتفال بالسنة الجديدة، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Elite: Dangerous</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">محاكاة فضاء واسعة، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Evil Genius 2: World Domination</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة استراتيجية ساخرة، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Formula Car Race 2025</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">سباقات سيارات، خالية من المحتوى الممنوع.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Kirby Air Riders</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة سباقات كرتونية، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Golden Idol Investigations</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة ألغاز تحقيق، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Glowkeeper / Spooky Express / Spectacle: Worlds Unseen</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب ألغاز، خالية من المحتوى الديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Block Puzzle - 2026</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">لعبة ألغاز كلاسيكية، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Cut the Rope / Where's My Water? 2</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب ألغاز فيزيائية، خالية من المحتوى الممنوع.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Build a Bridge! / Blackbox</td><td class="criteria-text"><span class="icon-check">✔️</span> نظيفة</td><td class="note-text">ألعاب ألغاز مبتكرة، بدون أي قصص دينية.</td></tr>
 
-                <!-- ================= 🟡 آمنة مع تحفظ ================= -->
-                <!-- ألعاب تحتوي على عناوين دينية بحتة أو محتوى حساس -->
-                <tr>
-                    <td><span class="badge badge-yellow">مع تحفظ</span></td>
-                    <td class="game-name">Sniper Elite 4</td>
-                    <td><span class="icon-warning">⚠️</span> نظيفة مع إيقاف X-ray</td>
-                    <td>يمكن إيقاف خاصية X-ray cam من الإعدادات.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-yellow">مع تحفظ</span></td>
-                    <td class="game-name">Sniper Ghost Warrior Contracts 2</td>
-                    <td><span class="icon-warning">⚠️</span> نظيفة</td>
-                    <td>مثل سابقتها، يُفضل تجنب مشاهد X-ray إن وجدت.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-yellow">مع تحفظ</span></td>
-                    <td class="game-name">Age of Empires IV</td>
-                    <td><span class="icon-warning">⚠️</span> وحدات دينية (رهبان)</td>
-                    <td>يمكن تجنب بناء الوحدات الدينية التي ترفع المعنويات.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-yellow">مع تحفظ</span></td>
-                    <td class="game-name">Anno 1800</td>
-                    <td><span class="icon-warning">⚠️</span> كنائس وإنتاج خمور</td>
-                    <td>يمكن تجنب بناء المباني الدينية وإنتاج المحرمات.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-yellow">مع تحفظ</span></td>
-                    <td class="game-name">Prison Architect</td>
-                    <td><span class="icon-warning">⚠️</span> فكرة إدارة السجون</td>
-                    <td>تعتمد على تقبلك الشخصي لفكرة اللعبة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-yellow">مع تحفظ</span></td>
-                    <td class="game-name">MGSV: The Phantom Pain</td>
-                    <td><span class="icon-warning">⚠️</span> مظهر الشخصية (Quiet)</td>
-                    <td>يمكن تغيير مظهرها بالزي العادي أو باستخدام مود.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-yellow">مع تحفظ</span></td>
-                    <td class="game-name">Call of Duty: Mobile / PUBG Mobile</td>
-                    <td><span class="icon-warning">⚠️</span> عنف محدود</td>
-                    <td>ألعاب تصويب واقعية بدون محتوى ديني، لكن فيها عنف.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-yellow">مع تحفظ</span></td>
-                    <td class="game-name">Avowed</td>
-                    <td><span class="icon-warning">⚠️</span> تحتاج تدقيقاً إضافياً</td>
-                    <td>لعبة فنتازيا، قد تحتوي على عناصر سحرية أو دينية تحتاج للتحقق.</td>
-                </tr>
+                <!-- ألعاب بها سحر عادي أو وحوش أسطورية (بدون آلهة/أنبياء/ملائكة) -->
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Subnautica</td><td class="criteria-text"><span class="icon-check">✔️</span> سحر/خيال علمي</td><td class="note-text">يوجد مخلوقات بأسماء أسطورية مثل "Leviathan" ومفاهيم فلسفية بسيطة، لكن بدون آلهة أو عبادة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Stardew Valley</td><td class="criteria-text"><span class="icon-check">✔️</span> سحر خفيف</td><td class="note-text">تحتوي على عناصر سحرية بسيطة (مثل الأرواح) ولكن يمكن تجاهلها والتركيز على الزراعة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Terraria</td><td class="criteria-text"><span class="icon-check">✔️</span> وحوش وفانتازيا</td><td class="note-text">عالم مليء بالوحوش الأسطورية والعناصر السحرية، لكن بدون آلهة تُعبد أو أنبياء.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Rune Factory 5</td><td class="criteria-text"><span class="icon-check">✔️</span> سحر ووحوش</td><td class="note-text">فانتازيا بها سحر ووحوش أسطورية، لكن لا توجد عبادة آلهة صريحة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Wylde Flowers</td><td class="criteria-text"><span class="icon-check">✔️</span> سحر وشعوذة</td><td class="note-text">تدور حول ساحرة ومزرعة، تحتوي على سحر كجزء من القصة لكن بدون آلهة أو أنبياء.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Spiritfarer</td><td class="criteria-text"><span class="icon-check">✔️</span> أرواح وآخرة</td><td class="note-text">تتناول فكرة الأرواح والآخرة بشكل عاطفي وإنساني، بدون آلهة أو طقوس دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">No Man's Sky</td><td class="criteria-text"><span class="icon-check">✔️</span> خيال علمي</td><td class="note-text">استكشاف فضائي مع عناصر فلسفية، لكن بدون أي مرجع ديني صريح.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Valheim</td><td class="criteria-text"><span class="icon-check">✔️</span> ميثولوجيا نورسية</td><td class="note-text">تعتمد على الميثولوجيا الإسكندنافية مع وحوش وأساطير، لكن الآلهة تُذكر كخلفية وليست عبادة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Pokémon GO / Pokémon TCG Pocket</td><td class="criteria-text"><span class="icon-check">✔️</span> كائنات خارقة</td><td class="note-text">عالم بوكيمون به مخلوقات خيالية، لكن بدون عبادة أو آلهة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Clash of Clans / Clash Royale / Brawl Stars</td><td class="criteria-text"><span class="icon-check">✔️</span> أسماء فولكلورية</td><td class="note-text">شخصيات مستوحاة من أساطير مختلفة، لكن بدون عبادة أو طقوس دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Mail Time</td><td class="criteria-text"><span class="icon-check">✔️</span> كائنات خيالية</td><td class="note-text">عالم خيالي به مخلوقات لطيفة، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Strange Horticulture</td><td class="criteria-text"><span class="icon-check">✔️</span> نباتات سحرية</td><td class="note-text">تدور حول نباتات ذات خصائص سحرية، لكن بدون آلهة أو أنبياء.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Vampire Survivors</td><td class="criteria-text"><span class="icon-check">✔️</span> خيال/وحوش</td><td class="note-text">قتال ضد موجات من الوحوش، بدون قصة دينية عميقة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Minecraft</td><td class="criteria-text"><span class="icon-check">✔️</span> خيال/وحوش</td><td class="note-text">يوجد تنين ومخلوقات خيالية، لكن يمكن تجنب رسالة النهاية (End Poem) التي تحوي فلسفة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Hades 2</td><td class="criteria-text"><span class="icon-check">✔️</span> ميثولوجيا يونانية</td><td class="note-text">ميثولوجيا إغريقية بها آلهة كشخصيات، لكن اللعبة لا تدعو لعبادتها بل تروي قصصاً.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Hollow Knight: Silksong</td><td class="criteria-text"><span class="icon-check">✔️</span> فانتازيا/وحوش</td><td class="note-text">عالم فانتازي بحشرات وأبطال، بدون آلهة أو محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Blue Prince</td><td class="criteria-text"><span class="icon-check">✔️</span> ألغاز/خيال</td><td class="note-text">لعبة ألغاز في قصر غامض، بدون أي إشارات دينية.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Split Fiction</td><td class="criteria-text"><span class="icon-check">✔️</span> مغامرة/خيال</td><td class="note-text">مغامرات تعاونية في عوالم خيالية، بدون آلهة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Ghost of Yotei</td><td class="criteria-text"><span class="icon-check">✔️</span> تاريخي/قتال</td><td class="note-text">لعبة قتال في اليابان القديمة، تركيزها على التاريخ والقتال بدون آلهة تُعبد.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Death Stranding 2: On the Beach</td><td class="criteria-text"><span class="icon-check">✔️</span> خيال علمي</td><td class="note-text">خيال علمي فلسفي عن الاتصال والموت، بدون آلهة.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Mario Kart World</td><td class="criteria-text"><span class="icon-check">✔️</span> سباقات</td><td class="note-text">سباقات كرتونية بشخصيات ماريو، بدون محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Donkey Kong Bananza</td><td class="criteria-text"><span class="icon-check">✔️</span> مغامرة</td><td class="note-text">لعبة مغامرات كرتونية مع قرود، بدون أي محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Gran Turismo 7</td><td class="criteria-text"><span class="icon-check">✔️</span> سباقات</td><td class="note-text">محاكاة سباقات واقعية، خالية من المحتوى الممنوع.</td></tr>
+                <tr><td><span class="badge badge-green">آمنة</span></td><td class="game-name">Assetto Corsa Competizione</td><td class="criteria-text"><span class="icon-check">✔️</span> سباقات</td><td class="note-text">محاكاة سباقات GT، بدون أي عناصر دينية.</td></tr>
 
-                <!-- ================= 🔴 غير آمنة ================= -->
-                <!-- ألعاب تحتوي على آلهة تُعبد، أنبياء، ملائكة، أو شرك صريح -->
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Genshin Impact / Honkai: Star Rail</td>
-                    <td><span class="icon-ban">⛔</span> آلهة تُعبد</td>
-                    <td>شخصيات "أركونز" وطقوس عبادة في القصة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">The Witcher / The Elder Scrolls / Dark Souls / Final Fantasy</td>
-                    <td><span class="icon-ban">⛔</span> آلهة وسحر</td>
-                    <td>ألعاب فانتازيا غنية بآلهة وثنية وسحر صريح.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Assassin's Creed / Grand Theft Auto / Fallout</td>
-                    <td><span class="icon-ban">⛔</span> محتوى ديني/مشبوه</td>
-                    <td>الأولى تُجسد شخصيات دينية تاريخياً، والثانية قد تحتوي على محرمات.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Mobile Legends: Bang Bang / Honor of Kings</td>
-                    <td><span class="icon-ban">⛔</span> آلهة وثنية</td>
-                    <td>شخصيات مستوحاة من أساطير وآلهة مختلفة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Diablo Immortal / Harry Potter: Magic Awakened</td>
-                    <td><span class="icon-ban">⛔</span> سحر وشياطين</td>
-                    <td>الأولى تحتوي على سحر وشياطين، والثانية على تعاويذ سحرية صريحة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Rise of Kingdoms / State of Survival</td>
-                    <td><span class="icon-ban">⛔</span> عبادة آلهة</td>
-                    <td>الأولى تحتوي على آلهة تُعبد، والثانية تروي قصصاً عن آلهة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Dragon Raja / Marvel Snap / Disney Mirrorverse</td>
-                    <td><span class="icon-ban">⛔</span> شخصيات كآلهة</td>
-                    <td>تحتوي على شخصيات تُعامل كآلهة أو خارقين.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Idle Heroes / AFK Arena / Summoners War</td>
-                    <td><span class="icon-ban">⛔</span> استدعاء أرواح</td>
-                    <td>أنظمة استدعاء شخصيات أسطورية، بعضها يُعامل كآلهة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Wuthering Waves</td>
-                    <td><span class="icon-ban">⛔</span> محتمل</td>
-                    <td>قد تحتوي على مفاهيم روحية أو كيانات خارقة. يحتاج تدقيقاً شخصياً.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Smite</td>
-                    <td><span class="icon-ban">⛔</span> آلهة وثنية</td>
-                    <td>اللعب بشخصيات آلهة من ميثولوجيات مختلفة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Fate/Grand Order</td>
-                    <td><span class="icon-ban">⛔</span> تجسيد شخصيات مقدسة</td>
-                    <td>تجسيد شخصيات تاريخية ودينية في سياق سحري.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Black Desert Mobile</td>
-                    <td><span class="icon-ban">⛔</span> طقوس سحرية واستدعاء أرواح</td>
-                    <td>نظام "الروح الأسود" وطقوس قرابين.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">MONGIL: STAR DIVE</td>
-                    <td><span class="icon-ban">⛔</span> شرك وعبادة آلهة</td>
-                    <td>دين وثني يعبد "القط العظيم" كإله خالق.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Crusader Kings III / Europa Universalis IV</td>
-                    <td><span class="icon-ban">⛔</span> محتوى ديني وتاريخي</td>
-                    <td>ألعاب استراتيجية تاريخية تحتوي على مفاهيم دينية، يُنصح بتجنبها.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Haven / Baldur's Gate 3</td>
-                    <td><span class="icon-ban">⛔</span> عري / علاقات مفتوحة</td>
-                    <td>الأولى تحتوي على مشاهد عري، والثانية على سحر وآلهة وعلاقات حرة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Tell Me Why / Lake</td>
-                    <td><span class="icon-ban">⛔</span> محتوى LGBTQ+</td>
-                    <td>ألعاب تتناول قضايا الهوية الجنسية والعلاقات المثلية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Cult of the Lamb</td>
-                    <td><span class="icon-ban">⛔</span> شرك وعبادة</td>
-                    <td>تدور حول بناء طائفة وعبادة كائنات غامضة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Little Misfortune</td>
-                    <td><span class="icon-ban">⛔</span> سحر وكيانات</td>
-                    <td>تحتوي على عناصر سحرية وتفاعل مع كيانات غامضة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Disney Dreamlight Valley</td>
-                    <td><span class="icon-ban">⛔</span> سحر وشخصيات خيالية</td>
-                    <td>تحتوي على شخصيات ديزني وأجواء سحرية، مع خيارات تخصيص هوية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">I Was a Teenage Exocolonist</td>
-                    <td><span class="icon-ban">⛔</span> LGBTQ+</td>
-                    <td>تتيح تجربة العلاقات والهوية بمرونة عالية، مع عناصر LGBTQ+.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">A Normal Lost Phone</td>
-                    <td><span class="icon-ban">⛔</span> LGBTQ+</td>
-                    <td>تدور حول اكتشاف هوية شخصية وتتناول قضايا LGBTQ+.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Little Nightmares</td>
-                    <td><span class="icon-ban">⛔</span> رعب/سحر</td>
-                    <td>أجواء مرعبة قد تحتوي على عناصر سحرية أو روحية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">The Sims</td>
-                    <td><span class="icon-ban">⛔</span> حرية شخصية</td>
-                    <td>تتيح اللعبة خيارات علاقات مفتوحة وتخصيص هويات، قد لا تناسب المعايير.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Last War: Survival Game</td>
-                    <td><span class="icon-ban">⛔</span> محتمل</td>
-                    <td>لعبة بقاء ونهاية العالم، قد تحتوي على عناصر سحرية أو تشبيهات دينية في قصتها، يُنصح بالتدقيق.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">League of Legends: Wild Rift</td>
-                    <td><span class="icon-ban">⛔</span> شخصيات أسطورية</td>
-                    <td>تحتوي على أبطال مستوحين من أساطير مختلفة، وقد تتضمن إشارات دينية في خلفياتهم.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Apex Legends Mobile</td>
-                    <td><span class="icon-ban">⛔</span> عنف/لغة</td>
-                    <td>لعبة "باتل رويال" تحتوي على عنف ولغة غير لائقة، لكن بدون محتوى ديني صريح. على مسؤوليتك.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Dragon Ball Legends</td>
-                    <td><span class="icon-ban">⛔</span> سحر وطاقة</td>
-                    <td>عالم "دراغون بول" مبني على طاقة "الكي" وكائنات خارقة، قد تتضمن مفاهيم روحانية.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">World of Warcraft</td>
-                    <td><span class="icon-ban">⛔</span> آلهة وسحر</td>
-                    <td>عالم فانتازي واسع مليء بالمعتقدات والسحر.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Dota 2</td>
-                    <td><span class="icon-ban">⛔</span> شخصيات وأساطير</td>
-                    <td>أبطال مستوحون من أساطير ومعتقدات متنوعة.</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge-red">غير آمنة</span></td>
-                    <td class="game-name">Lost Ark</td>
-                    <td><span class="icon-ban">⛔</span> سحر وكيانات</td>
-                    <td>فانتازيا كثيفة بعناصر دينية وسحرية.</td>
-                </tr>
+                <!-- ============================================================ -->
+                <!-- 🟡 القسم الثاني: ألعاب آمنة مع تحفظ                               -->
+                <!-- ============================================================ -->
+                <tr class="section-title"><td colspan="4">🟡 ألعاب آمنة مع تحفظ</td></tr>
+
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Sniper Elite 4</td><td class="criteria-text"><span class="icon-warning">⚠️</span> نظيفة مع إيقاف X-ray</td><td class="note-text">تحتوي على مشاهد X-ray للقتل، يمكن إيقافها من الإعدادات لتجنب المشاهد العنيفة.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Sniper Ghost Warrior Contracts 2</td><td class="criteria-text"><span class="icon-warning">⚠️</span> نظيفة</td><td class="note-text">مثل سابقتها، يُفضل تجنب مشاهد X-ray إن وجدت.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Age of Empires IV</td><td class="criteria-text"><span class="icon-warning">⚠️</span> وحدات دينية (رهبان)</td><td class="note-text">تحتوي على وحدات رهبان دينية، يمكن تجنب بنائها لتجنب الجانب الديني.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Age of Mythology: Retold</td><td class="criteria-text"><span class="icon-warning">⚠️</span> آلهة وثنية</td><td class="note-text">تحتوي على آلهة من ميثولوجيات متعددة، يمكن تجنب التفاصيل الدينية والتركيز على الاستراتيجية.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Anno 1800</td><td class="criteria-text"><span class="icon-warning">⚠️</span> كنائس وإنتاج خمور</td><td class="note-text">يمكن تجنب بناء الكنائس وإنتاج الخمور لتجنب المحرمات.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Prison Architect</td><td class="criteria-text"><span class="icon-warning">⚠️</span> فكرة إدارة السجون</td><td class="note-text">تعتمد على تقبلك الشخصي لفكرة إدارة السجون، لكن لا يوجد محتوى ديني.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">MGSV: The Phantom Pain</td><td class="criteria-text"><span class="icon-warning">⚠️</span> مظهر الشخصية (Quiet)</td><td class="note-text">شخصية "Quiet" ترتدي ملابس كاشفة، يمكن تغيير مظهرها بالزي العادي أو باستخدام مود.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Call of Duty: Mobile / PUBG Mobile</td><td class="criteria-text"><span class="icon-warning">⚠️</span> عنف محدود</td><td class="note-text">ألعاب تصويب واقعية، تحتوي على عنف لكن بدون محتوى ديني أو سحري.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Avowed</td><td class="criteria-text"><span class="icon-warning">⚠️</span> تحتاج تدقيقاً</td><td class="note-text">لعبة فنتازيا جديدة، قد تحتوي على عناصر سحرية أو دينية، يُنصح بالتدقيق قبل اللعب.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Total War: Pharaoh</td><td class="criteria-text"><span class="icon-warning">⚠️</span> تاريخي/ديني</td><td class="note-text">تعيد مصر القديمة بآلهتها، يمكن تجنب التفاصيل الدينية والتركيز على الاستراتيجية.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Civilization VII</td><td class="criteria-text"><span class="icon-warning">⚠️</span> تاريخي/ديني</td><td class="note-text">تحتوي على أديان كجزء من اللعبة، يمكن تجنب هذا الجانب والتركيز على الحضارة.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Europa Universalis V</td><td class="criteria-text"><span class="icon-warning">⚠️</span> تاريخي/ديني</td><td class="note-text">لعبة استراتيجية تاريخية تحتوي على مفاهيم دينية، يمكن تجاهلها.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Age of Darkness: Final Stand / Cataclismo / Tower Dominion</td><td class="criteria-text"><span class="icon-warning">⚠️</span> فانتازيا</td><td class="note-text">ألعاب استراتيجية فانتازيا، قد تحتوي على عناصر سحرية لكن بدون آلهة.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Grit and Valor – 1949 / Knights in Tight Spaces</td><td class="criteria-text"><span class="icon-warning">⚠️</span> قتال</td><td class="note-text">ألعاب قتال استراتيجية، بدون محتوى ديني واضح لكن فيها عنف.</td></tr>
+                <tr><td><span class="badge badge-yellow">مع تحفظ</span></td><td class="game-name">Disney Speedstorm</td><td class="criteria-text"><span class="icon-warning">⚠️</span> شخصيات كرتونية</td><td class="note-text">سباقات بشخصيات ديزني، قد تحتوي على سحر خفيف لكن بدون آلهة.</td></tr>
+
+                <!-- ============================================================ -->
+                <!-- 🔴 القسم الثالث: ألعاب غير آمنة (آلهة، أنبياء، ملائكة، شرك)    -->
+                <!-- ============================================================ -->
+                <tr class="section-title"><td colspan="4">🔴 ألعاب غير آمنة</td></tr>
+
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Genshin Impact</td><td class="criteria-text"><span class="icon-ban">⛔</span> آلهة تُعبد</td><td class="note-text">شخصيات "أركونز" تُعامل كآلهة في القصة، وتوجد طقوس عبادة وتبجيل.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Honkai: Star Rail</td><td class="criteria-text"><span class="icon-ban">⛔</span> آلهة تُعبد</td><td class="note-text">شخصيات "إيونات" تمثل مفاهيم إلهية ويتم التبجيل لها في القصة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Zenless Zone Zero</td><td class="criteria-text"><span class="icon-ban">⛔</span> كيانات خارقة</td><td class="note-text">عالم مليء بالكيانات الخارقة "إثير" وقد تحتوي على مفاهيم روحية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Wuthering Waves</td><td class="criteria-text"><span class="icon-ban">⛔</span> كيانات خارقة</td><td class="note-text">تحتوي على كيانات غامضة ومفاهيم روحية، يُنصح بتجنبها.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Tower of Fantasy</td><td class="criteria-text"><span class="icon-ban">⛔</span> آلهة/سحر</td><td class="note-text">عالم فانتازي به آلهة وكيانات خارقة للطبيعة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">NTE: Neverness to Everness</td><td class="criteria-text"><span class="icon-ban">⛔</span> كيانات خارقة</td><td class="note-text">عالم خارق للطبيعة به "Anomalies" وكيانات غامضة، قد تتضمن مفاهيم روحية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">The Witcher / The Elder Scrolls / Dark Souls</td><td class="criteria-text"><span class="icon-ban">⛔</span> آلهة وسحر</td><td class="note-text">ألعاب فانتازيا غنية بآلهة وثنية وسحر صريح وطقوس.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Final Fantasy</td><td class="criteria-text"><span class="icon-ban">⛔</span> آلهة وسحر</td><td class="note-text">سلسلة غنية بالآلهة والكيانات الخارقة والسحر.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Assassin's Creed</td><td class="criteria-text"><span class="icon-ban">⛔</span> شخصيات دينية</td><td class="note-text">تُجسد شخصيات دينية تاريخياً مثل المسيح والقديسين في سياق اللعبة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Grand Theft Auto / Fallout</td><td class="criteria-text"><span class="icon-ban">⛔</span> محتوى مشبوه</td><td class="note-text">تحتوي على محرمات مثل العنف الشديد، اللغة البذيئة، والمحتوى الجنسي.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Grand Theft Auto VI</td><td class="criteria-text"><span class="icon-ban">⛔</span> محتوى مشبوه</td><td class="note-text">من المتوقع أن تحتوي على محتوى غير لائق مثل الأجزاء السابقة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Mobile Legends: Bang Bang / Honor of Kings</td><td class="criteria-text"><span class="icon-ban">⛔</span> آلهة وثنية</td><td class="note-text">شخصيات مستوحاة من أساطير وآلهة مختلفة، ويتم التعامل معها كأبطال خارقين.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Diablo Immortal</td><td class="criteria-text"><span class="icon-ban">⛔</span> سحر وشياطين</td><td class="note-text">تحتوي على سحر وشياطين وطقوس شيطانية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Harry Potter: Magic Awakened</td><td class="criteria-text"><span class="icon-ban">⛔</span> سحر صريح</td><td class="note-text">تعاويذ سحرية صريحة وعالم سحري كامل.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Rise of Kingdoms</td><td class="criteria-text"><span class="icon-ban">⛔</span> عبادة آلهة</td><td class="note-text">تحتوي على آلهة تُعبد وتُقدم لها القرابين في القصة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">State of Survival</td><td class="criteria-text"><span class="icon-ban">⛔</span> قصص عن آلهة</td><td class="note-text">تروي قصصاً عن آلهة وكيانات خارقة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Dragon Raja / Marvel Snap / Disney Mirrorverse</td><td class="criteria-text"><span class="icon-ban">⛔</span> شخصيات كآلهة</td><td class="note-text">شخصيات تُعامل كآلهة أو كائنات خارقة في القصة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Idle Heroes / AFK Arena / Summoners War</td><td class="criteria-text"><span class="icon-ban">⛔</span> استدعاء أرواح</td><td class="note-text">أنظمة استدعاء شخصيات أسطورية، بعضها يُعامل كآلهة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Smite</td><td class="criteria-text"><span class="icon-ban">⛔</span> آلهة وثنية</td><td class="note-text">اللعب بشخصيات آلهة من ميثولوجيات مختلفة والقتال باسمهم.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Fate/Grand Order</td><td class="criteria-text"><span class="icon-ban">⛔</span> تجسيد شخصيات مقدسة</td><td class="note-text">تجسيد شخصيات تاريخية ودينية في سياق سحري واستدعائهم.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Black Desert Mobile</td><td class="criteria-text"><span class="icon-ban">⛔</span> طقوس سحرية</td><td class="note-text">نظام "الروح الأسود" وطقوس قرابين واستدعاء أرواح.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">MONGIL: STAR DIVE</td><td class="criteria-text"><span class="icon-ban">⛔</span> شرك وعبادة</td><td class="note-text">دين وثني يعبد "القط العظيم" كإله خالق، مع طقوس واضحة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Crusader Kings III</td><td class="criteria-text"><span class="icon-ban">⛔</span> محتوى ديني</td><td class="note-text">لعبة استراتيجية تاريخية تحتوي على أديان وكهنوت ومفاهيم دينية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Haven / Baldur's Gate 3</td><td class="criteria-text"><span class="icon-ban">⛔</span> عري / علاقات مفتوحة</td><td class="note-text">الأولى تحتوي على مشاهد عري، والثانية تحتوي على سحر وآلهة وعلاقات جنسية مفتوحة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Tell Me Why / Lake</td><td class="criteria-text"><span class="icon-ban">⛔</span> محتوى LGBTQ+</td><td class="note-text">تتناول قضايا الهوية الجنسية والعلاقات المثلية بشكل محوري.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Cult of the Lamb</td><td class="criteria-text"><span class="icon-ban">⛔</span> شرك وعبادة</td><td class="note-text">تدور حول بناء طائفة وعبادة كائنات غامضة وطقوس دينية وثنية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Little Misfortune</td><td class="criteria-text"><span class="icon-ban">⛔</span> سحر وكيانات</td><td class="note-text">تفاعل مع كيانات غامضة وسحر أسود.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Disney Dreamlight Valley</td><td class="criteria-text"><span class="icon-ban">⛔</span> سحر</td><td class="note-text">شخصيات ديزني وأجواء سحرية، مع خيارات تخصيص هوية قد لا تناسب.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">I Was a Teenage Exocolonist / A Normal Lost Phone</td><td class="criteria-text"><span class="icon-ban">⛔</span> LGBTQ+</td><td class="note-text">تتناول قضايا LGBTQ+ بشكل صريح.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Little Nightmares</td><td class="criteria-text"><span class="icon-ban">⛔</span> رعب/سحر</td><td class="note-text">أجواء مرعبة تحتوي على عناصر سحرية وشيطانية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">The Sims</td><td class="criteria-text"><span class="icon-ban">⛔</span> حرية شخصية</td><td class="note-text">تتيح اللعبة خيارات علاقات مفتوحة وتخصيص هويات جنسية متنوعة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Last War: Survival Game</td><td class="criteria-text"><span class="icon-ban">⛔</span> محتمل</td><td class="note-text">قد تحتوي على عناصر سحرية أو تشبيهات دينية في قصتها، يحتاج تدقيقاً.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">League of Legends: Wild Rift</td><td class="criteria-text"><span class="icon-ban">⛔</span> شخصيات أسطورية</td><td class="note-text">أبطال مستوحين من أساطير مختلفة، وقد تتضمن إشارات دينية في خلفياتهم.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Apex Legends Mobile</td><td class="criteria-text"><span class="icon-ban">⛔</span> عنف/لغة</td><td class="note-text">تحتوي على عنف ولغة غير لائقة، قد لا تناسب.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Dragon Ball Legends</td><td class="criteria-text"><span class="icon-ban">⛔</span> سحر وطاقة</td><td class="note-text">مبني على طاقة "الكي" وكائنات خارقة، قد تتضمن مفاهيم روحانية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">World of Warcraft</td><td class="criteria-text"><span class="icon-ban">⛔</span> آلهة وسحر</td><td class="note-text">عالم فانتازي واسع مليء بالمعتقدات والسحر والآلهة الوثنية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Dota 2</td><td class="criteria-text"><span class="icon-ban">⛔</span> شخصيات وأساطير</td><td class="note-text">أبطال مستوحون من أساطير ومعتقدات متنوعة، قد تتضمن مراجع دينية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Lost Ark</td><td class="criteria-text"><span class="icon-ban">⛔</span> سحر وكيانات</td><td class="note-text">فانتازيا كثيفة بعناصر دينية وسحرية وآلهة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Clair Obscur: Expedition 33</td><td class="criteria-text"><span class="icon-ban">⛔</span> خيال/كيانات</td><td class="note-text">عالم خيالي به كيانات غامضة، قد تحتوي على مفاهيم روحية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Kingdom Come: Deliverance II</td><td class="criteria-text"><span class="icon-ban">⛔</span> تاريخي/ديني</td><td class="note-text">لعبة تاريخية في العصور الوسطى، تحتوي على مفاهيم دينية وكهنوت.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Doom: The Dark Ages</td><td class="criteria-text"><span class="icon-ban">⛔</span> شياطين/رعب</td><td class="note-text">تحتوي على شياطين وعناصر رعب شيطانية.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Elden Ring: Nightreign</td><td class="criteria-text"><span class="icon-ban">⛔</span> آلهة/فانتازيا</td><td class="note-text">عالم فانتازي به آلهة وكيانات خارقة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Marvel Wolverine</td><td class="criteria-text"><span class="icon-ban">⛔</span> عنف/لغة</td><td class="note-text">لعبة أكشن قد تحتوي على عنف ولغة غير لائقة.</td></tr>
+                <tr><td><span class="badge badge-red">غير آمنة</span></td><td class="game-name">Metaphor: ReFantazio</td><td class="criteria-text"><span class="icon-ban">⛔</span> فانتازيا/كيانات</td><td class="note-text">عالم فانتازي به كيانات ومفاهيم روحية عميقة.</td></tr>
 
             </tbody>
         </table>
@@ -750,6 +404,7 @@
 
     <div class="footer-note">
         ⚡ <strong>ملاحظة:</strong> تم تحديث التصنيف بحيث تُعتبر الألعاب التي تحتوي على <strong>سحر عادي أو وحوش أسطورية</strong> (بدون ملائكة أو آلهة أو أنبياء) ضمن فئة <span style="color:#1de9b6;">آمنة</span>.<br>
+        جميع الأسباب موضحة في عمود "الملاحظات" لكل لعبة.<br>
         <span class="glow-text">🟢 آمنة | 🟡 آمنة مع تحفظ | 🔴 غير آمنة</span>
     </div>
 </div>
