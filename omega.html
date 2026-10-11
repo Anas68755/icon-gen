@@ -1,860 +1,234 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>أوميغا نيون أو إس • محطة عمل شاملة</title>
-  <style>
-    :root {
-      --bg: #050816;
-      --panel: #0f172a;
-      --card: #111827;
-      --text: #dbeafe;
-      --cyan: #00f5ff;
-      --pink: #ff00e5;
-      --green: #39ff14;
-      --purple: #8b5cf6;
-      --radius: 22px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: radial-gradient(circle at 20% 20%, #111936, #050816 45%),
-                  radial-gradient(circle at 80% 80%, #170c2b, #050816 45%);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 0 0.8rem 1rem;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(20px);
-      background: rgba(5, 8, 22, 0.8);
-      border-bottom: 1px solid rgba(0, 245, 255, 0.35);
-      padding: 0.8rem 1.2rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.7rem;
-      border-radius: 0 0 30px 30px;
-      margin-bottom: 1.2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-    }
-    h1 {
-      margin-right: auto;
-      color: var(--cyan);
-      text-shadow: 0 0 18px var(--cyan), 0 0 40px var(--cyan);
-      font-weight: 700;
-      letter-spacing: 2px;
-      font-size: 1.9rem;
-    }
-    input, button, textarea, select {
-      border: none;
-      outline: none;
-      border-radius: 18px;
-      padding: 0.65rem 1rem;
-      background: #0b1225;
-      color: #fff;
-      font-family: inherit;
-      font-size: 0.9rem;
-      border: 1px solid rgba(0, 245, 255, 0.25);
-      transition: all 0.2s;
-    }
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 14px rgba(0, 245, 255, 0.6);
-    }
-    button {
-      background: rgba(15, 23, 42, 0.9);
-      cursor: pointer;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--cyan);
-      box-shadow: 0 0 10px rgba(0, 245, 255, 0.25);
-    }
-    button:hover {
-      transform: translateY(-2px);
-      background: #1e2848;
-      box-shadow: 0 0 24px var(--cyan), 0 5px 18px rgba(255,0,229,0.3);
-      border-color: var(--pink);
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
-      padding: 0.5rem 0 1.8rem;
-    }
-    .card {
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(0, 245, 255, 0.25);
-      border-radius: var(--radius);
-      padding: 1.2rem 1rem;
-      cursor: pointer;
-      transition: all 0.25s;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.6);
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .card:hover {
-      transform: translateY(-6px) scale(1.02);
-      border-color: var(--cyan);
-      box-shadow: 0 0 28px rgba(0, 245, 255, 0.6), 0 0 40px rgba(255,0,229,0.3);
-      background: rgba(20, 30, 55, 0.9);
-    }
-    .card h3 { margin:0; font-size:1.2rem; display:flex; align-items:center; gap:0.3rem; color:#fff; }
-    .small { opacity:0.7; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--cyan); }
-    .modal {
-      position: fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(12px);
-      display:flex; align-items:center; justify-content:center; z-index:1000; padding:1rem;
-    }
-    .hidden { display:none; }
-    .modal-box {
-      width:95%; max-width:850px; max-height:90vh; overflow-y:auto;
-      background:#0b1120; border-radius:30px; padding:1.8rem;
-      border:1px solid var(--cyan); box-shadow:0 0 45px rgba(0,245,255,0.5), 0 0 70px rgba(255,0,229,0.3);
-    }
-    .row { display:flex; gap:0.8rem; flex-wrap:wrap; margin:0.9rem 0; align-items:center; }
-    .big { font-size:3rem; font-weight:700; color:var(--cyan); text-shadow:0 0 18px var(--cyan); text-align:center; }
-    pre { white-space:pre-wrap; background:#050a18; padding:1rem; border-radius:16px; overflow-x:auto; color:#cbd5e1; border:1px solid #2d3a5e; margin:0.5rem 0; }
-    textarea { width:100%; background:#020617; border-radius:16px; color:#e2e8f0; resize:vertical; }
-    canvas { border-radius:16px; background:#000; }
-    footer { margin-top:auto; text-align:center; padding:1.5rem; opacity:0.7; color:var(--cyan); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Omega Neon OS</title>
+<style>
+:root{--bg:#050816;--p:#0f172a;--t:#dbeafe;--c:#00f5ff;--k:#ff00e5;--g:#39ff14;--r:18px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;background:radial-gradient(circle at 20% 15%,#111936,var(--bg) 45%) fixed,var(--bg);color:var(--t);min-height:100vh;padding:0 .8rem 1rem}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;backdrop-filter:blur(16px);background:rgba(5,8,22,.85);border-bottom:1px solid rgba(0,245,255,.35);padding:.7rem 1rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;border-radius:0 0 26px 26px;margin-bottom:.8rem}
+h1{margin-inline-end:auto;color:var(--c);text-shadow:0 0 16px var(--c);font-size:1.6rem;letter-spacing:1px}
+input,button,textarea,select{font:inherit;color:#fff;background:#0b1225;border:1px solid rgba(0,245,255,.3);border-radius:14px;padding:.55rem .9rem;outline:none;transition:.2s}
+input:focus,textarea:focus,select:focus{border-color:var(--c);box-shadow:0 0 12px rgba(0,245,255,.5)}
+button{cursor:pointer;font-weight:600;border-color:var(--c)}
+button:hover{transform:translateY(-1px);border-color:var(--k);box-shadow:0 0 16px rgba(255,0,229,.4)}
+input[type=color]{padding:.15rem;height:2.6rem;width:4rem}
+textarea{width:100%;resize:vertical}
+.chips{display:flex;gap:.4rem;overflow-x:auto;padding:.2rem 0 .6rem}
+.chips button{white-space:nowrap;font-size:.85rem;padding:.35rem .8rem;border-radius:99px;opacity:.7}
+.chips button.on{opacity:1;background:#12304a;box-shadow:0 0 10px var(--c)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.9rem;padding-bottom:1.5rem}
+.card{position:relative;background:rgba(15,23,42,.8);border:1px solid rgba(0,245,255,.25);border-radius:var(--r);padding:1rem;cursor:pointer;transition:.2s;display:flex;flex-direction:column;gap:.35rem}
+.card:hover,.card:focus{transform:translateY(-4px);border-color:var(--c);box-shadow:0 0 22px rgba(0,245,255,.5);outline:none}
+.card h3{font-size:1.05rem}.card p{font-size:.82rem;opacity:.8}
+.small{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--c);opacity:.8}
+.star{position:absolute;top:.4rem;inset-inline-end:.4rem;border:0;background:none;padding:.2rem .4rem;color:var(--k);font-size:1.1rem}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
+.hidden{display:none!important}
+.box{width:100%;max-width:760px;max-height:90vh;overflow-y:auto;background:#0b1120;border:1px solid var(--c);border-radius:26px;padding:1.4rem;box-shadow:0 0 40px rgba(0,245,255,.4)}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}.top h2{color:var(--c);font-size:1.2rem}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin:.6rem 0}.row input:not([type=checkbox]){flex:1;min-width:6rem}
+.f{display:flex;flex-direction:column;gap:.25rem;margin:.55rem 0;font-size:.85rem;opacity:.95}
+.f>*:not(span){font-size:.95rem}
+.out{white-space:pre-wrap;word-break:break-word;background:#050a18;border:1px solid #2d3a5e;border-radius:14px;padding:.8rem;margin-top:.6rem;min-height:2.6rem;cursor:copy;direction:ltr;text-align:start;font-family:ui-monospace,Consolas,monospace;font-size:.9rem}
+.out.html{white-space:normal;direction:inherit;font-family:inherit;cursor:auto}.out.html h1,.out.html h2,.out.html h3{margin:.4rem 0;color:var(--c)}.out.html li{margin-inline-start:1.2rem}.out.html code{background:#1e293b;padding:0 .3rem;border-radius:6px}
+.big{font-size:2.8rem;font-weight:700;color:var(--c);text-shadow:0 0 16px var(--c);text-align:center;direction:ltr;margin:.4rem 0}
+.item{display:flex;justify-content:space-between;align-items:center;gap:.6rem;background:#0f172a;border-radius:14px;padding:.45rem .9rem;margin:.4rem 0}
+.item label{flex:1;display:flex;gap:.5rem;align-items:center}.done{text-decoration:line-through;opacity:.5}
+.dim{opacity:.6;font-size:.85rem}
+.bar{height:12px;background:#1e293b;border-radius:9px;overflow:hidden;margin:.6rem 0}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c),var(--k));transition:.3s}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}.keys button{padding:.9rem}
+.sw{display:inline-block;width:2rem;height:2rem;border-radius:50%;border:1px solid #fff4}
+canvas{border-radius:14px;background:#000;max-width:100%}
+#toast{position:fixed;bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(200%);background:#12304a;border:1px solid var(--c);padding:.6rem 1.2rem;border-radius:99px;z-index:200;transition:.3s}#toast.on{transform:translateX(-50%)}
+footer{text-align:center;opacity:.6;color:var(--c);padding:1rem;font-size:.85rem}
+</style>
 </head>
 <body>
-  <header>
-    <h1>⚡ أوميغا نيون أو إس</h1>
-    <input class="neon" id="search" placeholder="🔍 ابحث عن الأدوات..." autocomplete="off">
-    <input class="neon" id="command" placeholder="> أمر (search / clear)" autocomplete="off">
-    <button class="neon" id="langToggle">🌐 English</button>
-    <button class="neon" id="exportBtn">💾 تصدير</button>
-    <button class="neon" id="importBtn">📂 استيراد</button>
-    <input type="file" id="importFile" hidden accept=".json">
-  </header>
-  <div id="grid" class="grid"></div>
-  <div id="modal" class="modal hidden">
-    <div class="modal-box">
-      <div class="row" style="justify-content:space-between; margin-top:0;">
-        <h2 id="modalTitle" style="color:var(--cyan);"></h2>
-        <button class="neon" id="closeModal" style="font-size:1.3rem;">✕</button>
-      </div>
-      <div id="modalBody"></div>
-    </div>
-  </div>
-  <footer>أوميغا نيون أو إس • محطة عمل شاملة بملف واحد • 50+ أداة</footer>
+<header>
+<h1 id="ttl"></h1>
+<input id="q" autocomplete="off" style="flex:1;min-width:10rem">
+<button id="lg"></button><button id="ex"></button><button id="im"></button>
+<input type="file" id="imf" hidden accept=".json">
+</header>
+<div class="chips" id="chips"></div>
+<div class="grid" id="grid"></div>
+<div class="modal hidden" id="modal"><div class="box"><div class="top"><h2 id="mt"></h2><button id="cl">✕</button></div><div id="mb"></div></div></div>
+<div id="toast"></div>
+<footer id="ft"></footer>
+<script>
+(()=>{
+const $=(s,r=document)=>r.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const ld=d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10),today=()=>ld(new Date());
+const D={tasks:[],notes:'',habits:[],water:{d:'',n:0},goal:8,pw:25,pb:5,lang:'ar',fav:[]};
+let S;
+const norm=o=>{S={...D,...o};S.tasks=(S.tasks||[]).map(t=>typeof t==='string'?{t,d:0}:t);S.habits=(S.habits||[]).map(h=>({name:h.name,days:h.days||[]}));if(typeof S.water!=='object')S.water={d:'',n:+S.water||0};if(!Array.isArray(S.fav))S.fav=[]};
+try{norm(JSON.parse(localStorage.getItem('omega_state')||'{}'))}catch{norm({})}
+const save=()=>{try{localStorage.setItem('omega_state',JSON.stringify(S))}catch{}};
+let lang=S.lang==='en'?'en':'ar',cat='all',clean=[];
+const tr=a=>Array.isArray(a)?a[lang==='ar'?0:1]:a;
+const toast=m=>{const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1800)};
+const beep=()=>{try{const a=new AudioContext(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();o.stop(a.currentTime+.4)}catch{}};
+const every=(f,ms)=>{f();clean.push(setInterval(f,ms))};
+const copy=t=>{navigator.clipboard?.writeText(t).then(()=>toast('✓ '+tr(['تم النسخ','Copied'])),()=>{})};
+const CAT={prod:['إنتاجية','Productivity'],dev:['مطور','Developer'],sec:['أمان','Security'],util:['أدوات','Utilities'],fin:['مالية','Finance'],health:['صحة','Health'],design:['تصميم','Design'],write:['كتابة','Writing']};
+const U={search:['🔍 ابحث… (Ctrl+K)','🔍 Search… (Ctrl+K)'],ex:['💾 تصدير','💾 Export'],im:['📂 استيراد','📂 Import'],lg:['🌐 English','🌐 العربية'],all:['الكل','All'],fav:['★ المفضلة','★ Favorites']};
+const T=[],add=(id,i,c,n,d,r)=>T.push({id,i,c,n,d,r});
 
-  <script>
-    (function() {
-      // ---------- translations ----------
-      const translations = {
-        ar: {
-          searchPlaceholder: '🔍 ابحث عن الأدوات...',
-          commandPlaceholder: '> أمر (search / clear)',
-          exportBtn: '💾 تصدير',
-          importBtn: '📂 استيراد',
-          langBtn: '🌐 English',
-          footer: 'أوميغا نيون أو إس • محطة عمل شاملة بملف واحد • 50+ أداة',
-          closeModal: '✕',
-          taskManager: 'مدير المهام',
-          taskDesc: 'قائمة مهام دائمة',
-          taskCat: 'إنتاجية',
-          neonNotes: 'ملاحظات نيون',
-          notesDesc: 'مفكرة نصية',
-          notesCat: 'إنتاجية',
-          passwordGen: 'مولد كلمات المرور',
-          passDesc: 'كلمات مرور قوية',
-          passCat: 'أمان',
-          focusTimer: 'مؤقت تركيز',
-          timerDesc: 'بومودورو 25 دقيقة',
-          timerCat: 'إنتاجية',
-          jsonTool: 'أداة JSON',
-          jsonDesc: 'تنسيق / التحقق من JSON',
-          jsonCat: 'مطور',
-          base64: 'Base64',
-          base64Desc: 'تشفير / فك تشفير النص',
-          base64Cat: 'مطور',
-          bmi: 'مؤشر كتلة الجسم',
-          bmiDesc: 'حساب BMI',
-          bmiCat: 'صحة',
-          colorStudio: 'استوديو الألوان',
-          colorDesc: 'اختيار ونسخ اللون',
-          colorCat: 'تصميم',
-          unitConverter: 'محول الوحدات',
-          unitDesc: 'كم ↔ ميل، كجم ↔ رطل',
-          unitCat: 'أدوات',
-          qrCode: 'رمز QR',
-          qrDesc: 'إنشاء رمز QR',
-          qrCat: 'أدوات',
-          worldClock: 'الساعة العالمية',
-          clockDesc: 'مناطق زمنية مباشرة',
-          clockCat: 'أدوات',
-          randomizer: 'مولد عشوائي',
-          randDesc: 'نطاق أرقام',
-          randCat: 'أدوات',
-          wordCounter: 'عداد الكلمات',
-          wordDesc: 'الأحرف والكلمات',
-          wordCat: 'كتابة',
-          stopwatch: 'ساعة توقيت',
-          swDesc: 'مؤقت دقيق',
-          swCat: 'إنتاجية',
-          calculator: 'آلة حاسبة',
-          calcDesc: 'العمليات الحسابية الأساسية',
-          calcCat: 'أدوات',
-          markdown: 'معاينة Markdown',
-          mdDesc: 'تحويل MD إلى HTML',
-          mdCat: 'مطور',
-          urlCodec: 'ترميز URL',
-          urlDesc: 'encodeURI / decode',
-          urlCat: 'مطور',
-          sha256: 'تجزئة SHA-256',
-          shaDesc: 'تجزئة تشفيرية',
-          shaCat: 'أمان',
-          uuid: 'مولد UUID',
-          uuidDesc: 'UUID عشوائي',
-          uuidCat: 'مطور',
-          lorem: 'نص Lorem Ipsum',
-          loremDesc: 'نص تجريبي',
-          loremCat: 'كتابة',
-          regex: 'اختبار Regex',
-          regexDesc: 'اختبار الأنماط',
-          regexCat: 'مطور',
-          diff: 'مقارنة النصوص',
-          diffDesc: 'مقارنة الأسطر',
-          diffCat: 'مطور',
-          tempConv: 'محول الحرارة',
-          tempDesc: 'C, F, K',
-          tempCat: 'أدوات',
-          tipCalc: 'حاسبة البقشيش',
-          tipDesc: 'الفاتورة + النسبة',
-          tipCat: 'مالية',
-          ageCalc: 'حاسبة العمر',
-          ageDesc: 'من تاريخ الميلاد',
-          ageCat: 'أدوات',
-          dow: 'يوم الأسبوع',
-          dowDesc: 'معرفة اليوم',
-          dowCat: 'أدوات',
-          loanEmi: 'قسط القرض',
-          emiDesc: 'الدفعة الشهرية',
-          emiCat: 'مالية',
-          baseConv: 'محول الأنظمة العددية',
-          baseDesc: 'ثنائي، عشري، سداسي',
-          baseCat: 'مطور',
-          morse: 'شفرة مورس',
-          morseDesc: 'نص ↔ مورس',
-          morseCat: 'أدوات',
-          caesar: 'شفرة قيصر',
-          caesarDesc: 'تشفير بالإزاحة',
-          caesarCat: 'أمان',
-          slugify: 'Slugify',
-          slugDesc: 'رابط URL',
-          slugCat: 'كتابة',
-          passStrength: 'قوة كلمة المرور',
-          strengthDesc: 'فحص التعقيد',
-          strengthCat: 'أمان',
-          keyEvent: 'عارض أحداث المفاتيح',
-          keyDesc: 'رموز المفاتيح',
-          keyCat: 'مطور',
-          screenInfo: 'معلومات الشاشة',
-          screenDesc: 'العرض، الطول، DPR',
-          screenCat: 'أدوات',
-          myIp: 'عنوان IP',
-          ipDesc: 'IP العام',
-          ipCat: 'شبكة',
-          userAgent: 'وكيل المستخدم',
-          uaDesc: 'معلومات المتصفح',
-          uaCat: 'مطور',
-          contrast: 'مدقق التباين',
-          contrastDesc: 'نسبة WCAG',
-          contrastCat: 'تصميم',
-          imgColor: 'منتقي لون الصورة',
-          imgColorDesc: 'انقر على الصورة',
-          imgColorCat: 'تصميم',
-          drawingPad: 'لوحة رسم',
-          drawDesc: 'رسم حر',
-          drawCat: 'تصميم',
-          habitTracker: 'متتبع العادات',
-          habitDesc: 'عادات يومية',
-          habitCat: 'إنتاجية',
-          waterTracker: 'متتبع الماء',
-          waterDesc: 'أكواب في اليوم',
-          waterCat: 'صحة',
-          pomodoroPro: 'بومودورو برو',
-          pomoDesc: 'مؤقتات عمل/راحة',
-          pomoCat: 'إنتاجية',
-          currency: 'محول العملات',
-          currDesc: 'أسعار مباشرة',
-          currCat: 'مالية',
-          randomColor: 'لون عشوائي',
-          randColorDesc: 'توليد لوحة',
-          randColorCat: 'تصميم',
-          diceRoller: 'رمي النرد',
-          diceDesc: 'D4–D100',
-          diceCat: 'أدوات',
-          percentage: 'النسبة المئوية',
-          pctDesc: '% من العدد',
-          pctCat: 'أدوات',
-          countdown: 'العد التنازلي',
-          cdDesc: 'ضبط وقت مستقبلي',
-          cdCat: 'إنتاجية',
-          textCase: 'حالة النص',
-          caseDesc: 'كبير، صغير، عنوان',
-          caseCat: 'كتابة',
-          fileSize: 'حجم الملف',
-          fsDesc: 'بايت إلى KB/MB',
-          fsCat: 'أدوات',
-          analogClock: 'ساعة تناظرية',
-          analogDesc: 'ساعة canvas مباشرة',
-          analogCat: 'أدوات'
-        },
-        en: {
-          searchPlaceholder: '🔍 Search tools...',
-          commandPlaceholder: '> command (search / clear)',
-          exportBtn: '💾 Export',
-          importBtn: '📂 Import',
-          langBtn: '🌐 العربية',
-          footer: 'OMEGA NEON OS • single‑file offline powerhouse • 50+ tools',
-          closeModal: '✕',
-          taskManager: 'Task Manager',
-          taskDesc: 'Persistent to‑do list',
-          taskCat: 'Productivity',
-          neonNotes: 'Neon Notes',
-          notesDesc: 'Rich text scratchpad',
-          notesCat: 'Productivity',
-          passwordGen: 'Password Gen',
-          passDesc: 'Strong random passwords',
-          passCat: 'Security',
-          focusTimer: 'Focus Timer',
-          timerDesc: '25 min pomodoro',
-          timerCat: 'Productivity',
-          jsonTool: 'JSON Tool',
-          jsonDesc: 'Format / validate JSON',
-          jsonCat: 'Developer',
-          base64: 'Base64',
-          base64Desc: 'Encode / decode text',
-          base64Cat: 'Developer',
-          bmi: 'BMI',
-          bmiDesc: 'Body mass index',
-          bmiCat: 'Health',
-          colorStudio: 'Color Studio',
-          colorDesc: 'Pick & copy hex',
-          colorCat: 'Design',
-          unitConverter: 'Unit Converter',
-          unitDesc: 'km↔miles, kg↔lbs',
-          unitCat: 'Utilities',
-          qrCode: 'QR Code',
-          qrDesc: 'Generate QR',
-          qrCat: 'Utilities',
-          worldClock: 'World Clock',
-          clockDesc: 'Live timezones',
-          clockCat: 'Utilities',
-          randomizer: 'Randomizer',
-          randDesc: 'Number range',
-          randCat: 'Utilities',
-          wordCounter: 'Word Counter',
-          wordDesc: 'Chars & words',
-          wordCat: 'Writing',
-          stopwatch: 'Stopwatch',
-          swDesc: 'Precise timer',
-          swCat: 'Productivity',
-          calculator: 'Calculator',
-          calcDesc: 'Basic arithmetic',
-          calcCat: 'Utilities',
-          markdown: 'Markdown Preview',
-          mdDesc: 'Live MD→HTML',
-          mdCat: 'Developer',
-          urlCodec: 'URL Codec',
-          urlDesc: 'encodeURI / decode',
-          urlCat: 'Developer',
-          sha256: 'SHA-256 Hash',
-          shaDesc: 'Crypto hash',
-          shaCat: 'Security',
-          uuid: 'UUID Generator',
-          uuidDesc: 'Random UUID',
-          uuidCat: 'Developer',
-          lorem: 'Lorem Ipsum',
-          loremDesc: 'Dummy text',
-          loremCat: 'Writing',
-          regex: 'Regex Tester',
-          regexDesc: 'Test patterns',
-          regexCat: 'Developer',
-          diff: 'Text Diff',
-          diffDesc: 'Line comparison',
-          diffCat: 'Developer',
-          tempConv: 'Temp Converter',
-          tempDesc: 'C, F, K',
-          tempCat: 'Utilities',
-          tipCalc: 'Tip Calculator',
-          tipDesc: 'Bill + tip %',
-          tipCat: 'Finance',
-          ageCalc: 'Age Calculator',
-          ageDesc: 'From birthdate',
-          ageCat: 'Utilities',
-          dow: 'Day of Week',
-          dowDesc: 'Find weekday',
-          dowCat: 'Utilities',
-          loanEmi: 'Loan EMI',
-          emiDesc: 'Monthly payment',
-          emiCat: 'Finance',
-          baseConv: 'Base Converter',
-          baseDesc: 'Binary, hex, dec',
-          baseCat: 'Developer',
-          morse: 'Morse Code',
-          morseDesc: 'Text ↔ Morse',
-          morseCat: 'Utilities',
-          caesar: 'Caesar Cipher',
-          caesarDesc: 'Shift cipher',
-          caesarCat: 'Security',
-          slugify: 'Slugify',
-          slugDesc: 'URL slug',
-          slugCat: 'Writing',
-          passStrength: 'Password Strength',
-          strengthDesc: 'Check complexity',
-          strengthCat: 'Security',
-          keyEvent: 'Key Event Viewer',
-          keyDesc: 'See key codes',
-          keyCat: 'Developer',
-          screenInfo: 'Screen Info',
-          screenDesc: 'Width, height, DPR',
-          screenCat: 'Utilities',
-          myIp: 'My IP',
-          ipDesc: 'Public IP',
-          ipCat: 'Network',
-          userAgent: 'User Agent',
-          uaDesc: 'Browser info',
-          uaCat: 'Developer',
-          contrast: 'Contrast Checker',
-          contrastDesc: 'WCAG ratio',
-          contrastCat: 'Design',
-          imgColor: 'Image Color Picker',
-          imgColorDesc: 'Click on image',
-          imgColorCat: 'Design',
-          drawingPad: 'Drawing Pad',
-          drawDesc: 'Sketch freely',
-          drawCat: 'Design',
-          habitTracker: 'Habit Tracker',
-          habitDesc: 'Daily habits',
-          habitCat: 'Productivity',
-          waterTracker: 'Water Tracker',
-          waterDesc: 'Glasses per day',
-          waterCat: 'Health',
-          pomodoroPro: 'Pomodoro Pro',
-          pomoDesc: 'Work/break timers',
-          pomoCat: 'Productivity',
-          currency: 'Currency Converter',
-          currDesc: 'Live rates',
-          currCat: 'Finance',
-          randomColor: 'Random Color',
-          randColorDesc: 'Generate palette',
-          randColorCat: 'Design',
-          diceRoller: 'Dice Roller',
-          diceDesc: 'D4–D100',
-          diceCat: 'Utilities',
-          percentage: 'Percentage',
-          pctDesc: '% of number',
-          pctCat: 'Utilities',
-          countdown: 'Countdown',
-          cdDesc: 'Set future time',
-          cdCat: 'Productivity',
-          textCase: 'Text Case',
-          caseDesc: 'upper, lower, title',
-          caseCat: 'Writing',
-          fileSize: 'File Size',
-          fsDesc: 'Bytes to KB/MB',
-          fsCat: 'Utilities',
-          analogClock: 'Analog Clock',
-          analogDesc: 'Live canvas clock',
-          analogCat: 'Utilities'
-        }
-      };
+/* ---------- form factory: live inputs -> output ---------- */
+const LT=['النص','Text'],MD=['الوضع','Mode'];
+const A=(id,l,v='',r=4)=>({id,l,t:'area',v,r}),I=(id,l,v='',t='text')=>({id,l,v,t}),Sl=(id,l,o)=>({id,l,t:'select',o});
+const F=(fields,fn)=>b=>{
+ b.innerHTML=fields.map(f=>`<label class=f><span>${tr(f.l)}</span>${f.t==='select'?`<select id=${f.id}>${f.o.map(o=>`<option value="${o[0]}">${tr(o[1])}</option>`).join('')}</select>`:f.t==='area'?`<textarea id=${f.id} rows=${f.r}>${esc(f.v)}</textarea>`:`<input id=${f.id} type=${f.t} step=any value="${esc(f.v)}">`}</label>`).join('')+`<button id=go>🔄</button><div class=out id=out></div>`;
+ const o=$('#out',b);
+ const run=async()=>{const v={};fields.forEach(f=>v[f.id]=$('#'+f.id,b).value);let r='';
+  try{if(!fields.length||fields.some(f=>f.t==='select'||v[f.id]!==''))r=await fn(v)}catch(e){r='⚠ '+(e.message||e)}
+  if(r&&typeof r==='object'){o.className='out html';o.innerHTML=r.html}else{o.className='out';o.textContent=r??''}};
+ b.addEventListener('input',run);$('#go',b).onclick=run;o.onclick=()=>o.className==='out'&&copy(o.textContent);run()};
 
-      // ----- state & language -----
-      const defaultState = {
-        notes: '', tasks: [], habits: [], water: 0,
-        pomodoroWork: 25, pomodoroBreak: 5,
-        lang: 'ar'
-      };
-      let state = JSON.parse(localStorage.getItem('omega_state')) || {};
-      state = Object.assign({}, defaultState, state);
-      function saveState() { localStorage.setItem('omega_state', JSON.stringify(state)); }
+/* ---------- productivity ---------- */
+add('tasks','📋','prod',['مدير المهام','Task Manager'],['قائمة مهام دائمة','Persistent to-do list'],b=>{
+ b.innerHTML=`<div class=row><input id=ti placeholder="${tr(['مهمة جديدة…','New task…'])}"><button id=ta>➕</button></div><div id=tl></div>`;
+ const rd=()=>$('#tl',b).innerHTML=S.tasks.map((t,i)=>`<div class=item><label><input type=checkbox data-i=${i} ${t.d?'checked':''}><span class="${t.d?'done':''}">${esc(t.t)}</span></label><button data-x=${i}>🗑️</button></div>`).join('')||`<p class=dim>${tr(['لا توجد مهام','No tasks'])}</p>`;
+ const ad=()=>{const v=$('#ti',b).value.trim();if(v){S.tasks.push({t:v,d:0});save();$('#ti',b).value='';rd()}};
+ $('#ta',b).onclick=ad;$('#ti',b).onkeydown=e=>e.key==='Enter'&&ad();
+ b.onclick=e=>{const x=e.target.dataset;if(x.x!=null)S.tasks.splice(+x.x,1);else if(x.i!=null)S.tasks[+x.i].d^=1;else return;save();rd()};rd()});
+add('notes','📝','prod',['ملاحظات نيون','Neon Notes'],['حفظ تلقائي','Autosave scratchpad'],b=>{
+ b.innerHTML='<textarea id=n rows=12></textarea><p class=dim id=c></p>';const n=$('#n',b),c=$('#c',b);n.value=S.notes;
+ const u=()=>c.textContent=n.value.length+' '+tr(['حرف','chars']);n.oninput=()=>{S.notes=n.value;save();u()};u()});
+const P={m:'w',left:S.pw*60,end:0,run:false},C={t:0},W={a:0,s:0,run:false,laps:[]};
+const p2=n=>String(n).padStart(2,'0'),fm=s=>p2(Math.floor(s/60))+':'+p2(s%60),wt=()=>W.a+(W.run?performance.now()-W.s:0),fw=ms=>fm(Math.floor(ms/1000))+'.'+p2(Math.floor(ms/10)%100);
+setInterval(()=>{
+ if(P.run){P.left=Math.max(0,Math.ceil((P.end-Date.now())/1000));if(!P.left){beep();P.m=P.m==='w'?'b':'w';toast(P.m==='w'?tr(['وقت العمل!','Focus time!']):tr(['وقت الراحة!','Break time!']));P.left=(P.m==='w'?S.pw:S.pb)*60;P.end=Date.now()+P.left*1000}}
+ if(C.t&&Date.now()>=C.t){C.t=0;beep();toast('⏳ 00:00')}},500);
+add('pomo','🍅','prod',['بومودورو','Pomodoro'],['عمل/راحة مستمر في الخلفية','Work/break, keeps running'],b=>{
+ b.innerHTML=`<div class=row><input id=w type=number min=1 value=${S.pw}><input id=k type=number min=1 value=${S.pb}></div><div class=big id=d></div><div class=row><button id=s></button><button id=r>↺</button></div>`;
+ const u=()=>{$('#d',b).textContent=(P.m==='w'?'🍅 ':'☕ ')+fm(P.left);$('#s',b).textContent=P.run?'⏸':'▶'};
+ $('#s',b).onclick=()=>{P.run=!P.run;if(P.run)P.end=Date.now()+P.left*1000;u()};
+ $('#r',b).onclick=()=>{P.run=false;P.m='w';P.left=S.pw*60;u()};
+ b.oninput=()=>{S.pw=Math.max(1,+$('#w',b).value||25);S.pb=Math.max(1,+$('#k',b).value||5);save();if(!P.run&&P.m==='w')P.left=S.pw*60;u()};every(u,300)});
+add('sw','⏲️','prod',['ساعة توقيت','Stopwatch'],['مع اللفات','With laps'],b=>{
+ b.innerHTML='<div class=big id=d></div><div class=row><button id=s></button><button id=l>🏁</button><button id=r>↺</button></div><div id=ls></div>';
+ const u=()=>{$('#d',b).textContent=fw(wt());$('#s',b).textContent=W.run?'⏸':'▶';$('#ls',b).innerHTML=W.laps.map((x,i)=>`<div class=item><span>#${i+1}</span><span>${fw(x)}</span></div>`).reverse().join('')};
+ $('#s',b).onclick=()=>{if(W.run)W.a+=performance.now()-W.s;else W.s=performance.now();W.run=!W.run;u()};
+ $('#l',b).onclick=()=>{if(W.run||W.a){W.laps.push(wt());u()}};$('#r',b).onclick=()=>{Object.assign(W,{a:0,run:false,laps:[]});u()};every(u,50)});
+add('cd','⏳','prod',['العد التنازلي','Countdown'],['إلى تاريخ ووقت','To a date & time'],b=>{
+ b.innerHTML='<div class=row><input id=t type=datetime-local><button id=s>▶</button><button id=x>✕</button></div><div class=big id=d></div>';
+ $('#s',b).onclick=()=>{const t=new Date($('#t',b).value).getTime();if(!isNaN(t))C.t=t};$('#x',b).onclick=()=>C.t=0;
+ every(()=>{const d=C.t-Date.now(),e=$('#d',b);if(!C.t||d<0){e.textContent='--:--:--';return}const dd=Math.floor(d/864e5);e.textContent=(dd?dd+'d ':'')+p2(Math.floor(d/36e5)%24)+':'+p2(Math.floor(d/6e4)%60)+':'+p2(Math.floor(d/1e3)%60)},500)});
+add('habits','✅','prod',['متتبع العادات','Habit Tracker'],['مع سلسلة الأيام 🔥','With streaks 🔥'],b=>{
+ b.innerHTML=`<div class=row><input id=hi placeholder="${tr(['عادة جديدة…','New habit…'])}"><button id=ha>➕</button></div><div id=hl></div>`;
+ const rd=()=>$('#hl',b).innerHTML=S.habits.map((h,i)=>{const dn=h.days.includes(today());let st=0,d=new Date();if(!dn)d.setDate(d.getDate()-1);while(h.days.includes(ld(d))){st++;d.setDate(d.getDate()-1)}
+  return`<div class=item><label><input type=checkbox data-i=${i} ${dn?'checked':''}>${esc(h.name)}</label><span>🔥${st}</span><button data-x=${i}>🗑️</button></div>`}).join('');
+ const ad=()=>{const v=$('#hi',b).value.trim();if(v){S.habits.push({name:v,days:[]});save();$('#hi',b).value='';rd()}};
+ $('#ha',b).onclick=ad;$('#hi',b).onkeydown=e=>e.key==='Enter'&&ad();
+ b.onclick=e=>{const x=e.target.dataset;if(x.x!=null)S.habits.splice(+x.x,1);else if(x.i!=null){const h=S.habits[+x.i],k=today();h.days=h.days.includes(k)?h.days.filter(y=>y!==k):[...h.days,k]}else return;save();rd()};rd()});
+add('water','💧','health',['متتبع الماء','Water Tracker'],['يعاد يوميًا','Resets daily'],b=>{
+ if(S.water.d!==today())S.water={d:today(),n:0};
+ b.innerHTML=`<div class=big id=wc></div><div class=bar><i id=wb></i></div><div class=row><button id=m>➖</button><button id=p>➕ ${tr(['كوب','Cup'])}</button><input id=g type=number min=1 value=${S.goal} style="max-width:5rem"></div>`;
+ const u=()=>{$('#wc',b).textContent=S.water.n+' / '+S.goal;$('#wb',b).style.width=Math.min(100,S.water.n/S.goal*100)+'%';save()};
+ $('#m',b).onclick=()=>{S.water.n=Math.max(0,S.water.n-1);u()};$('#p',b).onclick=()=>{S.water.n++;u()};$('#g',b).oninput=e=>{S.goal=Math.max(1,+e.target.value||8);u()};u()});
 
-      let currentLang = state.lang || 'ar';
-      function t(key) {
-        return translations[currentLang]?.[key] || translations['en'][key] || key;
-      }
+/* ---------- developer ---------- */
+add('json','🧩','dev',['أداة JSON','JSON Tool'],['تنسيق / ضغط / تحقق','Format / minify / validate'],F([A('a',LT,'',8),Sl('m',MD,[['f',['تنسيق','Format']],['m',['ضغط','Minify']]])],v=>JSON.stringify(JSON.parse(v.a),null,v.m==='f'?2:0)));
+add('b64','📦','dev',['Base64','Base64'],['يدعم العربية','Unicode-safe'],F([A('a',LT),Sl('m',MD,[['e',['تشفير','Encode']],['d',['فك','Decode']]])],v=>v.m==='e'?btoa(unescape(encodeURIComponent(v.a))):decodeURIComponent(escape(atob(v.a.trim())))));
+add('url','🔗','dev',['ترميز URL','URL Codec'],['encode / decode','encode / decode'],F([A('a',LT),Sl('m',MD,[['e',['تشفير','Encode']],['d',['فك','Decode']]])],v=>v.m==='e'?encodeURIComponent(v.a):decodeURIComponent(v.a)));
+add('hash','🔑','sec',['التجزئة','Hash'],['SHA-1 / 256 / 512','SHA-1 / 256 / 512'],F([A('a',LT),Sl('h',['الخوارزمية','Algorithm'],[['SHA-256','SHA-256'],['SHA-1','SHA-1'],['SHA-512','SHA-512']])],async v=>[...new Uint8Array(await crypto.subtle.digest(v.h,new TextEncoder().encode(v.a)))].map(x=>p2(x.toString(16))).join('')));
+add('uuid','🆔','dev',['مولد UUID','UUID Generator'],['v4 آمن','Secure v4'],F([I('n',['العدد','Count'],'5','number')],v=>Array.from({length:Math.min(50,Math.max(1,+v.n||1))},()=>crypto.randomUUID()).join('\n')));
+add('regex','🔍','dev',['اختبار Regex','Regex Tester'],['مطابقات ومجموعات','Matches & groups'],F([I('p',['النمط','Pattern']),I('f',['الخيارات','Flags'],'g'),A('t',LT)],v=>[...v.t.matchAll(new RegExp(v.p,v.f.includes('g')?v.f:v.f+'g'))].map((m,i)=>`#${i+1} @${m.index}: ${m[0]}${m.length>1?'  ['+m.slice(1).join(', ')+']':''}`).join('\n')||'—'));
+const diff=(a,b)=>{a=a.split('\n');b=b.split('\n');const n=a.length,m=b.length,d=Array.from({length:n+1},()=>Array(m+1).fill(0));for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)d[i][j]=a[i]===b[j]?d[i+1][j+1]+1:Math.max(d[i+1][j],d[i][j+1]);let i=0,j=0,o=[];while(i<n&&j<m){if(a[i]===b[j]){o.push('  '+a[i]);i++;j++}else if(d[i+1][j]>=d[i][j+1])o.push('- '+a[i++]);else o.push('+ '+b[j++])}while(i<n)o.push('- '+a[i++]);while(j<m)o.push('+ '+b[j++]);return o.join('\n')};
+add('diff','📑','dev',['مقارنة النصوص','Text Diff'],['مقارنة أسطر ذكية (LCS)','Smart line diff (LCS)'],F([A('a',['الأصلي','Original']),A('b',['المعدل','Modified'])],v=>diff(v.a,v.b)));
+add('base','🔢','dev',['الأنظمة العددية','Base Converter'],['ثنائي، ثماني، عشري، سداسي','Bin, oct, dec, hex'],F([I('n',['الرقم','Number']),Sl('b',['من','From'],[[10,'10 (dec)'],[2,'2 (bin)'],[8,'8 (oct)'],[16,'16 (hex)'],[36,'36']])],v=>{const n=parseInt(v.n,+v.b);if(isNaN(n))throw'Invalid';return`DEC ${n}\nBIN ${n.toString(2)}\nOCT ${n.toString(8)}\nHEX ${n.toString(16).toUpperCase()}`}));
+const jd=s=>JSON.stringify(JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/'))))),null,2);
+add('jwt','🪪','dev',['فاحص JWT','JWT Decoder'],['فك الترويسة والحمولة','Decode header & payload'],F([A('a',['الرمز','Token'],'',3)],v=>{const p=v.a.trim().split('.');const pl=JSON.parse(jd(p[1]));return jd(p[0])+'\n'+jd(p[1])+(pl.exp?'\nexp: '+new Date(pl.exp*1e3).toISOString():'')}));
+add('ts','🕒','dev',['الطابع الزمني','Timestamp'],['Unix ↔ تاريخ','Unix ↔ date'],F([I('t',['طابع زمني أو تاريخ','Unix time or date'],String(Math.floor(Date.now()/1e3)))],v=>{const s=v.t.trim();const ms=/^\d+$/.test(s)?(+s>1e11?+s:+s*1e3):Date.parse(s);if(isNaN(ms))throw'Invalid';const d=new Date(ms);return`ISO  ${d.toISOString()}\nلocal ${d.toString()}\nUnix ${Math.floor(ms/1e3)}\nms   ${ms}`.replace('لocal','Local')}));
+const md=s=>esc(s).replace(/^### (.*)$/gm,'<h3>$1</h3>').replace(/^## (.*)$/gm,'<h2>$1</h2>').replace(/^# (.*)$/gm,'<h1>$1</h1>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<i>$1</i>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,'<a href="$2" target=_blank rel=noopener>$1</a>').replace(/^[-*] (.*)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>\n?)+/g,m=>'<ul>'+m+'</ul>').replace(/\n{2,}/g,'<br><br>');
+add('md','📄','dev',['معاينة Markdown','Markdown Preview'],['معاينة حية آمنة','Safe live preview'],F([A('a',LT,'# Neon\n**bold** *italic* `code`\n- item\n- item',9)],v=>({html:md(v.a)})));
+add('keys','⌨️','dev',['أحداث المفاتيح','Key Viewer'],['key / code / keyCode','key / code / keyCode'],b=>{
+ b.innerHTML='<div class=big id=k>⌨️</div><div class=out id=i></div>';
+ const h=e=>{e.preventDefault();$('#k',b).textContent=e.key===' '?'Space':e.key;$('#i',b).textContent=`key: ${e.key}\ncode: ${e.code}\nkeyCode: ${e.keyCode}\nmods: ${['ctrl','shift','alt','meta'].filter(m=>e[m+'Key']).join('+')||'-'}`};
+ document.addEventListener('keydown',h);clean.push(()=>document.removeEventListener('keydown',h))});
+add('slug','🔤','write',['Slugify','Slugify'],['رابط نظيف يدعم العربية','Clean URL, Unicode-aware'],F([I('a',['العنوان','Title'])],v=>v.a.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,'-').replace(/^-|-$/g,'')));
+add('sys','🖥️','util',['معلومات النظام','System Info'],['الشاشة والمتصفح','Screen & browser'],F([],()=>`${screen.width}×${screen.height} (avail ${screen.availWidth}×${screen.availHeight})\nDPR ${devicePixelRatio}\nviewport ${innerWidth}×${innerHeight}\nlang ${navigator.language}\nplatform ${navigator.platform}\nonline ${navigator.onLine}\ncores ${navigator.hardwareConcurrency||'?'}\n${navigator.userAgent}`));
 
-      function setLanguage(lang) {
-        currentLang = lang;
-        state.lang = lang;
-        saveState();
-        document.documentElement.lang = lang;
-        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-        // update UI static elements
-        document.querySelector('h1').innerText = lang==='ar' ? '⚡ أوميغا نيون أو إس' : '⚡ OMEGA NEON OS';
-        document.getElementById('search').placeholder = t('searchPlaceholder');
-        document.getElementById('command').placeholder = t('commandPlaceholder');
-        document.getElementById('exportBtn').innerHTML = t('exportBtn');
-        document.getElementById('importBtn').innerHTML = t('importBtn');
-        document.getElementById('langToggle').innerHTML = t('langBtn');
-        document.querySelector('footer').innerText = t('footer');
-        document.getElementById('closeModal').innerText = t('closeModal');
-        // re-render grid and close modal
-        renderGrid(document.getElementById('search').value);
-        document.getElementById('modal').classList.add('hidden');
-      }
+/* ---------- design ---------- */
+add('color','🎨','design',['محول الألوان','Color Studio'],['HEX / RGB / HSL','HEX / RGB / HSL'],F([I('c',['اللون','Color'],'#00f5ff','color')],v=>{const r=parseInt(v.c.slice(1,3),16),g=parseInt(v.c.slice(3,5),16),b=parseInt(v.c.slice(5,7),16),x=Math.max(r,g,b)/255,n=Math.min(r,g,b)/255,l=(x+n)/2,d=x-n;let h=0,s=0;if(d){s=d/(1-Math.abs(2*l-1));const M=x*255;h=M===r?((g-b)/255/d)%6:M===g?(b-r)/255/d+2:(r-g)/255/d+4;h=(h*60+360)%360}return`${v.c}\nrgb(${r}, ${g}, ${b})\nhsl(${Math.round(h)}, ${Math.round(s*100)}%, ${Math.round(l*100)}%)`}));
+const lum=h=>{const a=[1,3,5].map(i=>{const c=parseInt(h.slice(i,i+2),16)/255;return c<=.03928?c/12.92:((c+.055)/1.055)**2.4});return .2126*a[0]+.7152*a[1]+.0722*a[2]};
+add('contrast','🎯','design',['مدقق التباين','Contrast Checker'],['WCAG AA / AAA','WCAG AA / AAA'],F([I('f',['لون النص','Text'],'#ffffff','color'),I('g',['الخلفية','Background'],'#000000','color')],v=>{const a=lum(v.f),b=lum(v.g),r=(Math.max(a,b)+.05)/(Math.min(a,b)+.05),ok=x=>r>=x?'✅':'❌';return{html:`<div style="background:${v.g};color:${v.f};padding:1rem;border-radius:12px;font-size:1.2rem">Aa أبجد</div><p><b>${r.toFixed(2)}:1</b> — AA ${ok(4.5)} · AA large ${ok(3)} · AAA ${ok(7)}</p>`}}));
+add('pick','🖼️','design',['منتقي لون الصورة','Image Color Picker'],['انقر على الصورة','Click the image'],b=>{
+ b.innerHTML='<input type=file id=f accept="image/*"><div><canvas id=c width=300 height=150></canvas></div><div class=row><span class=sw id=sw></span><code id=hx></code></div>';
+ const c=$('#c',b),x=c.getContext('2d',{willReadFrequently:true});
+ $('#f',b).onchange=e=>{const fl=e.target.files[0];if(!fl)return;const im=new Image();im.onload=()=>{c.width=im.width;c.height=im.height;x.drawImage(im,0,0);URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(fl)};
+ c.onclick=e=>{const r=c.getBoundingClientRect(),d=x.getImageData((e.clientX-r.left)*c.width/r.width|0,(e.clientY-r.top)*c.height/r.height|0,1,1).data,h='#'+[...d].slice(0,3).map(n=>p2(n.toString(16))).join('');$('#sw',b).style.background=h;$('#hx',b).textContent=h;copy(h)}});
+add('draw','✏️','design',['لوحة رسم','Drawing Pad'],['يدعم اللمس والقلم','Touch & pen support'],b=>{
+ b.innerHTML='<canvas id=c width=700 height=420 style="width:100%;touch-action:none;border:1px solid var(--c)"></canvas><div class=row><input type=color id=k value="#00f5ff"><input type=range id=s min=1 max=30 value=4><button id=e>🧽</button><button id=x>🗑️</button><button id=d>⬇️ PNG</button></div>';
+ const c=$('#c',b),x=c.getContext('2d');let on=0,er=0;x.lineCap='round';x.lineJoin='round';
+ const pt=e=>{const r=c.getBoundingClientRect();return[(e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height]};
+ c.onpointerdown=e=>{on=1;c.setPointerCapture(e.pointerId);const[a,d]=pt(e);x.beginPath();x.moveTo(a,d)};
+ c.onpointermove=e=>{if(!on)return;const[a,d]=pt(e);x.globalCompositeOperation=er?'destination-out':'source-over';x.strokeStyle=$('#k',b).value;x.lineWidth=$('#s',b).value;x.lineTo(a,d);x.stroke()};
+ c.onpointerup=()=>on=0;$('#e',b).onclick=e=>{er^=1;e.target.style.background=er?'#12304a':''};$('#x',b).onclick=()=>x.clearRect(0,0,c.width,c.height);
+ $('#d',b).onclick=()=>{const a=document.createElement('a');a.href=c.toDataURL();a.download='drawing.png';a.click()}});
 
-      // ----- tool registry -----
-      const tools = [];
-      function registerTool(t) { tools.push(t); }
+/* ---------- security ---------- */
+add('pass','🔐','sec',['مولد كلمات المرور','Password Generator'],['عشوائي آمن (crypto)','Cryptographically random'],F([I('l',['الطول','Length'],'20','number'),Sl('s',['الرموز','Charset'],[['a','A-z 0-9 !@#$…'],['n','A-z 0-9'],['d','0-9']])],v=>{const cs={a:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}?',n:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',d:'0123456789'}[v.s],l=Math.min(128,Math.max(4,+v.l||20)),r=crypto.getRandomValues(new Uint32Array(l));return[...r].map(x=>cs[x%cs.length]).join('')+'\n\n≈ '+Math.round(l*Math.log2(cs.length))+' bits'}));
+add('strength','🛡️','sec',['قوة كلمة المرور','Password Strength'],['إنتروبيا وفحوص','Entropy & checks'],F([I('p',['كلمة المرور','Password'],'','password')],v=>{const p=v.p,pool=(/[a-z]/.test(p)?26:0)+(/[A-Z]/.test(p)?26:0)+(/\d/.test(p)?10:0)+(/[^A-Za-z0-9]/.test(p)?32:0),e=Math.round(p.length*Math.log2(pool||1));return`${e} bits — ${e<40?tr(['ضعيفة','Weak']):e<60?tr(['مقبولة','Fair']):e<80?tr(['جيدة','Good']):tr(['قوية','Strong'])}\n${p.length>=12?'✅':'❌'} 12+  ${/[A-Z]/.test(p)?'✅':'❌'} A-Z  ${/[a-z]/.test(p)?'✅':'❌'} a-z  ${/\d/.test(p)?'✅':'❌'} 0-9  ${/[^A-Za-z0-9]/.test(p)?'✅':'❌'} #$%`}));
+add('caesar','🏛️','sec',['شفرة قيصر','Caesar Cipher'],['تشفير وفك','Encrypt & decrypt'],F([I('s',['الإزاحة','Shift'],'3','number'),Sl('m',MD,[['e',['تشفير','Encrypt']],['d',['فك','Decrypt']]]),A('a',LT)],v=>{const k=(((+v.s||0)*(v.m==='e'?1:-1))%26+26)%26;return v.a.replace(/[a-z]/gi,c=>{const b=c<='Z'?65:97;return String.fromCharCode((c.charCodeAt(0)-b+k)%26+b)})}));
 
-      // ----- grid & modal -----
-      function renderGrid(filter='') {
-        const grid = document.getElementById('grid');
-        if(!grid) return;
-        const term = filter.toLowerCase().trim();
-        const filtered = tools.filter(tool => {
-          const name = t(tool.nameKey);
-          const cat = t(tool.catKey);
-          return name.toLowerCase().includes(term) || cat.toLowerCase().includes(term);
-        });
-        grid.innerHTML = filtered.map(tool => `
-          <div class="card" data-namekey="${tool.nameKey}">
-            <h3>${tool.icon} ${t(tool.nameKey)}</h3>
-            <div class="small">${t(tool.catKey)}</div>
-            <p style="margin:0.2rem 0; font-size:0.85rem;">${t(tool.descKey)}</p>
-          </div>
-        `).join('');
-        document.querySelectorAll('.card').forEach(card => {
-          card.addEventListener('click', () => {
-            const tool = tools.find(t => t.nameKey === card.dataset.namekey);
-            if(tool) openTool(tool);
-          });
-        });
-      }
+/* ---------- writing ---------- */
+add('text','🔠','write',['أدوات النص','Text Tools'],['حالة، عكس، ترتيب، تنظيف','Case, reverse, sort, clean'],F([A('a',LT,'',6),Sl('o',MD,[['u','UPPER'],['l','lower'],['t','Title Case'],['r',['عكس','Reverse']],['s',['ترتيب الأسطر','Sort lines']],['d',['حذف المكرر','Dedupe lines']],['w',['إزالة الفراغات','Trim spaces']]])],v=>{const a=v.a;return{u:()=>a.toUpperCase(),l:()=>a.toLowerCase(),t:()=>a.replace(/\p{L}[\p{L}\p{N}']*/gu,w=>w[0].toUpperCase()+w.slice(1).toLowerCase()),r:()=>[...a].reverse().join(''),s:()=>a.split('\n').sort((x,y)=>x.localeCompare(y)).join('\n'),d:()=>[...new Set(a.split('\n'))].join('\n'),w:()=>a.split('\n').map(x=>x.trim().replace(/\s+/g,' ')).join('\n')}[v.o]()}));
+add('count','📊','write',['عداد الكلمات','Word Counter'],['إحصائيات ووقت القراءة','Stats & reading time'],F([A('a',LT,'',7)],v=>{const t=v.a.trim(),w=t?t.split(/\s+/).length:0;return`${tr(['كلمات','Words'])}: ${w}\n${tr(['حروف','Chars'])}: ${v.a.length} (${v.a.replace(/\s/g,'').length} ${tr(['بدون فراغات','no spaces'])})\n${tr(['أسطر','Lines'])}: ${v.a.split('\n').length}\n${tr(['جمل','Sentences'])}: ${(t.match(/[.!?؟]+/g)||[]).length}\n${tr(['وقت القراءة','Reading'])}: ~${Math.max(1,Math.round(w/200))} min`}));
+const MC={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..',1:'.----',2:'..---',3:'...--',4:'....-',5:'.....',6:'-....',7:'--...',8:'---..',9:'----.',0:'-----',' ':'/'},MR=Object.fromEntries(Object.entries(MC).map(([k,v])=>[v,k]));
+add('morse','📡','util',['شفرة مورس','Morse Code'],['نص ↔ مورس','Text ↔ Morse'],F([A('a',LT,'',3),Sl('m',MD,[['t',['→ مورس','→ Morse']],['f',['→ نص','→ Text']]])],v=>v.m==='t'?[...v.a.toUpperCase()].map(c=>MC[c]||c).join(' '):v.a.trim().split(' ').map(s=>MR[s]||s).join('')));
 
-      function openTool(tool) {
-        const modal = document.getElementById('modal');
-        const title = document.getElementById('modalTitle');
-        const body = document.getElementById('modalBody');
-        if(!modal||!title||!body) return;
-        modal.classList.remove('hidden');
-        title.innerText = t(tool.nameKey);
-        body.innerHTML = tool.render();
-        if(tool.attach) setTimeout(() => tool.attach(), 20);
-      }
+/* ---------- utilities & finance ---------- */
+add('calc','🧮','util',['آلة حاسبة','Calculator'],['تدعم لوحة المفاتيح','Keyboard support'],b=>{
+ const K='C ⌫ % ÷ 7 8 9 × 4 5 6 − 1 2 3 + 0 . ( ) ='.split(' ');
+ b.innerHTML=`<div class=big id=d style="text-align:end;font-size:2rem;min-height:3.2rem">0</div><div class=keys>${K.map(k=>`<button>${k}</button>`).join('')}</div>`;
+ let e='';const d=$('#d',b),u=()=>d.textContent=e||'0';
+ const press=k=>{if(k==='C')e='';else if(k==='⌫')e=e.slice(0,-1);else if(k==='='){try{const x=e.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');if(!/^[\d+\-*/().%\s]+$/.test(x))throw 0;const r=Function('"use strict";return('+x+')')();e=Number.isFinite(r)?String(+r.toPrecision(12)):'⚠'}catch{e='⚠'}}else{if(e==='⚠')e='';e+=k}u()};
+ b.onclick=ev=>ev.target.tagName==='BUTTON'&&press(ev.target.textContent);
+ const kd=ev=>{const k={'*':'×','/':'÷','-':'−',Enter:'=',Backspace:'⌫'}[ev.key]||ev.key;if(K.includes(k)){ev.preventDefault();press(k)}};
+ document.addEventListener('keydown',kd);clean.push(()=>document.removeEventListener('keydown',kd))});
+const UN={len:{m:1,km:1e3,cm:.01,mi:1609.344,ft:.3048,in:.0254},mass:{kg:1,g:.001,lb:.45359237,oz:.028349523},vol:{l:1,ml:.001,gal:3.785411784,cup:.2365882365},spd:{'m/s':1,'km/h':1/3.6,mph:.44704,kn:.514444},data:{B:1,KB:1024,MB:1048576,GB:1073741824,TB:1099511627776},time:{s:1,min:60,h:3600,d:86400}};
+add('units','📐','util',['محول الوحدات','Unit Converter'],['طول، كتلة، حجم، سرعة، بيانات، وقت','Length, mass, volume, speed, data, time'],F([I('n',['القيمة','Value'],'1','number'),Sl('u',['الوحدة','Unit'],Object.values(UN).flatMap(g=>Object.keys(g).map(u=>[u,u])))],v=>{const g=Object.values(UN).find(g=>v.u in g);return Object.entries(g).map(([u,f])=>`${+(+v.n*g[v.u]/f).toPrecision(8)} ${u}`).join('\n')}));
+add('temp','🌡️','util',['محول الحرارة','Temperature'],['C / F / K','C / F / K'],F([I('n',['القيمة','Value'],'25','number'),Sl('u',['من','From'],[['C','°C'],['F','°F'],['K','K']])],v=>{const n=+v.n,c=v.u==='C'?n:v.u==='F'?(n-32)*5/9:n-273.15;return`${c.toFixed(2)} °C\n${(c*9/5+32).toFixed(2)} °F\n${(c+273.15).toFixed(2)} K`}));
+add('pct','％','util',['النسبة المئوية','Percentage'],['ثلاث حسابات','Three calculations'],F([I('v',['العدد','Number'],'200','number'),I('p',['النسبة %','Percent %'],'15','number')],v=>{const a=+v.v,p=+v.p;return`${p}% × ${a} = ${+(a*p/100).toFixed(4)}\n${a} + ${p}% = ${+(a*(1+p/100)).toFixed(4)}\n${a} − ${p}% = ${+(a*(1-p/100)).toFixed(4)}\n${a} / ${p} = ${(a/p*100).toFixed(2)}%`}));
+add('age','🎂','util',['حاسبة العمر','Age Calculator'],['وعدد الأيام للميلاد القادم','Plus next-birthday countdown'],F([I('d',['تاريخ الميلاد','Birth date'],'','date')],v=>{const b=new Date(v.d),n=new Date();if(isNaN(b))throw'Invalid';let y=n.getFullYear()-b.getFullYear(),m=n.getMonth()-b.getMonth(),d=n.getDate()-b.getDate();if(d<0){m--;d+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}if(m<0){y--;m+=12}let nx=new Date(n.getFullYear(),b.getMonth(),b.getDate());if(nx<n)nx.setFullYear(n.getFullYear()+1);return`${y} ${tr(['سنة','y'])} ${m} ${tr(['شهر','m'])} ${d} ${tr(['يوم','d'])}\n${tr(['أيام العمر','Days lived'])}: ${Math.floor((n-b)/864e5)}\n${tr(['الميلاد القادم بعد','Next birthday in'])} ${Math.ceil((nx-n)/864e5)} ${tr(['يوم','days'])}\n${b.toLocaleDateString(lang==='ar'?'ar':'en',{weekday:'long'})}`}));
+add('tip','💰','fin',['حاسبة البقشيش','Tip Calculator'],['مع تقسيم الفاتورة','With bill splitting'],F([I('b',['الفاتورة','Bill'],'','number'),I('p',['النسبة %','Tip %'],'15','number'),I('n',['الأشخاص','People'],'1','number')],v=>{const b=+v.b,t=b*v.p/100,n=Math.max(1,+v.n||1);return`${tr(['بقشيش','Tip'])}: ${t.toFixed(2)}\n${tr(['الإجمالي','Total'])}: ${(b+t).toFixed(2)}\n${tr(['للشخص','Per person'])}: ${((b+t)/n).toFixed(2)}`}));
+add('loan','🏦','fin',['قسط القرض','Loan EMI'],['القسط والفائدة الكلية','Payment & total interest'],F([I('a',['المبلغ','Amount'],'','number'),I('r',['الفائدة السنوية %','Annual rate %'],'5','number'),I('m',['الأشهر','Months'],'60','number')],v=>{const P=+v.a,n=+v.m,r=v.r/1200,e=r?P*r*(1+r)**n/((1+r)**n-1):P/n;return`${tr(['القسط','Payment'])}: ${e.toFixed(2)}\n${tr(['الإجمالي','Total'])}: ${(e*n).toFixed(2)}\n${tr(['الفائدة','Interest'])}: ${(e*n-P).toFixed(2)}`}));
+add('bmi','⚕️','health',['مؤشر كتلة الجسم','BMI'],['حساب وتصنيف','Calculate & classify'],F([I('h',['الطول (سم)','Height (cm)'],'','number'),I('w',['الوزن (كجم)','Weight (kg)'],'','number')],v=>{const x=v.w/(v.h/100)**2;if(!isFinite(x))throw'Invalid';return`BMI ${x.toFixed(1)} — ${x<18.5?tr(['نحافة','Underweight']):x<25?tr(['طبيعي','Normal']):x<30?tr(['زيادة وزن','Overweight']):tr(['سمنة','Obese'])}`}));
+add('rand','🎲','util',['أرقام عشوائية','Random Numbers'],['نرد، سحب، نطاق','Dice, draws, ranges'],F([I('a',['من','Min'],'1','number'),I('b',['إلى','Max'],'6','number'),I('n',['العدد','Count'],'1','number')],v=>{const a=Math.ceil(+v.a),b=Math.floor(+v.b),n=Math.min(100,Math.max(1,+v.n||1)),r=crypto.getRandomValues(new Uint32Array(n));return[...r].map(x=>a+x%(b-a+1)).join(', ')}));
+const Z=[['Europe/Istanbul',['إسطنبول','Istanbul']],['Asia/Riyadh',['الرياض','Riyadh']],['Africa/Cairo',['القاهرة','Cairo']],['Asia/Dubai',['دبي','Dubai']],['Europe/London',['لندن','London']],['Europe/Paris',['باريس','Paris']],['America/New_York',['نيويورك','New York']],['America/Los_Angeles',['لوس أنجلوس','Los Angeles']],['Asia/Tokyo',['طوكيو','Tokyo']],['Australia/Sydney',['سيدني','Sydney']]];
+add('wclock','🌍','util',['الساعة العالمية','World Clock'],['10 مدن مباشرة','10 live cities'],b=>{b.innerHTML='<div id=z></div>';every(()=>$('#z',b).innerHTML=Z.map(([z,n])=>`<div class=item><span>${tr(n)}</span><b dir=ltr>${new Date().toLocaleTimeString('en-GB',{timeZone:z})}</b></div>`).join(''),1000)});
+add('analog','🕰️','util',['ساعة تناظرية','Analog Clock'],['Canvas مباشر','Live canvas'],b=>{
+ b.innerHTML='<div class=row style="justify-content:center"><canvas id=c width=240 height=240 style="border-radius:50%"></canvas></div>';const x=$('#c',b).getContext('2d');
+ const hand=(a,l,w,col)=>{x.save();x.translate(120,120);x.rotate(a);x.strokeStyle=col;x.lineWidth=w;x.lineCap='round';x.beginPath();x.moveTo(0,l*.15);x.lineTo(0,-l);x.stroke();x.restore()};
+ every(()=>{x.clearRect(0,0,240,240);x.strokeStyle='#00f5ff';x.lineWidth=2;for(let i=0;i<12;i++){const a=i*Math.PI/6;x.beginPath();x.moveTo(120+Math.sin(a)*92,120-Math.cos(a)*92);x.lineTo(120+Math.sin(a)*106,120-Math.cos(a)*106);x.stroke()}
+  const n=new Date(),s=n.getSeconds()+n.getMilliseconds()/1e3,m=n.getMinutes()+s/60,h=n.getHours()%12+m/60;hand(h*Math.PI/6,55,5,'#fff');hand(m*Math.PI/30,80,3,'#fff');hand(s*Math.PI/30,90,1.5,'#ff00e5')},100)});
 
-      document.getElementById('closeModal')?.addEventListener('click', ()=> document.getElementById('modal').classList.add('hidden'));
-      window.addEventListener('click', e => { if(e.target === document.getElementById('modal')) document.getElementById('modal').classList.add('hidden'); });
-
-      // ----- header events -----
-      document.getElementById('search')?.addEventListener('input', e => renderGrid(e.target.value));
-      document.getElementById('command')?.addEventListener('keydown', e => {
-        if(e.key!=='Enter') return;
-        const cmd = e.target.value.trim();
-        if(cmd.startsWith('search ')) { document.getElementById('search').value = cmd.slice(7); renderGrid(cmd.slice(7)); }
-        else if(cmd==='clear') { localStorage.clear(); state = {...defaultState, lang: currentLang}; saveState(); alert('Cleared'); renderGrid(); }
-        else if(cmd) alert('⚡ '+cmd);
-        e.target.value = '';
-      });
-
-      document.getElementById('exportBtn')?.addEventListener('click', ()=>{
-        const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
-        const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-        a.download=`omega_backup_${new Date().toISOString().slice(0,10)}.json`; a.click();
-      });
-      document.getElementById('importBtn')?.addEventListener('click', ()=> document.getElementById('importFile')?.click());
-      document.getElementById('importFile')?.addEventListener('change', e => {
-        const file = e.target.files[0]; if(!file) return;
-        const reader = new FileReader();
-        reader.onload = ev => {
-          try {
-            const data = JSON.parse(ev.target.result);
-            state = Object.assign({}, defaultState, data);
-            saveState(); alert('Imported'); setLanguage(state.lang); renderGrid();
-          } catch { alert('Invalid file'); }
-        };
-        reader.readAsText(file); e.target.value='';
-      });
-
-      document.getElementById('langToggle')?.addEventListener('click', () => {
-        setLanguage(currentLang === 'ar' ? 'en' : 'ar');
-      });
-
-      // ----- escape helper -----
-      function escapeHtml(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[m]); }
-
-      // ========== REGISTER ALL TOOLS (using translation keys) ==========
-      registerTool({ nameKey:'taskManager', catKey:'taskCat', descKey:'taskDesc', icon:'📋',
-        render:()=>`<div class="row"><input id="taskInp" placeholder="${t('taskManager')}"><button class="neon" id="addTaskBtn">➕</button></div><div id="taskList"></div>`,
-        attach:()=>{
-          function renderTasks(){
-            const list=document.getElementById('taskList'); if(!list) return;
-            list.innerHTML = state.tasks.map((task,i)=>`<div class="row" style="background:#0f172a;border-radius:16px;padding:0.5rem 1rem;justify-content:space-between"><span>${escapeHtml(task)}</span><button data-i="${i}" class="delete-task">🗑️</button></div>`).join('');
-            document.querySelectorAll('.delete-task').forEach(b=>b.onclick=()=>{ state.tasks.splice(parseInt(b.dataset.i),1); saveState(); renderTasks(); });
-          }
-          renderTasks();
-          document.getElementById('addTaskBtn')?.addEventListener('click', ()=>{
-            const v=document.getElementById('taskInp')?.value.trim(); if(v){ state.tasks.push(v); saveState(); renderTasks(); document.getElementById('taskInp').value=''; }
-          });
-        }
-      });
-
-      registerTool({ nameKey:'neonNotes', catKey:'notesCat', descKey:'notesDesc', icon:'📝',
-        render:()=>`<textarea id="notesArea" rows="12">${escapeHtml(state.notes)}</textarea><div class="row"><button class="neon" id="saveNotes">💾 حفظ</button></div>`,
-        attach:()=>{ document.getElementById('saveNotes')?.addEventListener('click',()=>{ state.notes=document.getElementById('notesArea')?.value||''; saveState(); alert('تم الحفظ'); }); }
-      });
-
-      registerTool({ nameKey:'passwordGen', catKey:'passCat', descKey:'passDesc', icon:'🔐',
-        render:()=>`<button class="neon" id="genPass">🎲 توليد 24 حرف</button><pre id="passOut"></pre>`,
-        attach:()=>{ document.getElementById('genPass')?.addEventListener('click',()=>{ const c='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+'; let p=''; for(let i=0;i<24;i++)p+=c[Math.floor(Math.random()*c.length)]; document.getElementById('passOut').innerText=p; }); }
-      });
-
-      registerTool({ nameKey:'focusTimer', catKey:'timerCat', descKey:'timerDesc', icon:'⏱️',
-        render:()=>`<div class="big" id="timerDisp">25:00</div><div class="row"><button class="neon" id="startTimer">▶</button><button class="neon" id="resetTimer">↺</button></div>`,
-        attach:()=>{ let sec=1500, iv=null; const d=document.getElementById('timerDisp'); function upd(){ const m=String(Math.floor(sec/60)).padStart(2,'0'),s=String(sec%60).padStart(2,'0'); if(d)d.innerText=`${m}:${s}`; } upd(); document.getElementById('startTimer')?.addEventListener('click',()=>{ if(iv)return; iv=setInterval(()=>{ sec--; upd(); if(sec<=0){clearInterval(iv);iv=null;alert('انتهى');} },1000); }); document.getElementById('resetTimer')?.addEventListener('click',()=>{ clearInterval(iv);iv=null;sec=1500;upd(); }); }
-      });
-
-      registerTool({ nameKey:'jsonTool', catKey:'jsonCat', descKey:'jsonDesc', icon:'🧩',
-        render:()=>`<textarea id="jsonIn" rows="8"></textarea><div class="row"><button class="neon" id="fmtJson">✨ تنسيق</button></div><pre id="jsonOut"></pre>`,
-        attach:()=>{ document.getElementById('fmtJson')?.addEventListener('click',()=>{ try{ document.getElementById('jsonOut').innerText=JSON.stringify(JSON.parse(document.getElementById('jsonIn').value),null,2); }catch{ document.getElementById('jsonOut').innerText='JSON غير صالح'; } }); }
-      });
-
-      registerTool({ nameKey:'base64', catKey:'base64Cat', descKey:'base64Desc', icon:'📦',
-        render:()=>`<textarea id="b64In" rows="4"></textarea><div class="row"><button class="neon" id="encB64">🔒 تشفير</button><button class="neon" id="decB64">🔓 فك</button></div><pre id="b64Out"></pre>`,
-        attach:()=>{ document.getElementById('encB64')?.addEventListener('click',()=>{ try{document.getElementById('b64Out').innerText=btoa(document.getElementById('b64In').value);}catch{document.getElementById('b64Out').innerText='خطأ';} }); document.getElementById('decB64')?.addEventListener('click',()=>{ try{document.getElementById('b64Out').innerText=atob(document.getElementById('b64In').value);}catch{document.getElementById('b64Out').innerText='غير صالح';} }); }
-      });
-
-      registerTool({ nameKey:'bmi', catKey:'bmiCat', descKey:'bmiDesc', icon:'⚕️',
-        render:()=>`<div class="row"><input id="hCm" placeholder="سم" type="number"><input id="wKg" placeholder="كجم" type="number"><button class="neon" id="calcBMI">📊</button></div><pre id="bmiRes"></pre>`,
-        attach:()=>{ document.getElementById('calcBMI')?.addEventListener('click',()=>{ const h=parseFloat(document.getElementById('hCm')?.value)/100,w=parseFloat(document.getElementById('wKg')?.value); document.getElementById('bmiRes').innerText=(h&&w)?`BMI: ${(w/(h*h)).toFixed(1)}`:'أدخل أرقامًا'; }); }
-      });
-
-      registerTool({ nameKey:'colorStudio', catKey:'colorCat', descKey:'colorDesc', icon:'🎨',
-        render:()=>`<input type="color" id="colorPick" value="#00f5ff"><pre id="colorHex">#00f5ff</pre>`,
-        attach:()=>{ const p=document.getElementById('colorPick'), o=document.getElementById('colorHex'); p?.addEventListener('input',e=>{ if(o)o.innerText=e.target.value; }); }
-      });
-
-      registerTool({ nameKey:'unitConverter', catKey:'unitCat', descKey:'unitDesc', icon:'📐',
-        render:()=>`<div class="row"><input id="unitVal" placeholder="قيمة" type="number"><select id="unitType"><option value="km-m">كم→ميل</option><option value="m-km">ميل→كم</option><option value="kg-lb">كجم→رطل</option><option value="lb-kg">رطل→كجم</option></select><button class="neon" id="convUnit">⇄</button></div><pre id="unitRes"></pre>`,
-        attach:()=>{ document.getElementById('convUnit')?.addEventListener('click',()=>{ const v=parseFloat(document.getElementById('unitVal')?.value),t=document.getElementById('unitType')?.value; if(isNaN(v))return; let r=0; if(t==='km-m')r=v*0.621371; else if(t==='m-km')r=v/0.621371; else if(t==='kg-lb')r=v*2.20462; else r=v/2.20462; document.getElementById('unitRes').innerText=`${v} → ${r.toFixed(2)}`; }); }
-      });
-
-      registerTool({ nameKey:'qrCode', catKey:'qrCat', descKey:'qrDesc', icon:'📱',
-        render:()=>`<input id="qrText" placeholder="نص أو رابط"><button class="neon" id="makeQR">✨ إنشاء</button><div id="qrOut" style="text-align:center;margin-top:1rem;"></div>`,
-        attach:()=>{ document.getElementById('makeQR')?.addEventListener('click',()=>{ const t=encodeURIComponent(document.getElementById('qrText')?.value||'neon'); document.getElementById('qrOut').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${t}">`; }); }
-      });
-
-      registerTool({ nameKey:'worldClock', catKey:'clockCat', descKey:'clockDesc', icon:'🌍',
-        render:()=>`<select id="tzSel"><option value="UTC">UTC</option><option value="Europe/London">لندن</option><option value="Asia/Tokyo">طوكيو</option><option value="America/New_York">نيويورك</option></select><div class="big" id="liveClock">--:--:--</div>`,
-        attach:()=>{ function tick(){ const tz=document.getElementById('tzSel')?.value||'UTC'; const el=document.getElementById('liveClock'); if(el)el.innerText=new Date().toLocaleTimeString([],{timeZone:tz,hour12:false}); } tick(); setInterval(tick,1000); }
-      });
-
-      registerTool({ nameKey:'randomizer', catKey:'randCat', descKey:'randDesc', icon:'🎲',
-        render:()=>`<div class="row"><input id="rMin" placeholder="أدنى" value="1" type="number"><input id="rMax" placeholder="أقصى" value="100" type="number"><button class="neon" id="roll">🎲</button></div><div class="big" id="randRes">?</div>`,
-        attach:()=>{ document.getElementById('roll')?.addEventListener('click',()=>{ const min=parseInt(document.getElementById('rMin')?.value)||1,max=parseInt(document.getElementById('rMax')?.value)||100; document.getElementById('randRes').innerText=Math.floor(Math.random()*(max-min+1))+min; }); }
-      });
-
-      registerTool({ nameKey:'wordCounter', catKey:'wordCat', descKey:'wordDesc', icon:'📊',
-        render:()=>`<textarea id="wcText" rows="6" placeholder="الصق النص..."></textarea><div class="row"><span>كلمات: <strong id="wcWords">0</strong></span><span>حروف: <strong id="wcChars">0</strong></span></div>`,
-        attach:()=>{ const ta=document.getElementById('wcText'); ta?.addEventListener('input',()=>{ const t=ta.value; document.getElementById('wcWords').innerText=t.trim()?t.trim().split(/\s+/).length:0; document.getElementById('wcChars').innerText=t.length; }); }
-      });
-
-      registerTool({ nameKey:'stopwatch', catKey:'swCat', descKey:'swDesc', icon:'⏲️',
-        render:()=>`<div class="big" id="swDisp">00:00.0</div><div class="row"><button class="neon" id="swStart">▶</button><button class="neon" id="swPause">⏸️</button><button class="neon" id="swReset">↺</button></div>`,
-        attach:()=>{ let cs=0,iv=null; const d=document.getElementById('swDisp'); function fmt(){const m=String(Math.floor(cs/6000)).padStart(2,'0'),s=String(Math.floor((cs%6000)/100)).padStart(2,'0'),c=String(cs%100).padStart(1,'0');return`${m}:${s}.${c}`;} document.getElementById('swStart')?.addEventListener('click',()=>{if(!iv)iv=setInterval(()=>{cs++;if(d)d.innerText=fmt();},10);}); document.getElementById('swPause')?.addEventListener('click',()=>{clearInterval(iv);iv=null;}); document.getElementById('swReset')?.addEventListener('click',()=>{clearInterval(iv);iv=null;cs=0;if(d)d.innerText=fmt();}); }
-      });
-
-      registerTool({ nameKey:'calculator', catKey:'calcCat', descKey:'calcDesc', icon:'🧮',
-        render:()=>`<div id="calcDisp" style="background:#000;border-radius:16px;padding:1rem;font-size:2rem;text-align:right;color:var(--cyan);min-height:70px;">0</div><div class="grid" style="grid-template-columns:repeat(4,1fr);gap:0.5rem;" id="calcKeys"></div>`,
-        attach:()=>{ const keys=['7','8','9','/','4','5','6','*','1','2','3','-','0','.','=','+','C']; const disp=document.getElementById('calcDisp'); let expr=''; function update(){disp.innerText=expr||'0';} document.getElementById('calcKeys').innerHTML=keys.map(k=>`<button class="neon" style="padding:1rem;">${k}</button>`).join(''); document.querySelectorAll('#calcKeys button').forEach(b=>b.addEventListener('click',()=>{ const v=b.innerText; if(v==='C'){expr='';}else if(v==='='){try{expr=Function('"use strict";return ('+expr+')')()+'';}catch{expr='خطأ';}} else{expr+=v;} update(); })); }
-      });
-
-      registerTool({ nameKey:'markdown', catKey:'mdCat', descKey:'mdDesc', icon:'📄',
-        render:()=>`<textarea id="mdIn" rows="10"># مرحبا\n**عريض**</textarea><div class="row"><button class="neon" id="mdPreview">👁 معاينة</button></div><div id="mdOut" style="background:#0a0f1e;padding:1rem;border-radius:16px;"></div>`,
-        attach:()=>{ document.getElementById('mdPreview')?.addEventListener('click',()=>{ const t=document.getElementById('mdIn').value; document.getElementById('mdOut').innerHTML=t.replace(/### (.*)/g,'<h3>$1</h3>').replace(/## (.*)/g,'<h2>$1</h2>').replace(/# (.*)/g,'<h1>$1</h1>').replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\*(.*?)\*/g,'<i>$1</i>').replace(/`([^`]+)`/g,'<code>$1</code>'); }); }
-      });
-
-      registerTool({ nameKey:'urlCodec', catKey:'urlCat', descKey:'urlDesc', icon:'🔗',
-        render:()=>`<textarea id="urlIn" rows="4"></textarea><div class="row"><button class="neon" id="urlEnc">🔒 تشفير</button><button class="neon" id="urlDec">🔓 فك</button></div><pre id="urlOut"></pre>`,
-        attach:()=>{ document.getElementById('urlEnc')?.addEventListener('click',()=>{ document.getElementById('urlOut').innerText=encodeURIComponent(document.getElementById('urlIn').value); }); document.getElementById('urlDec')?.addEventListener('click',()=>{ try{document.getElementById('urlOut').innerText=decodeURIComponent(document.getElementById('urlIn').value);}catch{document.getElementById('urlOut').innerText='غير صالح';} }); }
-      });
-
-      registerTool({ nameKey:'sha256', catKey:'shaCat', descKey:'shaDesc', icon:'🔑',
-        render:()=>`<textarea id="hashIn" rows="4"></textarea><button class="neon" id="hashBtn">🔐 تجزئة</button><pre id="hashOut"></pre>`,
-        attach:()=>{ document.getElementById('hashBtn')?.addEventListener('click',async()=>{ const msg=document.getElementById('hashIn').value; const enc=new TextEncoder().encode(msg); const hashBuffer=await crypto.subtle.digest('SHA-256',enc); const hashArray=Array.from(new Uint8Array(hashBuffer)); document.getElementById('hashOut').innerText=hashArray.map(b=>b.toString(16).padStart(2,'0')).join(''); }); }
-      });
-
-      registerTool({ nameKey:'uuid', catKey:'uuidCat', descKey:'uuidDesc', icon:'🆔',
-        render:()=>`<button class="neon" id="uuidBtn">🎲 توليد</button><pre id="uuidOut"></pre>`,
-        attach:()=>{ document.getElementById('uuidBtn')?.addEventListener('click',()=>{ document.getElementById('uuidOut').innerText=crypto.randomUUID(); }); }
-      });
-
-      registerTool({ nameKey:'lorem', catKey:'loremCat', descKey:'loremDesc', icon:'📜',
-        render:()=>`<input id="loremCount" type="number" value="3" placeholder="فقرات"><button class="neon" id="loremBtn">توليد</button><pre id="loremOut"></pre>`,
-        attach:()=>{ const lipsum="لوريم إيبسوم دولور سيت أميت كونسيكتيتور أديبيسيسينج إيليت سيد دو إيوسمود تيمبور إنسيديدونت أوت لابوري إت دولوري ماجنا أليكوا. أوت إنيم أد مينيم فينيام كيو نوسترد إكسيرسيتاشن أولامكو لابوريس نيسي أوت أليكيب إكس إي كومودو كونسيكوات. دويس أوتي إروري دولور إن ريبريهينديريت إن فولوبتاتي فيليت إيسي كيلوم دولوري إيو فوجيات نولا بارياتور. إكسكيبتيور سينت أوكايكات كيوبيداتات نون برويدينت سونت إن كولبا كوي أوفيسيا ديسيرونت موليت أنيم إيد إيست لابوروم.".split('. '); document.getElementById('loremBtn')?.addEventListener('click',()=>{ const n=parseInt(document.getElementById('loremCount')?.value)||3; let out=''; for(let i=0;i<n;i++)out+=lipsum[i%lipsum.length]+'. '; document.getElementById('loremOut').innerText=out; }); }
-      });
-
-      registerTool({ nameKey:'regex', catKey:'regexCat', descKey:'regexDesc', icon:'🔍',
-        render:()=>`<input id="regexPat" placeholder="نمط"><textarea id="regexText" rows="5" placeholder="نص"></textarea><button class="neon" id="regexBtn">🔎 اختبار</button><pre id="regexOut"></pre>`,
-        attach:()=>{ document.getElementById('regexBtn')?.addEventListener('click',()=>{ try{ const p=new RegExp(document.getElementById('regexPat').value,'g'); const t=document.getElementById('regexText').value; const matches=t.match(p); document.getElementById('regexOut').innerText=matches?`التطابقات: ${matches.join(', ')}`:'لا يوجد تطابق'; }catch(e){ document.getElementById('regexOut').innerText='تعبير غير صالح'; } }); }
-      });
-
-      registerTool({ nameKey:'diff', catKey:'diffCat', descKey:'diffDesc', icon:'📑',
-        render:()=>`<textarea id="diffA" rows="4" placeholder="الأصلي"></textarea><textarea id="diffB" rows="4" placeholder="المعدل"></textarea><button class="neon" id="diffBtn">📊 مقارنة</button><pre id="diffOut"></pre>`,
-        attach:()=>{ document.getElementById('diffBtn')?.addEventListener('click',()=>{ const a=document.getElementById('diffA').value.split('\n'),b=document.getElementById('diffB').value.split('\n'); let res=''; for(let i=0;i<Math.max(a.length,b.length);i++){ if(a[i]!==b[i])res+=`- ${a[i]||''}\n+ ${b[i]||''}\n`; else res+=`  ${a[i]}\n`; } document.getElementById('diffOut').innerText=res; }); }
-      });
-
-      registerTool({ nameKey:'tempConv', catKey:'tempCat', descKey:'tempDesc', icon:'🌡️',
-        render:()=>`<input id="tempVal" type="number" placeholder="قيمة"><select id="tempFrom"><option value="C">مئوية</option><option value="F">فهرنهايت</option><option value="K">كلفن</option></select><button class="neon" id="tempConv">→</button><pre id="tempOut"></pre>`,
-        attach:()=>{ document.getElementById('tempConv')?.addEventListener('click',()=>{ const v=parseFloat(document.getElementById('tempVal')?.value),from=document.getElementById('tempFrom')?.value; if(isNaN(v))return; let c; if(from==='C')c=v; else if(from==='F')c=(v-32)*5/9; else c=v-273.15; document.getElementById('tempOut').innerText=`م:${c.toFixed(1)} ف:${(c*9/5+32).toFixed(1)} ك:${(c+273.15).toFixed(1)}`; }); }
-      });
-
-      registerTool({ nameKey:'tipCalc', catKey:'tipCat', descKey:'tipDesc', icon:'💰',
-        render:()=>`<input id="bill" type="number" placeholder="الفاتورة"><input id="tipPct" type="number" placeholder="نسبة %" value="15"><button class="neon" id="tipCalc">💵</button><pre id="tipOut"></pre>`,
-        attach:()=>{ document.getElementById('tipCalc')?.addEventListener('click',()=>{ const b=parseFloat(document.getElementById('bill')?.value),p=parseFloat(document.getElementById('tipPct')?.value); if(isNaN(b)||isNaN(p))return; const tip=b*p/100; document.getElementById('tipOut').innerText=`بقشيش: ${tip.toFixed(2)}  الإجمالي: ${(b+tip).toFixed(2)}`; }); }
-      });
-
-      registerTool({ nameKey:'ageCalc', catKey:'ageCat', descKey:'ageDesc', icon:'🎂',
-        render:()=>`<input id="birth" type="date"><button class="neon" id="ageCalc">📅</button><pre id="ageOut"></pre>`,
-        attach:()=>{ document.getElementById('ageCalc')?.addEventListener('click',()=>{ const b=new Date(document.getElementById('birth')?.value); if(isNaN(b))return; const now=new Date(); let age=now.getFullYear()-b.getFullYear(); if(now<new Date(now.getFullYear(),b.getMonth(),b.getDate()))age--; document.getElementById('ageOut').innerText=`العمر: ${age} سنة`; }); }
-      });
-
-      registerTool({ nameKey:'dow', catKey:'dowCat', descKey:'dowDesc', icon:'📅',
-        render:()=>`<input id="dowDate" type="date"><button class="neon" id="dowBtn">🔍</button><pre id="dowOut"></pre>`,
-        attach:()=>{ document.getElementById('dowBtn')?.addEventListener('click',()=>{ const d=new Date(document.getElementById('dowDate')?.value); if(isNaN(d))return; document.getElementById('dowOut').innerText=d.toLocaleDateString('ar-SA',{weekday:'long'}); }); }
-      });
-
-      registerTool({ nameKey:'loanEmi', catKey:'emiCat', descKey:'emiDesc', icon:'🏦',
-        render:()=>`<input id="loanAmt" type="number" placeholder="المبلغ"><input id="loanRate" type="number" placeholder="الفائدة %"><input id="loanTenure" type="number" placeholder="الأشهر"><button class="neon" id="emiCalc">📊</button><pre id="emiOut"></pre>`,
-        attach:()=>{ document.getElementById('emiCalc')?.addEventListener('click',()=>{ const P=parseFloat(document.getElementById('loanAmt')?.value),r=parseFloat(document.getElementById('loanRate')?.value)/1200,n=parseInt(document.getElementById('loanTenure')?.value); if(isNaN(P)||isNaN(r)||isNaN(n))return; const emi=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1); document.getElementById('emiOut').innerText=`القسط: ${emi.toFixed(2)}`; }); }
-      });
-
-      registerTool({ nameKey:'baseConv', catKey:'baseCat', descKey:'baseDesc', icon:'🔢',
-        render:()=>`<input id="baseIn" placeholder="رقم"><select id="baseFrom"><option value="10">عشري</option><option value="2">ثنائي</option><option value="16">سداسي</option></select><button class="neon" id="baseConv">→</button><pre id="baseOut"></pre>`,
-        attach:()=>{ document.getElementById('baseConv')?.addEventListener('click',()=>{ const v=document.getElementById('baseIn').value.trim(),from=parseInt(document.getElementById('baseFrom')?.value); if(!v)return; const num=parseInt(v,from); if(isNaN(num)){document.getElementById('baseOut').innerText='غير صالح';return;} document.getElementById('baseOut').innerText=`عشري:${num}  ثنائي:${num.toString(2)}  سداسي:${num.toString(16).toUpperCase()}`; }); }
-      });
-
-      registerTool({ nameKey:'morse', catKey:'morseCat', descKey:'morseDesc', icon:'📡',
-        render:()=>`<textarea id="morseIn" rows="3"></textarea><div class="row"><button class="neon" id="toMorse">→ مورس</button><button class="neon" id="fromMorse">→ نص</button></div><pre id="morseOut"></pre>`,
-        attach:()=>{ const morse={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','0':'-----',' ':'/'}; const rev=Object.fromEntries(Object.entries(morse).map(([k,v])=>[v,k])); document.getElementById('toMorse')?.addEventListener('click',()=>{ document.getElementById('morseOut').innerText=document.getElementById('morseIn').value.toUpperCase().split('').map(c=>morse[c]||c).join(' '); }); document.getElementById('fromMorse')?.addEventListener('click',()=>{ document.getElementById('morseOut').innerText=document.getElementById('morseIn').value.split(' ').map(s=>rev[s]||s).join(''); }); }
-      });
-
-      registerTool({ nameKey:'caesar', catKey:'caesarCat', descKey:'caesarDesc', icon:'🔐',
-        render:()=>`<input id="caesarShift" type="number" value="3" placeholder="الإزاحة"><textarea id="caesarIn" rows="3"></textarea><button class="neon" id="caesarEnc">🔒 تشفير</button><pre id="caesarOut"></pre>`,
-        attach:()=>{ document.getElementById('caesarEnc')?.addEventListener('click',()=>{ const shift=parseInt(document.getElementById('caesarShift')?.value)||3; document.getElementById('caesarOut').innerText=document.getElementById('caesarIn').value.replace(/[a-zA-Z]/g,c=>{ const base=c<='Z'?65:97; return String.fromCharCode((c.charCodeAt(0)-base+shift)%26+base); }); }); }
-      });
-
-      registerTool({ nameKey:'slugify', catKey:'slugCat', descKey:'slugDesc', icon:'🔤',
-        render:()=>`<input id="slugIn" placeholder="عنوان"><button class="neon" id="slugBtn">→ slug</button><pre id="slugOut"></pre>`,
-        attach:()=>{ document.getElementById('slugBtn')?.addEventListener('click',()=>{ document.getElementById('slugOut').innerText=document.getElementById('slugIn').value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }); }
-      });
-
-      registerTool({ nameKey:'passStrength', catKey:'strengthCat', descKey:'strengthDesc', icon:'🛡️',
-        render:()=>`<input id="pwdStr" type="password" placeholder="كلمة المرور"><div id="strengthBar" style="height:10px;background:#333;border-radius:8px;margin-top:0.5rem;"></div><pre id="strengthTxt"></pre>`,
-        attach:()=>{ document.getElementById('pwdStr')?.addEventListener('input',()=>{ const p=document.getElementById('pwdStr').value; let score=0; if(p.length>7)score++; if(/[A-Z]/.test(p))score++; if(/[0-9]/.test(p))score++; if(/[^A-Za-z0-9]/.test(p))score++; const bar=document.getElementById('strengthBar'); bar.style.width=(score*25)+'%'; bar.style.background=score<2?'#ff5555':score<3?'#ffaa00':'#39ff14'; document.getElementById('strengthTxt').innerText=['ضعيفة','مقبولة','جيدة','قوية'][score-1]||'ضعيفة جداً'; }); }
-      });
-
-      registerTool({ nameKey:'keyEvent', catKey:'keyCat', descKey:'keyDesc', icon:'⌨️',
-        render:()=>`<div style="background:#000;padding:1rem;border-radius:16px;text-align:center;" id="keyDisplay">اضغط مفتاحاً</div><pre id="keyInfo"></pre>`,
-        attach:()=>{ const handler=e=>{ document.getElementById('keyDisplay').innerText=e.key; document.getElementById('keyInfo').innerText=`مفتاح: ${e.key}  كود: ${e.code}  رمز: ${e.keyCode}`; }; window.addEventListener('keydown',handler); }
-      });
-
-      registerTool({ nameKey:'screenInfo', catKey:'screenCat', descKey:'screenDesc', icon:'🖥️',
-        render:()=>`<pre id="screenInfo"></pre>`,
-        attach:()=>{ document.getElementById('screenInfo').innerText=`العرض: ${screen.width}  الطول: ${screen.height}  المتاح: ${screen.availWidth}x${screen.availHeight}  نسبة البكسل: ${window.devicePixelRatio}`; }
-      });
-
-      registerTool({ nameKey:'myIp', catKey:'ipCat', descKey:'ipDesc', icon:'🌐',
-        render:()=>`<button class="neon" id="ipBtn">🔍 احصل على IP</button><pre id="ipOut"></pre>`,
-        attach:()=>{ document.getElementById('ipBtn')?.addEventListener('click',async()=>{ try{ const r=await fetch('https://api.ipify.org?format=json'); const d=await r.json(); document.getElementById('ipOut').innerText=d.ip; }catch{ document.getElementById('ipOut').innerText='غير متصل / محظور'; } }); }
-      });
-
-      registerTool({ nameKey:'userAgent', catKey:'uaCat', descKey:'uaDesc', icon:'🕵️',
-        render:()=>`<pre id="uaOut"></pre>`,
-        attach:()=>{ document.getElementById('uaOut').innerText=navigator.userAgent; }
-      });
-
-      registerTool({ nameKey:'contrast', catKey:'contrastCat', descKey:'contrastDesc', icon:'🎯',
-        render:()=>`<div class="row"><input type="color" id="fgColor" value="#ffffff"><input type="color" id="bgColor" value="#000000"><button class="neon" id="checkContrast">🔍</button></div><pre id="contrastOut"></pre>`,
-        attach:()=>{ function luminance(hex){ const r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255; const a=[r,g,b].map(c=>c<=0.03928?c/12.92:Math.pow((c+0.055)/1.055,2.4)); return 0.2126*a[0]+0.7152*a[1]+0.0722*a[2]; } document.getElementById('checkContrast')?.addEventListener('click',()=>{ const fg=document.getElementById('fgColor').value,bg=document.getElementById('bgColor').value; const l1=luminance(fg),l2=luminance(bg); const ratio=(Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05); document.getElementById('contrastOut').innerText=`النسبة: ${ratio.toFixed(2)} (AA كبير: ${ratio>=3? '✅':'❌'}, AA عادي: ${ratio>=4.5?'✅':'❌'})`; }); }
-      });
-
-      registerTool({ nameKey:'imgColor', catKey:'imgColorCat', descKey:'imgColorDesc', icon:'🖼️',
-        render:()=>`<input type="file" id="imgUpload" accept="image/*"><canvas id="imgCanvas" style="max-width:100%;"></canvas><div>اللون المختار: <span id="pickedColor" style="display:inline-block;width:30px;height:30px;border-radius:50%;"></span><pre id="colorVal"></pre></div>`,
-        attach:()=>{ const canvas=document.getElementById('imgCanvas'), ctx=canvas.getContext('2d'); document.getElementById('imgUpload')?.addEventListener('change',e=>{ const file=e.target.files[0]; if(!file)return; const img=new Image(); img.onload=()=>{ canvas.width=img.width; canvas.height=img.height; ctx.drawImage(img,0,0); }; img.src=URL.createObjectURL(file); }); canvas.addEventListener('click',e=>{ const rect=canvas.getBoundingClientRect(); const x=e.clientX-rect.left,y=e.clientY-rect.top; const pixel=ctx.getImageData(x,y,1,1).data; const hex='#'+((1<<24)+(pixel[0]<<16)+(pixel[1]<<8)+pixel[2]).toString(16).slice(1); document.getElementById('pickedColor').style.backgroundColor=hex; document.getElementById('colorVal').innerText=hex; }); }
-      });
-
-      registerTool({ nameKey:'drawingPad', catKey:'drawCat', descKey:'drawDesc', icon:'✏️',
-        render:()=>`<canvas id="drawCanvas" width="400" height="300" style="border:1px solid var(--cyan);width:100%;"></canvas><div class="row"><input type="color" id="drawColor" value="#00f5ff"><button class="neon" id="clearCanvas">🧹 مسح</button></div>`,
-        attach:()=>{ const c=document.getElementById('drawCanvas'),ctx=c.getContext('2d'); let drawing=false; c.addEventListener('mousedown',()=>drawing=true); c.addEventListener('mouseup',()=>{drawing=false; ctx.beginPath();}); c.addEventListener('mousemove',e=>{ if(!drawing)return; const rect=c.getBoundingClientRect(); const x=e.clientX-rect.left,y=e.clientY-rect.top; ctx.lineWidth=2; ctx.strokeStyle=document.getElementById('drawColor').value; ctx.lineCap='round'; ctx.lineTo(x,y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x,y); }); document.getElementById('clearCanvas')?.addEventListener('click',()=>ctx.clearRect(0,0,c.width,c.height)); }
-      });
-
-      registerTool({ nameKey:'habitTracker', catKey:'habitCat', descKey:'habitDesc', icon:'✅',
-        render:()=>`<input id="habitInp" placeholder="عادة جديدة"><button class="neon" id="addHabit">➕</button><div id="habitList"></div>`,
-        attach:()=>{ function renderHabits(){ const list=document.getElementById('habitList'); list.innerHTML=state.habits.map((h,i)=>`<div class="row" style="justify-content:space-between;background:#0f172a;border-radius:16px;padding:0.4rem 1rem;"><span>${escapeHtml(h.name)}</span><button data-i="${i}" class="delHabit">🗑️</button></div>`).join(''); document.querySelectorAll('.delHabit').forEach(b=>b.onclick=()=>{ state.habits.splice(parseInt(b.dataset.i),1); saveState(); renderHabits(); }); } renderHabits(); document.getElementById('addHabit')?.addEventListener('click',()=>{ const v=document.getElementById('habitInp')?.value.trim(); if(v){state.habits.push({name:v}); saveState(); renderHabits();} }); }
-      });
-
-      registerTool({ nameKey:'waterTracker', catKey:'waterCat', descKey:'waterDesc', icon:'💧',
-        render:()=>`<div class="big" id="waterCount">${state.water||0}</div><button class="neon" id="addWater">➕ كوب</button><button class="neon" id="resetWater">🔄 إعادة</button>`,
-        attach:()=>{ document.getElementById('addWater')?.addEventListener('click',()=>{ state.water++; saveState(); document.getElementById('waterCount').innerText=state.water; }); document.getElementById('resetWater')?.addEventListener('click',()=>{ state.water=0; saveState(); document.getElementById('waterCount').innerText=0; }); }
-      });
-
-      registerTool({ nameKey:'pomodoroPro', catKey:'pomoCat', descKey:'pomoDesc', icon:'🍅',
-        render:()=>`<div class="row"><input id="workMin" type="number" value="${state.pomodoroWork}" placeholder="دقائق العمل"><input id="breakMin" type="number" value="${state.pomodoroBreak}" placeholder="دقائق الراحة"></div><div class="big" id="pomodoroDisp">00:00</div><button class="neon" id="startPomo">▶ ابدأ العمل</button><button class="neon" id="resetPomo">↺</button>`,
-        attach:()=>{ let sec=state.pomodoroWork*60, iv=null, isWork=true; const d=document.getElementById('pomodoroDisp'); function upd(){const m=String(Math.floor(sec/60)).padStart(2,'0'),s=String(sec%60).padStart(2,'0');d.innerText=`${m}:${s}`;} upd(); document.getElementById('startPomo')?.addEventListener('click',()=>{ if(iv)return; iv=setInterval(()=>{ sec--; upd(); if(sec<=0){clearInterval(iv);iv=null; isWork=!isWork; sec=(isWork?state.pomodoroWork:state.pomodoroBreak)*60; upd(); alert(isWork?'وقت العمل!':'وقت الراحة!'); }},1000); }); document.getElementById('resetPomo')?.addEventListener('click',()=>{clearInterval(iv);iv=null; sec=state.pomodoroWork*60; upd();}); }
-      });
-
-      registerTool({ nameKey:'currency', catKey:'currCat', descKey:'currDesc', icon:'💱',
-        render:()=>`<input id="curAmt" type="number" value="1"><select id="curFrom"><option>USD</option><option>EUR</option><option>GBP</option></select><select id="curTo"><option>EUR</option><option>USD</option><option>JPY</option></select><button class="neon" id="curConv">💱</button><pre id="curOut"></pre>`,
-        attach:()=>{ document.getElementById('curConv')?.addEventListener('click',async()=>{ const amt=parseFloat(document.getElementById('curAmt')?.value),from=document.getElementById('curFrom')?.value,to=document.getElementById('curTo')?.value; try{ const r=await fetch(`https://open.er-api.com/v6/latest/${from}`); const d=await r.json(); const rate=d.rates[to]; document.getElementById('curOut').innerText=`${amt} ${from} = ${(amt*rate).toFixed(2)} ${to}`; }catch{ document.getElementById('curOut').innerText='خطأ في API'; } }); }
-      });
-
-      registerTool({ nameKey:'randomColor', catKey:'randColorCat', descKey:'randColorDesc', icon:'🎨',
-        render:()=>`<button class="neon" id="randColorBtn">🎲 عشوائي</button><div id="randColorBox" style="width:100px;height:100px;background:#fff;border-radius:16px;margin:1rem 0;"></div><pre id="randColorHex"></pre>`,
-        attach:()=>{ document.getElementById('randColorBtn')?.addEventListener('click',()=>{ const hex='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'); document.getElementById('randColorBox').style.background=hex; document.getElementById('randColorHex').innerText=hex; }); }
-      });
-
-      registerTool({ nameKey:'diceRoller', catKey:'diceCat', descKey:'diceDesc', icon:'🎲',
-        render:()=>`<select id="diceType"><option value="4">D4</option><option value="6" selected>D6</option><option value="20">D20</option></select><button class="neon" id="rollDice">🎲 رمي</button><div class="big" id="diceResult">?</div>`,
-        attach:()=>{ document.getElementById('rollDice')?.addEventListener('click',()=>{ const sides=parseInt(document.getElementById('diceType')?.value)||6; document.getElementById('diceResult').innerText=Math.floor(Math.random()*sides)+1; }); }
-      });
-
-      registerTool({ nameKey:'percentage', catKey:'pctCat', descKey:'pctDesc', icon:'📊',
-        render:()=>`<input id="pctVal" type="number" placeholder="القيمة"><input id="pctPct" type="number" placeholder="%"><button class="neon" id="pctCalc">🔢</button><pre id="pctOut"></pre>`,
-        attach:()=>{ document.getElementById('pctCalc')?.addEventListener('click',()=>{ const v=parseFloat(document.getElementById('pctVal')?.value),p=parseFloat(document.getElementById('pctPct')?.value); document.getElementById('pctOut').innerText=isNaN(v)||isNaN(p)?'غير صالح':`${p}% من ${v} = ${(v*p/100).toFixed(2)}`; }); }
-      });
-
-      registerTool({ nameKey:'countdown', catKey:'cdCat', descKey:'cdDesc', icon:'⏳',
-        render:()=>`<input id="cdDate" type="datetime-local"><button class="neon" id="cdStart">▶ ابدأ</button><div class="big" id="cdDisp">--:--:--</div>`,
-        attach:()=>{ let iv; document.getElementById('cdStart')?.addEventListener('click',()=>{ const target=new Date(document.getElementById('cdDate')?.value).getTime(); if(isNaN(target))return; clearInterval(iv); iv=setInterval(()=>{ const now=Date.now(),diff=target-now; if(diff<=0){clearInterval(iv); document.getElementById('cdDisp').innerText='00:00:00'; return;} const h=String(Math.floor(diff/3600000)).padStart(2,'0'),m=String(Math.floor((diff%3600000)/60000)).padStart(2,'0'),s=String(Math.floor((diff%60000)/1000)).padStart(2,'0'); document.getElementById('cdDisp').innerText=`${h}:${m}:${s}`; },1000); }); }
-      });
-
-      registerTool({ nameKey:'textCase', catKey:'caseCat', descKey:'caseDesc', icon:'🔠',
-        render:()=>`<textarea id="caseIn" rows="4"></textarea><div class="row"><button class="neon" id="caseUpper">كبير</button><button class="neon" id="caseLower">صغير</button><button class="neon" id="caseTitle">عنوان</button></div><pre id="caseOut"></pre>`,
-        attach:()=>{ const ta=document.getElementById('caseIn'); document.getElementById('caseUpper')?.addEventListener('click',()=>document.getElementById('caseOut').innerText=ta.value.toUpperCase()); document.getElementById('caseLower')?.addEventListener('click',()=>document.getElementById('caseOut').innerText=ta.value.toLowerCase()); document.getElementById('caseTitle')?.addEventListener('click',()=>document.getElementById('caseOut').innerText=ta.value.replace(/\w\S*/g,t=>t.charAt(0).toUpperCase()+t.substr(1).toLowerCase())); }
-      });
-
-      registerTool({ nameKey:'fileSize', catKey:'fsCat', descKey:'fsDesc', icon:'💾',
-        render:()=>`<input id="fsBytes" type="number" placeholder="بايت"><button class="neon" id="fsConv">📦</button><pre id="fsOut"></pre>`,
-        attach:()=>{ document.getElementById('fsConv')?.addEventListener('click',()=>{ const b=parseInt(document.getElementById('fsBytes')?.value); if(isNaN(b))return; const kb=b/1024,mb=kb/1024; document.getElementById('fsOut').innerText=`${b} B = ${kb.toFixed(2)} KB = ${mb.toFixed(2)} MB`; }); }
-      });
-
-      registerTool({ nameKey:'analogClock', catKey:'analogCat', descKey:'analogDesc', icon:'🕰️',
-        render:()=>`<canvas id="analogCanvas" width="200" height="200" style="background:#000;border-radius:50%;"></canvas>`,
-        attach:()=>{ const c=document.getElementById('analogCanvas'),ctx=c.getContext('2d'); function draw(){ ctx.clearRect(0,0,200,200); const now=new Date(); const h=now.getHours()%12,m=now.getMinutes(),s=now.getSeconds(); ctx.save(); ctx.translate(100,100); ctx.strokeStyle='var(--cyan)'; ctx.lineWidth=2; for(let i=0;i<12;i++){ctx.rotate(Math.PI/6);ctx.beginPath();ctx.moveTo(0,-70);ctx.lineTo(0,-80);ctx.stroke();} ctx.restore(); ctx.save(); ctx.translate(100,100); ctx.rotate((h*30+m*0.5)*Math.PI/180); ctx.strokeStyle='#fff'; ctx.lineWidth=4; ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(0,-40);ctx.stroke(); ctx.restore(); ctx.save(); ctx.translate(100,100); ctx.rotate(m*6*Math.PI/180); ctx.strokeStyle='#fff'; ctx.lineWidth=3; ctx.beginPath();ctx.moveTo(0,15);ctx.lineTo(0,-55);ctx.stroke(); ctx.restore(); ctx.save(); ctx.translate(100,100); ctx.rotate(s*6*Math.PI/180); ctx.strokeStyle='var(--pink)'; ctx.lineWidth=1.5; ctx.beginPath();ctx.moveTo(0,20);ctx.lineTo(0,-65);ctx.stroke(); ctx.restore(); } setInterval(draw,1000); draw(); }
-      });
-
-      // ----- initial render -----
-      setLanguage(currentLang);
-      renderGrid();
-    })();
-  </script>
+/* ---------- shell ---------- */
+const close=()=>{clean.forEach(c=>typeof c==='function'?c():clearInterval(c));clean=[];$('#modal').classList.add('hidden')};
+const open=t=>{close();const b=document.createElement('div');$('#mb').replaceChildren(b);$('#mt').textContent=t.i+' '+tr(t.n);$('#modal').classList.remove('hidden');t.r(b)};
+const list=()=>{const q=$('#q').value.toLowerCase().trim();return T.filter(t=>(tr(t.n)+' '+tr(t.d)+' '+tr(CAT[t.c])).toLowerCase().includes(q)&&(cat==='all'||(cat==='fav'?S.fav.includes(t.id):t.c===cat))).sort((a,b)=>S.fav.includes(b.id)-S.fav.includes(a.id))};
+const render=()=>{
+ $('#grid').innerHTML=list().map(t=>`<div class=card data-id=${t.id} tabindex=0><button class=star data-s=${t.id}>${S.fav.includes(t.id)?'★':'☆'}</button><h3>${t.i} ${esc(tr(t.n))}</h3><div class=small>${tr(CAT[t.c])}</div><p>${esc(tr(t.d))}</p></div>`).join('')||'<p class=dim>—</p>';
+ $('#chips').innerHTML=[['all',U.all],['fav',U.fav],...Object.entries(CAT)].map(([k,n])=>`<button data-c=${k} class="${k===cat?'on':''}">${tr(n)}</button>`).join('')};
+const applyLang=()=>{document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';$('#ttl').textContent=lang==='ar'?'⚡ أوميغا نيون أو إس':'⚡ OMEGA NEON OS';$('#q').placeholder=tr(U.search);$('#ex').textContent=tr(U.ex);$('#im').textContent=tr(U.im);$('#lg').textContent=tr(U.lg);$('#ft').textContent=lang==='ar'?`محطة عمل بملف واحد • ${T.length} أداة تعمل دون إنترنت`:`Single-file workstation • ${T.length} offline tools`;render()};
+$('#grid').onclick=e=>{const s=e.target.dataset.s;if(s){S.fav=S.fav.includes(s)?S.fav.filter(x=>x!==s):[...S.fav,s];save();render();return}const c=e.target.closest('.card');if(c)open(T.find(t=>t.id===c.dataset.id))};
+$('#grid').onkeydown=e=>{if(e.key==='Enter'&&e.target.classList.contains('card'))open(T.find(t=>t.id===e.target.dataset.id))};
+$('#chips').onclick=e=>{if(e.target.dataset.c){cat=e.target.dataset.c;render()}};
+$('#q').oninput=render;$('#q').onkeydown=e=>{if(e.key==='Enter'){const t=list()[0];if(t)open(t)}};
+$('#cl').onclick=close;$('#modal').onclick=e=>e.target.id==='modal'&&close();
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close();if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();close();$('#q').focus()}});
+$('#lg').onclick=()=>{lang=lang==='ar'?'en':'ar';S.lang=lang;save();close();applyLang()};
+$('#ex').onclick=()=>{const j=JSON.stringify(S,null,2);copy(j);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([j],{type:'application/json'}));a.download='omega_backup_'+today()+'.json';a.click()};
+$('#im').onclick=()=>$('#imf').click();
+$('#imf').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||typeof d!=='object'||Array.isArray(d))throw 0;norm(d);S.lang=lang;save();toast('✓ '+tr(['تم الاستيراد','Imported']));render()}catch{toast('⚠ '+tr(['ملف غير صالح','Invalid file']))}};r.readAsText(f);e.target.value=''};
+applyLang();
+})();
+</script>
 </body>
 </html>
